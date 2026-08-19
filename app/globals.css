@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@theme {
+  /* Superfícies */
+  --color-cream: #f7f4ee;
+  --color-cream-deep: #efe9de;
+  --color-paper: #ffffff;
+  --color-navy: #17203e;
+  --color-navy-soft: #1e2a4e;
+  --color-ink: #1a1d24;
+
+  /* Marca */
+  --color-gold: #b08d57;
+  --color-gold-soft: #cbb083;
+
+  /* Texto */
+  --color-graphite: #23262e;
+  --color-muted: #70747e;
+  --color-muted-light: #9aa0ab;
+
+  /* Traços */
+  --color-line: #dcd6ca;
+  --color-line-dark: #2c3352;
+
+  /* Tipografia */
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Ritmo */
+  --spacing-section: 7.5rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-graphite);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-gold);
+    color: #fff;
+  }
+}
+
+@layer components {
+  /* Rótulo de seção: caixa alta, tracking largo, traço dourado à esquerda */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 2.25rem;
+    height: 1px;
+    background-color: var(--color-gold);
+  }
+
+  /* Título editorial em serifa, com itálico usado como acento */
+  .display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+
+  .display em {
+    font-style: italic;
+    color: var(--color-gold);
+  }
+
+  .rule {
+    height: 1px;
+    background-color: var(--color-line);
+  }
+}
+
+/* Revelação suave ao entrar na viewport */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
