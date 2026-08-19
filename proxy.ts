@@ -4,16 +4,28 @@ import { NextResponse, type NextRequest } from "next/server"
 /**
  * Renova a sessão do Supabase a cada request e protege o painel.
  *
- * O middleware é a única camada que consegue reescrever os cookies de sessão
- * antes da renderização. Sem ele, o token expira e o admin cai para o login
- * no meio do trabalho.
+ * Esta é a única camada que consegue reescrever os cookies de sessão antes da
+ * renderização. Sem ela, o token expira e o admin cai para o login no meio do
+ * trabalho.
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  // Sem configuração não há como autenticar ninguém. Responder 503 com o motivo
+  // é mais útil que deixar o createServerClient estourar em um 500 opaco.
+  if (!url || !anonKey) {
+    return new NextResponse(
+      "Painel indisponível: defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY nas variáveis de ambiente do projeto.",
+      { status: 503, headers: { "content-type": "text/plain; charset=utf-8" } },
+    )
+  }
+
   let response = NextResponse.next({ request })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    url,
+    anonKey,
     {
       cookies: {
         getAll() {

@@ -9,6 +9,18 @@ const COLUMNS =
 
 type Row = Record<string, unknown>
 
+let warned = false
+
+/** Avisa uma vez só que o site vai subir sem imóveis por falta de configuração. */
+function warnMissingConfig() {
+  if (warned) return
+  warned = true
+  console.warn(
+    "[premium] NEXT_PUBLIC_SUPABASE_URL/ANON_KEY ausentes: o site sobe sem imóveis. " +
+      "Defina as duas nas variáveis de ambiente do projeto.",
+  )
+}
+
 /** Normaliza a linha do Postgres para o tipo do domínio. */
 function toProperty(row: Row): Property {
   return {
@@ -39,6 +51,10 @@ function toProperty(row: Row): Property {
 /** Imóveis visíveis no site. A RLS anônima já restringe a `published = true`. */
 export async function getProperties(): Promise<Property[]> {
   const supabase = createPublicClient()
+  if (!supabase) {
+    warnMissingConfig()
+    return []
+  }
 
   const { data, error } = await supabase
     .from("properties")
@@ -64,6 +80,10 @@ export async function getFeaturedProperties(limit = 6): Promise<Property[]> {
 
 export async function getProperty(slug: string): Promise<Property | null> {
   const supabase = createPublicClient()
+  if (!supabase) {
+    warnMissingConfig()
+    return null
+  }
 
   const { data, error } = await supabase
     .from("properties")
