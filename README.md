@@ -21,6 +21,24 @@ npm run build   # build de produção
 | `/imoveis/[slug]` | Página do imóvel: galeria, ficha técnica, diferenciais e painel de contato fixo |
 | `/vender` | Funil de proprietários: avaliação gratuita em formulário de 3 etapas, argumentos, processo em 4 passos e FAQ |
 
+## Deploy na Vercel
+
+O projeto é um Next.js padrão, detectado automaticamente pela Vercel — não precisa de `vercel.json` nem de configuração de build.
+
+**Para ligar o deploy automático:**
+
+1. Acesse [vercel.com/new](https://vercel.com/new)
+2. Importe `mateusnr00/wesleyjose`
+3. Deixe as configurações como vieram (framework Next.js, build `next build`) e clique em **Deploy**
+
+A partir daí, todo push no branch padrão vira deploy de produção, e todo branch novo ganha uma URL de preview.
+
+### Detalhes que importam
+
+- **Branch de produção**: hoje o branch padrão do repositório é `claude/website-inspiration-improvements-ge6ecl`, porque foi o primeiro a existir. A Vercel usa o branch padrão como produção. Se preferir um nome convencional, crie um `main` a partir dele e troque o padrão em Settings → Branches no GitHub **antes** de importar.
+- **URL do site**: enquanto não houver domínio próprio, as tags de Open Graph e o `sitemap.xml` usam automaticamente a URL da Vercel (via `VERCEL_PROJECT_PRODUCTION_URL`). Quando apontar o domínio, defina `NEXT_PUBLIC_SITE_URL=https://seudominio.com.br` nas variáveis de ambiente do projeto e tudo passa a apontar para ele.
+- **Imagens**: `images.unsplash.com` está liberado no `next.config.mjs`. Ao trocar pelas fotos reais, ajuste `remotePatterns` para o domínio de onde elas vierem — ou coloque os arquivos em `public/` e use caminhos locais.
+
 ## Onde mexer
 
 - **`lib/site.ts`** — marca, contato, WhatsApp, CRECI, redes e números de prova social. Alterar aqui reflete em todo o site (header, footer, metadata, mensagens de WhatsApp).

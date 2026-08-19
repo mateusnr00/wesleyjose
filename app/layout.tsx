@@ -1,9 +1,10 @@
 import type { Metadata } from "next"
 import { site } from "@/lib/site"
+import { baseUrl } from "@/lib/url"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(baseUrl()),
   title: {
     default: `${site.name} — ${site.tagline}`,
     template: `%s — ${site.name}`,
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: site.url,
+    url: baseUrl(),
     siteName: site.name,
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
