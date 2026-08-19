@@ -9,22 +9,29 @@
   --color-navy-soft: #1e2a4e;
   --color-ink: #1a1d24;
 
-  /* Marca */
-  --color-gold: #b08d57;
+  /* Marca.
+     `gold` só passa no contraste de texto grande (3:1), então serve para os
+     itálicos dos títulos, ícones e traços. Rótulo pequeno usa `gold-deep`,
+     que passa em 4.5:1 sobre os dois tons de fundo. */
+  --color-gold: #a57f49;
+  --color-gold-deep: #7d643e;
   --color-gold-soft: #cbb083;
 
   /* Texto */
   --color-graphite: #23262e;
-  --color-muted: #70747e;
-  --color-muted-light: #9aa0ab;
+  /* Ambos verificados em 4.5:1 sobre cream e cream-deep. */
+  --color-muted: #5f626b;
+  --color-muted-light: #666973;
 
   /* Traços */
   --color-line: #dcd6ca;
   --color-line-dark: #2c3352;
 
   /* Tipografia */
-  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* As variáveis *-loaded vêm do next/font, que já injeta a família com as
+     métricas de fallback ajustadas. */
+  --font-display: var(--font-display-loaded), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-sans-loaded), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* Ritmo */
   --spacing-section: 7.5rem;
@@ -62,7 +69,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.75rem;
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     font-weight: 500;
     letter-spacing: 0.22em;
     text-transform: uppercase;
@@ -93,6 +100,15 @@
     height: 1px;
     background-color: var(--color-line);
   }
+
+  /* Link inline tem a altura da linha (~16px), abaixo dos 24px mínimos do
+     WCAG 2.2 para alvo de toque. O padding aumenta a área clicável sem mexer
+     no ritmo visual, porque o negative margin devolve o espaço. */
+  .tap {
+    display: inline-block;
+    padding-block: 0.375rem;
+    margin-block: -0.375rem;
+  }
 }
 
 /* Revelação ao entrar na viewport.
@@ -115,20 +131,22 @@
     transform: translateY(-2rem);
   }
 
-  /* Em telas estreitas a coluna ocupa a largura toda: deslocar na horizontal
-     não sobra espaço e ainda atrasa o disparo do observer. Sobe na vertical. */
+  /* Deslocamento lateral só a partir de lg, e menor que a folga lateral do
+     container (3rem). Abaixo disso a coluna ocupa a largura inteira: empurrar
+     na horizontal corta o texto na borda durante a animação, e o clip do body
+     esconde o estrago em vez de evitá-lo. Nessas larguras, sobe na vertical. */
   .reveal[data-reveal="left"],
   .reveal[data-reveal="right"] {
     transform: translateY(2rem);
   }
 
-  @media (width >= 48rem) {
+  @media (width >= 64rem) {
     .reveal[data-reveal="left"] {
-      transform: translateX(-2.5rem);
+      transform: translateX(-1.5rem);
     }
 
     .reveal[data-reveal="right"] {
-      transform: translateX(2.5rem);
+      transform: translateX(1.5rem);
     }
   }
 
@@ -151,6 +169,47 @@
   /* Depois de revelado, liberar a dica ao compositor evita segurar camadas. */
   .reveal[data-visible="true"] {
     will-change: auto;
+  }
+}
+
+/* Entrada do conteúdo acima da dobra.
+   Diferente de `.reveal`, roda no carregamento e NÃO anima opacidade: o
+   elemento é pintado no primeiro quadro. Esconder o título do hero atrás de um
+   observer atrasava o LCP em mais de um segundo, porque ele passava a esperar
+   a hidratação do JavaScript. */
+@media (prefers-reduced-motion: no-preference) {
+  .enter-up {
+    animation: enter-up 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .enter-zoom {
+    animation: enter-zoom 1400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .enter-delay-1 {
+    animation-delay: 120ms;
+  }
+
+  .enter-delay-2 {
+    animation-delay: 240ms;
+  }
+}
+
+@keyframes enter-up {
+  from {
+    transform: translateY(1.25rem);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes enter-zoom {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: none;
   }
 }
 

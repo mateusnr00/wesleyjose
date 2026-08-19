@@ -95,7 +95,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="relative text-[11px] uppercase tracking-[0.18em] text-graphite/75 transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-300 hover:text-graphite hover:after:w-full"
+                className="relative py-1.5 text-[11px] uppercase tracking-[0.18em] text-graphite/75 transition-colors after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-300 hover:text-graphite hover:after:w-full"
               >
                 {item.label}
               </Link>
@@ -180,10 +180,10 @@ export function Header() {
                   transform: open ? "none" : "translateY(1rem)",
                 }}
               >
-                <span className="text-[10px] tracking-[0.2em] text-gold">
+                <span className="text-[10px] tracking-[0.2em] text-gold-deep">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span className="display text-3xl transition-colors group-hover:text-gold">{item.label}</span>
+                <span className="display text-3xl transition-colors group-hover:text-gold-deep">{item.label}</span>
                 <span
                   aria-hidden="true"
                   className="ml-auto self-center text-muted-light transition-transform duration-300 group-hover:translate-x-1"
@@ -212,14 +212,14 @@ export function Header() {
             </a>
 
             <div className="mt-7 flex flex-wrap items-center justify-between gap-3 text-[11px] text-muted">
-              <a href={`mailto:${site.contact.email}`} className="hover:text-graphite">
+              <a href={`mailto:${site.contact.email}`} className="tap hover:text-graphite">
                 {site.contact.email}
               </a>
               <a
                 href={site.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-graphite"
+                className="tap hover:text-graphite"
               >
                 {site.social.instagramHandle}
               </a>

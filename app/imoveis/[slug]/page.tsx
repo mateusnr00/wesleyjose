@@ -55,14 +55,14 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
 
       <main id="conteudo" className="pt-32 lg:pt-40">
         <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
-          <nav aria-label="Trilha de navegação" className="text-[10px] uppercase tracking-[0.18em] text-muted">
-            <Link href="/" className="hover:text-graphite">
+          <nav aria-label="Trilha de navegação" className="text-[11px] uppercase tracking-[0.18em] text-muted">
+            <Link href="/" className="tap hover:text-graphite">
               Início
             </Link>
             <span className="mx-3" aria-hidden="true">
               /
             </span>
-            <Link href="/imoveis" className="hover:text-graphite">
+            <Link href="/imoveis" className="tap hover:text-graphite">
               Imóveis
             </Link>
             <span className="mx-3" aria-hidden="true">
@@ -207,7 +207,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
               <h2 className="display text-[2rem] lg:text-[2.5rem]">Outros imóveis do portfólio</h2>
               <Link
                 href="/imoveis"
-                className="border-b border-graphite/25 pb-2 text-[10px] uppercase tracking-[0.2em] transition-colors hover:border-gold hover:text-gold"
+                className="border-b border-graphite/25 pb-2 text-[10px] uppercase tracking-[0.2em] transition-colors hover:border-gold hover:text-gold-deep"
               >
                 Ver todos
               </Link>

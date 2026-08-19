@@ -62,16 +62,16 @@ export function About() {
               </p>
             </div>
 
-            <dl className="mt-14 grid gap-10 border-t border-line pt-10 sm:grid-cols-3">
+            <div className="mt-14 grid gap-10 border-t border-line pt-10 sm:grid-cols-3">
               <RevealGroup variant="up" step={110} initialDelay={100}>
                 {pillars.map((pillar) => (
                   <div key={pillar.title}>
-                    <dt className="display text-lg">{pillar.title}</dt>
-                    <dd className="mt-3 text-[13px] leading-relaxed text-muted">{pillar.text}</dd>
+                    <h3 className="display text-lg">{pillar.title}</h3>
+                    <p className="mt-3 text-[13px] leading-relaxed text-muted">{pillar.text}</p>
                   </div>
                 ))}
               </RevealGroup>
-            </dl>
+            </div>
           </Reveal>
         </div>
       </div>

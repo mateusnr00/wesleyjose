@@ -61,7 +61,7 @@ export function Services() {
                     onClick={() => setActive(isOpen ? -1 : index)}
                     aria-expanded={isOpen}
                     aria-controls={`servico-${index}`}
-                    className="grid w-full grid-cols-[auto_1fr_auto] items-center gap-6 py-7 text-left transition-colors hover:text-gold lg:grid-cols-[auto_minmax(0,0.9fr)_minmax(0,1.1fr)_auto] lg:gap-10"
+                    className="grid w-full grid-cols-[auto_1fr_auto] items-center gap-6 py-7 text-left transition-colors hover:text-gold-deep lg:grid-cols-[auto_minmax(0,0.9fr)_minmax(0,1.1fr)_auto] lg:gap-10"
                   >
                     <span className="text-[10px] tracking-[0.2em] text-muted-light">
                       {String(index + 1).padStart(2, "0")}

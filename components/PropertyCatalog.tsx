@@ -1,6 +1,5 @@
 "use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 import { PropertyCard } from "./PropertyCard"
 import { RevealGroup } from "./Reveal"
@@ -32,24 +31,56 @@ function parseBand(band: string): [number, number] {
   return [Number(min) || 0, Number(max) || Number.POSITIVE_INFINITY]
 }
 
+const FILTROS_VAZIOS = { tipo: "", bairro: "", preco: "", quartos: "", ordem: "relevancia" }
+type Filtros = typeof FILTROS_VAZIOS
+
 export function PropertyCatalog({ properties }: { properties: Property[] }) {
-  const router = useRouter()
-  const params = useSearchParams()
+  /*
+   * O estado dos filtros mora aqui, e a URL é um espelho dele.
+   *
+   * Antes vinha de useSearchParams, que obriga um <Suspense> e faz o HTML
+   * estático entregar só o "Carregando…": a grade inteira aparecia depois da
+   * hidratação, deslocando a página (CLS 0,16 no desktop). Começando vazio, o
+   * servidor já renderiza a grade completa, e um efeito aplica o filtro de
+   * quem chegou por link com query.
+   */
+  const [filtros, setFiltros] = useState<Filtros>(FILTROS_VAZIOS)
 
-  const kind = params.get("tipo") ?? ""
-  const district = params.get("bairro") ?? ""
-  const band = params.get("preco") ?? ""
-  const bedrooms = params.get("quartos") ?? ""
-  const sort = params.get("ordem") ?? "relevancia"
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search)
+    const daUrl: Filtros = {
+      tipo: q.get("tipo") ?? "",
+      bairro: q.get("bairro") ?? "",
+      preco: q.get("preco") ?? "",
+      quartos: q.get("quartos") ?? "",
+      ordem: q.get("ordem") ?? "relevancia",
+    }
+    // Só reprocessa se a URL realmente traz filtro, para não re-renderizar à toa.
+    if (Object.entries(daUrl).some(([k, v]) => v !== FILTROS_VAZIOS[k as keyof Filtros])) {
+      setFiltros(daUrl)
+    }
+  }, [])
 
+  const { tipo: kind, bairro: district, preco: band, quartos: bedrooms, ordem: sort } = filtros
   const hasFilters = Boolean(kind || district || band || bedrooms)
 
-  /** Reescreve a query preservando os demais filtros — a URL fica compartilhável. */
-  function setParam(key: string, value: string) {
-    const next = new URLSearchParams(params.toString())
-    if (value) next.set(key, value)
-    else next.delete(key)
-    router.replace(`/imoveis${next.size ? `?${next}` : ""}`, { scroll: false })
+  /** Atualiza o filtro e espelha na URL, que segue compartilhável. */
+  function setParam(key: keyof Filtros, value: string) {
+    const próximos = { ...filtros, [key]: value }
+    setFiltros(próximos)
+
+    const q = new URLSearchParams()
+    for (const [k, v] of Object.entries(próximos)) {
+      if (v && v !== FILTROS_VAZIOS[k as keyof Filtros]) q.set(k, v)
+    }
+    // history em vez de router.replace: não dispara uma navegação do App Router
+    // só para refletir um filtro que já está aplicado no cliente.
+    window.history.replaceState(null, "", `/imoveis${q.size ? `?${q}` : ""}`)
+  }
+
+  function limpar() {
+    setFiltros(FILTROS_VAZIOS)
+    window.history.replaceState(null, "", "/imoveis")
   }
 
   const PER_PAGE = 9
@@ -172,8 +203,8 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
         {hasFilters && (
           <button
             type="button"
-            onClick={() => router.replace("/imoveis", { scroll: false })}
-            className="text-[11px] uppercase tracking-[0.18em] text-muted underline underline-offset-4 transition-colors hover:text-graphite"
+            onClick={limpar}
+            className="tap text-[11px] uppercase tracking-[0.18em] text-muted underline underline-offset-4 transition-colors hover:text-graphite"
           >
             Limpar filtros
           </button>
@@ -182,6 +213,10 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
 
       {results.length > 0 ? (
         <>
+          {/* Os cards usam h3. Sem um h2 aqui, a página saltava de h1 para h3,
+              o que quebra a navegação por títulos em leitor de tela. */}
+          <h2 className="sr-only">Resultados da busca</h2>
+
           <div className="mt-12 grid items-stretch gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
             {/* `key` na página força o reveal a rodar de novo a cada troca. */}
             <RevealGroup key={`${page}-${kind}-${district}-${band}-${bedrooms}-${sort}`} variant="up" step={70}>
@@ -200,7 +235,7 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
                 type="button"
                 onClick={() => goTo(page - 1)}
                 disabled={page === 1}
-                className="text-[10px] uppercase tracking-[0.2em] text-muted transition-colors enabled:hover:text-graphite disabled:opacity-30"
+                className="tap text-[11px] uppercase tracking-[0.2em] text-muted transition-colors enabled:hover:text-graphite disabled:opacity-30"
               >
                 ← Anterior
               </button>
@@ -213,7 +248,7 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
                 type="button"
                 onClick={() => goTo(page + 1)}
                 disabled={page === totalPages}
-                className="text-[10px] uppercase tracking-[0.2em] text-muted transition-colors enabled:hover:text-graphite disabled:opacity-30"
+                className="tap text-[11px] uppercase tracking-[0.2em] text-muted transition-colors enabled:hover:text-graphite disabled:opacity-30"
               >
                 Próxima →
               </button>
@@ -229,7 +264,7 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
           </p>
           <button
             type="button"
-            onClick={() => router.replace("/imoveis", { scroll: false })}
+            onClick={limpar}
             className="mt-8 border border-graphite/25 px-8 py-3.5 text-[10px] uppercase tracking-[0.2em] transition-colors hover:border-graphite"
           >
             Limpar filtros

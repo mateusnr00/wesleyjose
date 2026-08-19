@@ -38,7 +38,7 @@ export function FeaturedProperties({ properties }: { properties: Property[] }) {
             </p>
             <Link
               href="/imoveis"
-              className="group inline-flex shrink-0 items-center gap-3 border-b border-graphite/25 pb-2 text-[10px] uppercase tracking-[0.2em] transition-colors hover:border-gold hover:text-gold"
+              className="group inline-flex shrink-0 items-center gap-3 border-b border-graphite/25 pb-2 text-[10px] uppercase tracking-[0.2em] transition-colors hover:border-gold hover:text-gold-deep"
             >
               Ver o catálogo completo
               <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">

@@ -1,7 +1,38 @@
 import type { Metadata } from "next"
+import { Cormorant_Garamond, Inter } from "next/font/google"
 import { site } from "@/lib/site"
 import { baseUrl } from "@/lib/url"
 import "./globals.css"
+
+/**
+ * Fontes servidas pelo próprio domínio.
+ *
+ * Antes vinham por <link> para o Google Fonts, o que custava uma folha de
+ * estilo render-blocking, um request a um terceiro e — pior — deixava o texto
+ * trocando de fonte até a resposta chegar. next/font baixa os arquivos no
+ * build, embute o @font-face e adiciona métricas de fallback, o que zera o
+ * deslocamento de layout.
+ */
+/*
+ * Só os pesos que o CSS de fato usa. Declarar a família inteira gerava 17
+ * arquivos (500 KB) no caminho crítico; hoje são quatro.
+ * `latin` basta para o português — os acentos vivem nesse intervalo, e
+ * `latin-ext` só acrescenta caracteres do leste europeu.
+ */
+const display = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-display-loaded",
+})
+
+const sans = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-sans-loaded",
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl()),
@@ -21,26 +52,18 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
+export const viewport = {
+  themeColor: "#f7f4ee",
+  colorScheme: "light",
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR">
-      <head>
-        {/*
-          Fontes por <link> em vez de next/font: o ambiente de build não tem
-          acesso de rede ao Google Fonts. Trocar por next/font quando publicar
-          reduz o CLS e elimina o request externo.
-        */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="pt-BR" className={`${display.variable} ${sans.variable}`}>
       <body>
         <a
           href="#conteudo"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-navy focus:px-4 focus:py-2 focus:text-xs focus:tracking-[0.2em] focus:text-white focus:uppercase"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-navy focus:px-4 focus:py-2 focus:text-xs focus:uppercase focus:tracking-[0.2em] focus:text-white"
         >
           Pular para o conteúdo
         </a>

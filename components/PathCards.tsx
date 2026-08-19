@@ -44,7 +44,7 @@ export function PathCards() {
               <Link
                 key={path.href}
                 href={path.href}
-                className="group relative flex min-h-[22rem] flex-col justify-end overflow-hidden p-8 lg:min-h-[26rem] lg:p-10"
+                className="group relative flex min-h-[22rem] flex-col justify-end overflow-hidden bg-graphite p-8 lg:min-h-[26rem] lg:p-10"
               >
                 <Image
                   src={path.image}

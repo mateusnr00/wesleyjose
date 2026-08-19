@@ -86,12 +86,12 @@ export default async function AdminHome({
 
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                  <Link href={`/admin/imoveis/${property.id}`} className="display text-lg hover:text-gold">
+                  <Link href={`/admin/imoveis/${property.id}`} className="display text-lg hover:text-gold-deep">
                     {property.name}
                   </Link>
 
                   {property.published ? (
-                    <span className="text-[9px] uppercase tracking-[0.16em] text-gold">No site</span>
+                    <span className="text-[9px] uppercase tracking-[0.16em] text-gold-deep">No site</span>
                   ) : (
                     <span className="text-[9px] uppercase tracking-[0.16em] text-muted-light">Rascunho</span>
                   )}

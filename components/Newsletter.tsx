@@ -32,7 +32,7 @@ export function Newsletter() {
         </p>
 
         {sent ? (
-          <p className="mt-10 text-sm text-gold" role="status">
+          <p className="mt-10 text-sm text-gold-deep" role="status">
             Pronto, {name || "obrigado"}! Você receberá a próxima edição no e-mail informado.
           </p>
         ) : (

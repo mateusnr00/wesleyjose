@@ -44,7 +44,7 @@ export function DistrictShortcuts({ properties }: { properties: Property[] }) {
             </div>
             <Link
               href="/imoveis"
-              className="underline-grow text-[10px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-graphite"
+              className="tap underline-grow text-[11px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-graphite"
             >
               Ver todos os bairros
             </Link>
@@ -57,7 +57,7 @@ export function DistrictShortcuts({ properties }: { properties: Property[] }) {
               <Link
                 key={district}
                 href={`/imoveis?bairro=${encodeURIComponent(district)}`}
-                className="group relative block aspect-[4/3] overflow-hidden sm:aspect-[3/2]"
+                className="group relative block aspect-[4/3] overflow-hidden bg-graphite sm:aspect-[3/2]"
               >
                 <Image
                   src={info.image || placeholderImage}

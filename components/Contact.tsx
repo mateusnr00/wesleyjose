@@ -63,7 +63,7 @@ export function Contact() {
               <div>
                 <dt className="text-[9px] uppercase tracking-[0.22em] text-muted">WhatsApp</dt>
                 <dd className="mt-2">
-                  <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="text-sm hover:text-gold">
+                  <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="tap text-sm hover:text-gold-deep">
                     {site.contact.whatsappDisplay}
                   </a>
                 </dd>
@@ -72,7 +72,7 @@ export function Contact() {
               <div>
                 <dt className="text-[9px] uppercase tracking-[0.22em] text-muted">E-mail</dt>
                 <dd className="mt-2">
-                  <a href={`mailto:${site.contact.email}`} className="text-sm hover:text-gold">
+                  <a href={`mailto:${site.contact.email}`} className="tap text-sm hover:text-gold-deep">
                     {site.contact.email}
                   </a>
                 </dd>
@@ -149,7 +149,7 @@ export function Contact() {
               >
                 Enviar pelo WhatsApp →
               </button>
-              <p className="mt-4 text-[11px] text-muted">
+              <p className="mt-4 text-[12px] text-muted">
                 Ao enviar, abrimos o WhatsApp com sua mensagem já preenchida.
               </p>
             </div>

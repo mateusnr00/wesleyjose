@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { Suspense } from "react"
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 import { ScrollProgress } from "@/components/Reveal"
@@ -38,13 +37,7 @@ export default async function PropertiesPage() {
           </p>
 
           <div className="mt-14 pb-24">
-            <Suspense
-              fallback={
-                <p className="py-20 text-center text-[11px] uppercase tracking-[0.2em] text-muted">Carregando…</p>
-              }
-            >
-              <PropertyCatalog properties={properties} />
-            </Suspense>
+            <PropertyCatalog properties={properties} />
           </div>
         </div>
       </main>

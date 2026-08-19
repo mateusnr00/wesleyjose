@@ -112,7 +112,7 @@ export function ImageUploader({
         className="block w-full text-[12px] text-muted file:mr-4 file:border file:border-graphite/25 file:bg-transparent file:px-5 file:py-2.5 file:text-[10px] file:uppercase file:tracking-[0.18em] file:text-graphite hover:file:border-graphite"
       />
 
-      {busy && <p className="mt-3 text-[11px] text-gold">Enviando…</p>}
+      {busy && <p className="mt-3 text-[11px] text-gold-deep">Enviando…</p>}
       {error && (
         <p role="alert" className="mt-3 text-[11px] text-red-700">
           {error}

@@ -2,7 +2,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { CountUp } from "./CountUp"
 import { PropertySearch } from "./PropertySearch"
-import { Reveal } from "./Reveal"
 import { placeholderImage, type Property } from "@/lib/properties"
 import { site, whatsappLink } from "@/lib/site"
 
@@ -13,7 +12,7 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
         <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-20">
           {/* Coluna editorial */}
-          <Reveal variant="left" className="max-w-xl">
+          <div className="enter-up max-w-xl">
             <p className="eyebrow">Consultoria imobiliária · Goiânia</p>
 
             <h1 className="display mt-8 text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem]">
@@ -59,11 +58,11 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
                 </div>
               ))}
             </dl>
-          </Reveal>
+          </div>
 
           {/* Imagem de destaque com etiqueta do imóvel */}
           {spotlight && (
-            <Reveal variant="clip" delay={150} duration={1200} className="relative">
+            <div className="enter-up enter-delay-1 relative">
               <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[5/4] lg:aspect-[4/5]">
                 <Image
                   src={spotlight.image || placeholderImage}
@@ -72,7 +71,7 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
                   priority
                   unoptimized={!spotlight.image}
                   sizes="(max-width: 1024px) 100vw, 55vw"
-                  className="object-cover"
+                  className="enter-zoom object-cover"
                 />
               </div>
 
@@ -80,7 +79,7 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
                 href={`/imoveis/${spotlight.slug}`}
                 className="group absolute bottom-6 left-6 max-w-[15rem] bg-cream/95 p-6 backdrop-blur-sm transition-transform duration-500 hover:-translate-y-1"
               >
-                <span className="text-[9px] uppercase tracking-[0.22em] text-gold">Em destaque</span>
+                <span className="text-[9px] uppercase tracking-[0.22em] text-gold-deep">Em destaque</span>
                 <span className="display mt-2 block text-xl">{spotlight.name}</span>
                 <span className="mt-1 block text-[11px] text-muted">
                   {spotlight.district} · {spotlight.area} m²
@@ -92,14 +91,14 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
                   </span>
                 </span>
               </Link>
-            </Reveal>
+            </div>
           )}
         </div>
 
         {/* Busca com filtros — atalho para o catálogo */}
-        <Reveal variant="up" delay={250} className="relative z-10 mt-16 lg:-mt-4 lg:mb-4">
+        <div className="enter-up enter-delay-2 relative z-10 mt-16 lg:-mt-4 lg:mb-4">
           <PropertySearch districts={districts} />
-        </Reveal>
+        </div>
       </div>
     </section>
   )

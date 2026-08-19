@@ -244,7 +244,7 @@ function Field({
     <label className={`block ${full ? "sm:col-span-2" : ""}`}>
       <span className="mb-3 block text-[9px] uppercase tracking-[0.22em] text-muted">
         {label}
-        {required && <span className="text-gold"> *</span>}
+        {required && <span className="text-gold-deep"> *</span>}
       </span>
       {children}
       {hint && <span className="mt-2 block text-[11px] text-muted">{hint}</span>}

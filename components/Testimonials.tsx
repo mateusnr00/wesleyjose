@@ -43,7 +43,7 @@ export function Testimonials() {
             {testimonials.map((item, index) => (
               <Reveal key={item.author} variant="right" delay={index * 120}>
                 <figure className="bg-navy-soft p-8 lg:p-10">
-                  <div className="flex gap-1 text-gold-soft" aria-label="Avaliação: 5 de 5">
+                  <div className="flex gap-1 text-gold-soft" role="img" aria-label="Avaliação: 5 de 5">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star key={i} />
                     ))}
@@ -55,7 +55,7 @@ export function Testimonials() {
 
                   <figcaption className="mt-7 border-t border-cream/10 pt-5">
                     <span className="block text-[11px] uppercase tracking-[0.18em]">{item.author}</span>
-                    <span className="mt-1 block text-[11px] text-cream/45">{item.role}</span>
+                    <span className="mt-1 block text-[11px] text-cream/60">{item.role}</span>
                   </figcaption>
                 </figure>
               </Reveal>

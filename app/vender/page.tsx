@@ -142,7 +142,7 @@ export default async function SellPage() {
               {reasons.map((reason, index) => (
                 <Reveal key={reason.value} delay={index * 110}>
                   <p className="display text-4xl lg:text-5xl">{reason.value}</p>
-                  <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-gold">{reason.label}</p>
+                  <p className="mt-3 text-[10px] uppercase tracking-[0.18em] text-gold-deep">{reason.label}</p>
                   <p className="mt-5 text-[13px] leading-relaxed text-muted">{reason.text}</p>
                 </Reveal>
               ))}
@@ -169,7 +169,7 @@ export default async function SellPage() {
             <ol className="mt-16 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
               {steps.map((step, index) => (
                 <li key={step.title} className="bg-cream p-8 lg:p-10">
-                  <span className="text-[10px] tracking-[0.2em] text-gold">
+                  <span className="text-[10px] tracking-[0.2em] text-gold-deep">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <h3 className="display mt-5 text-xl">{step.title}</h3>
@@ -181,7 +181,7 @@ export default async function SellPage() {
         </section>
 
         {/* Depoimento de quem vendeu */}
-        <section className="relative overflow-hidden">
+        <section className="relative overflow-hidden bg-navy">
           <div className="absolute inset-0">
             <Image
               src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80"

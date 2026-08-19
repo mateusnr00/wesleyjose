@@ -38,7 +38,7 @@ export function PropertyCard({ property, priority = false }: { property: Propert
           </span>
         </div>
 
-        <h3 className="display mt-5 text-xl transition-colors group-hover:text-gold">{property.name}</h3>
+        <h3 className="display mt-5 text-xl transition-colors group-hover:text-gold-deep">{property.name}</h3>
 
         <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-muted">
           {property.district} · {property.city}

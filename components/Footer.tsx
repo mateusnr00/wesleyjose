@@ -15,17 +15,17 @@ export function Footer() {
               Consultoria imobiliária de alto padrão em Goiânia. Curadoria, discrição e estratégia em
               cada negociação.
             </p>
-            <p className="mt-6 text-[11px] uppercase tracking-[0.18em] text-cream/40">
+            <p className="mt-6 text-[11px] uppercase tracking-[0.18em] text-cream/55">
               {site.founder.creci}
             </p>
           </div>
 
           <nav aria-label="Navegação do rodapé">
-            <h2 className="text-[9px] uppercase tracking-[0.22em] text-cream/40">Navegação</h2>
+            <h2 className="text-[9px] uppercase tracking-[0.22em] text-cream/55">Navegação</h2>
             <ul className="mt-6 space-y-3">
               {nav.map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-[13px] transition-colors hover:text-gold-soft">
+                  <Link href={item.href} className="tap text-[13px] transition-colors hover:text-gold-soft">
                     {item.label}
                   </Link>
                 </li>
@@ -34,15 +34,15 @@ export function Footer() {
           </nav>
 
           <div>
-            <h2 className="text-[9px] uppercase tracking-[0.22em] text-cream/40">Contato</h2>
+            <h2 className="text-[9px] uppercase tracking-[0.22em] text-cream/55">Contato</h2>
             <ul className="mt-6 space-y-3 text-[13px]">
               <li>
-                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-gold-soft">
+                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="tap transition-colors hover:text-gold-soft">
                   {site.contact.whatsappDisplay}
                 </a>
               </li>
               <li>
-                <a href={`mailto:${site.contact.email}`} className="transition-colors hover:text-gold-soft">
+                <a href={`mailto:${site.contact.email}`} className="tap transition-colors hover:text-gold-soft">
                   {site.contact.email}
                 </a>
               </li>
@@ -51,19 +51,19 @@ export function Footer() {
                   href={site.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors hover:text-gold-soft"
+                  className="tap transition-colors hover:text-gold-soft"
                 >
                   {site.social.instagramHandle}
                 </a>
               </li>
-              <li className="pt-2 text-cream/45">
+              <li className="pt-2 text-cream/55">
                 {site.contact.address.district} · {site.contact.address.city}/{site.contact.address.state}
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-cream/10 pt-8 text-[11px] text-cream/40 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-4 border-t border-cream/10 pt-8 text-[12px] text-cream/55 sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {year} {site.name}. Todos os direitos reservados.
           </p>

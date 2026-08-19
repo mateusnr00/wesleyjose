@@ -8,7 +8,7 @@ import { Reveal } from "./Reveal"
  */
 export function SellCta() {
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden bg-graphite">
       <div className="absolute inset-0">
         <Image
           src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=2000&q=80"

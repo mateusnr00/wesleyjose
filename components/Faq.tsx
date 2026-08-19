@@ -18,7 +18,7 @@ export function Faq({ items }: { items: { question: string; answer: string }[] }
                 onClick={() => setOpen(isOpen ? null : index)}
                 aria-expanded={isOpen}
                 aria-controls={`faq-${index}`}
-                className="flex w-full items-center justify-between gap-8 py-6 text-left transition-colors hover:text-gold"
+                className="flex w-full items-center justify-between gap-8 py-6 text-left transition-colors hover:text-gold-deep"
               >
                 <span className="display text-lg lg:text-xl">{item.question}</span>
                 <span
