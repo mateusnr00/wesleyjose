@@ -6,6 +6,8 @@ import { Header } from "@/components/Header"
 import { Reveal } from "@/components/Reveal"
 import { ValuationForm } from "@/components/ValuationForm"
 import { WhatsAppFloat } from "@/components/WhatsAppFloat"
+import { districtsOf } from "@/lib/properties"
+import { getProperties } from "@/lib/queries"
 import { site } from "@/lib/site"
 
 export const metadata: Metadata = {
@@ -79,7 +81,11 @@ const faq = [
   },
 ]
 
-export default function SellPage() {
+export const revalidate = 3600
+
+export default async function SellPage() {
+  const districts = districtsOf(await getProperties())
+
   return (
     <>
       <Header />
@@ -116,7 +122,7 @@ export default function SellPage() {
                 </ul>
               </div>
 
-              <ValuationForm />
+              <ValuationForm districts={districts} />
             </div>
           </div>
         </section>

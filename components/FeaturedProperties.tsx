@@ -1,10 +1,9 @@
 import Link from "next/link"
 import { PropertyCard } from "./PropertyCard"
 import { Reveal } from "./Reveal"
-import { properties } from "@/lib/properties"
+import type { Property } from "@/lib/properties"
 
-export function FeaturedProperties() {
-  const featured = properties.filter((p) => p.featured).slice(0, 6)
+export function FeaturedProperties({ properties }: { properties: Property[] }) {
 
   return (
     <section id="imoveis" className="bg-cream-deep/60 py-section">
@@ -25,7 +24,7 @@ export function FeaturedProperties() {
         </Reveal>
 
         <div className="mt-16 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((property, index) => (
+          {properties.map((property, index) => (
             <Reveal key={property.slug} delay={(index % 3) * 100}>
               <PropertyCard property={property} priority={index < 3} />
             </Reveal>

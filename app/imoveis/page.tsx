@@ -4,7 +4,10 @@ import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 import { PropertyCatalog } from "@/components/PropertyCatalog"
 import { WhatsAppFloat } from "@/components/WhatsAppFloat"
+import { getProperties } from "@/lib/queries"
 import { site } from "@/lib/site"
+
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: "Imóveis à venda em Goiânia",
@@ -12,7 +15,9 @@ export const metadata: Metadata = {
     "Catálogo de residências, coberturas, apartamentos e lançamentos de alto padrão em Goiânia, com filtro por bairro, tipo e faixa de valor.",
 }
 
-export default function PropertiesPage() {
+export default async function PropertiesPage() {
+  const properties = await getProperties()
+
   return (
     <>
       <Header />
@@ -31,8 +36,12 @@ export default function PropertiesPage() {
           </p>
 
           <div className="mt-14 pb-24">
-            <Suspense fallback={<p className="py-20 text-center text-[11px] uppercase tracking-[0.2em] text-muted">Carregando…</p>}>
-              <PropertyCatalog />
+            <Suspense
+              fallback={
+                <p className="py-20 text-center text-[11px] uppercase tracking-[0.2em] text-muted">Carregando…</p>
+              }
+            >
+              <PropertyCatalog properties={properties} />
             </Suspense>
           </div>
         </div>

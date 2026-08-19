@@ -39,10 +39,49 @@ A partir daí, todo push no branch padrão vira deploy de produção, e todo bra
 - **URL do site**: enquanto não houver domínio próprio, as tags de Open Graph e o `sitemap.xml` usam automaticamente a URL da Vercel (via `VERCEL_PROJECT_PRODUCTION_URL`). Quando apontar o domínio, defina `NEXT_PUBLIC_SITE_URL=https://seudominio.com.br` nas variáveis de ambiente do projeto e tudo passa a apontar para ele.
 - **Imagens**: `images.unsplash.com` está liberado no `next.config.mjs`. Ao trocar pelas fotos reais, ajuste `remotePatterns` para o domínio de onde elas vierem — ou coloque os arquivos em `public/` e use caminhos locais.
 
+## Painel de administração
+
+O painel fica em **`/admin`** e permite cadastrar, editar, publicar/despublicar e excluir imóveis, com upload de fotos direto do navegador.
+
+| Rota | O que faz |
+| --- | --- |
+| `/admin/login` | Entrada por e-mail e senha |
+| `/admin` | Lista tudo, inclusive rascunhos, com publicar/despublicar em um clique |
+| `/admin/imoveis/novo` | Cadastro de imóvel |
+| `/admin/imoveis/[id]` | Edição |
+
+### Como os dados chegam ao site
+
+Os imóveis vivem numa tabela Postgres no Supabase. As páginas públicas são estáticas (revalidação de 1h), mas **não é preciso esperar**: ao salvar no painel, a server action chama `revalidatePath` e a alteração aparece no site imediatamente.
+
+O site público lê com um cliente anônimo sem cookies, de propósito — ler a sessão forçaria toda página a virar dinâmica.
+
+### Segurança
+
+- **RLS ligada** em `properties`. Anônimo só enxerga `published = true`.
+- **Escrita exige allowlist.** A chave anônima é pública e qualquer um pode chamar `signUp`, então estar autenticado não basta: as policies checam `public.is_admin()`, que consulta a tabela `admins`. Quem não está nela não escreve nada, nem no banco nem no Storage.
+- Para liberar outra pessoa, crie o usuário no Supabase (Authentication → Users) e insira o `user_id` dele em `public.admins`.
+
+### Fotos
+
+Vão para o bucket `imoveis` do Supabase Storage: leitura pública, escrita restrita à allowlist, limite de 10 MB por arquivo, aceitando JPEG, PNG, WebP e AVIF. O upload acontece do navegador direto para o Storage — o binário não passa pelo servidor do Next.
+
+## Variáveis de ambiente
+
+Copie `.env.example` para `.env.local` no desenvolvimento. **Na Vercel, adicione as duas em Settings → Environment Variables:**
+
+| Variável | Valor |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | URL do projeto Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Chave publicável (`sb_publishable_...`) |
+
+Ambas são públicas por natureza — quem protege os dados é a RLS, não o segredo da chave. **Nunca coloque a `service_role` key no projeto**: ela ignora RLS por completo.
+
 ## Onde mexer
 
 - **`lib/site.ts`** — marca, contato, WhatsApp, CRECI, redes e números de prova social. Alterar aqui reflete em todo o site (header, footer, metadata, mensagens de WhatsApp).
-- **`lib/properties.ts`** — catálogo de imóveis. Cada item alimenta os cards, os filtros e a página de detalhe.
+- **`lib/properties.ts`** — tipos, rótulos e formatadores do domínio. Os imóveis em si ficam no banco, editados pelo painel.
+- **`lib/queries.ts`** — leitura dos imóveis; `app/admin/actions.ts` concentra a escrita.
 - **`app/globals.css`** — tokens de cor, tipografia e espaçamento.
 
 ## Pendências antes de publicar
@@ -50,7 +89,7 @@ A partir daí, todo push no branch padrão vira deploy de produção, e todo bra
 Os pontos abaixo estão marcados com `TODO(cliente)` no código:
 
 - [ ] **Contato real** em `lib/site.ts`: WhatsApp, e-mail, endereço e número do CRECI (hoje são placeholders).
-- [ ] **Imóveis reais** em `lib/properties.ts` com fotografia própria — as imagens atuais são de banco público e servem só para marcar o layout.
+- [ ] **Imóveis reais** com fotografia própria — cadastre pelo painel em `/admin`. Os 6 imóveis atuais são de marcação, com fotos de banco público.
 - [ ] **Foto do consultor** em `components/About.tsx`.
 - [ ] **Depoimentos reais**, com autorização de uso do nome, em `components/Testimonials.tsx`.
 - [ ] **Newsletter**: hoje o cadastro só confirma na tela e nada é gravado. Plugar num provedor (Resend, Brevo, RD Station) via server action.

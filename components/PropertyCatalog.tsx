@@ -4,9 +4,9 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useMemo } from "react"
 import { PropertyCard } from "./PropertyCard"
 import {
-  districts,
+  districtsOf,
   kindLabels,
-  properties,
+  type Property,
   type PropertyKind,
 } from "@/lib/properties"
 
@@ -31,7 +31,7 @@ function parseBand(band: string): [number, number] {
   return [Number(min) || 0, Number(max) || Number.POSITIVE_INFINITY]
 }
 
-export function PropertyCatalog() {
+export function PropertyCatalog({ properties }: { properties: Property[] }) {
   const router = useRouter()
   const params = useSearchParams()
 
@@ -83,7 +83,7 @@ export function PropertyCatalog() {
     }
 
     return ordered
-  }, [kind, district, band, bedrooms, sort])
+  }, [properties, kind, district, band, bedrooms, sort])
 
   const selectClass =
     "w-full appearance-none border border-line bg-transparent px-4 py-3 text-[12px] outline-none transition-colors focus:border-gold"
@@ -106,7 +106,7 @@ export function PropertyCatalog() {
         <Filter label="Bairro">
           <select value={district} onChange={(e) => setParam("bairro", e.target.value)} className={selectClass}>
             <option value="">Todos</option>
-            {districts().map((d) => (
+            {districtsOf(properties).map((d) => (
               <option key={d} value={d}>
                 {d}
               </option>

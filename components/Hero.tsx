@@ -1,11 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
 import { PropertySearch } from "./PropertySearch"
-import { properties } from "@/lib/properties"
+import { placeholderImage, type Property } from "@/lib/properties"
 import { site, whatsappLink } from "@/lib/site"
 
-export function Hero() {
-  const spotlight = properties[0]
+export function Hero({ spotlight, districts }: { spotlight?: Property; districts: string[] }) {
 
   return (
     <section className="relative overflow-hidden pt-32 lg:pt-40">
@@ -59,40 +58,43 @@ export function Hero() {
           </div>
 
           {/* Imagem de destaque com etiqueta do imóvel */}
-          <div className="relative">
-            <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[5/4] lg:aspect-[4/5]">
-              <Image
-                src={spotlight.image}
-                alt={`${spotlight.name}, ${spotlight.district}`}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 55vw"
-                className="object-cover"
-              />
-            </div>
+          {spotlight && (
+            <div className="relative">
+              <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[5/4] lg:aspect-[4/5]">
+                <Image
+                  src={spotlight.image || placeholderImage}
+                  alt={`${spotlight.name}, ${spotlight.district}`}
+                  fill
+                  priority
+                  unoptimized={!spotlight.image}
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-cover"
+                />
+              </div>
 
-            <Link
-              href={`/imoveis/${spotlight.slug}`}
-              className="group absolute bottom-6 left-6 max-w-[15rem] bg-cream/95 p-6 backdrop-blur-sm transition-transform duration-500 hover:-translate-y-1"
-            >
-              <span className="text-[9px] uppercase tracking-[0.22em] text-gold">Em destaque</span>
-              <span className="display mt-2 block text-xl">{spotlight.name}</span>
-              <span className="mt-1 block text-[11px] text-muted">
-                {spotlight.district} · {spotlight.area} m²
-              </span>
-              <span className="mt-4 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.18em]">
-                Ver imóvel
-                <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
-                  →
+              <Link
+                href={`/imoveis/${spotlight.slug}`}
+                className="group absolute bottom-6 left-6 max-w-[15rem] bg-cream/95 p-6 backdrop-blur-sm transition-transform duration-500 hover:-translate-y-1"
+              >
+                <span className="text-[9px] uppercase tracking-[0.22em] text-gold">Em destaque</span>
+                <span className="display mt-2 block text-xl">{spotlight.name}</span>
+                <span className="mt-1 block text-[11px] text-muted">
+                  {spotlight.district} · {spotlight.area} m²
                 </span>
-              </span>
-            </Link>
-          </div>
+                <span className="mt-4 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.18em]">
+                  Ver imóvel
+                  <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </span>
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Busca com filtros — atalho para o catálogo */}
         <div className="relative z-10 mt-16 lg:-mt-4 lg:mb-4">
-          <PropertySearch />
+          <PropertySearch districts={districts} />
         </div>
       </div>
     </section>

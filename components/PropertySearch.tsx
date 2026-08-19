@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { districts, kindLabels, type PropertyKind } from "@/lib/properties"
+import { kindLabels, type PropertyKind } from "@/lib/properties"
 
 const priceBands = [
   { value: "", label: "Qualquer valor" },
@@ -16,7 +16,13 @@ const priceBands = [
  * Busca rápida do hero. Não filtra localmente — monta a query e delega
  * para /imoveis, que é a página que sabe filtrar (e é linkável/compartilhável).
  */
-export function PropertySearch({ variant = "hero" }: { variant?: "hero" | "inline" }) {
+export function PropertySearch({
+  districts,
+  variant = "hero",
+}: {
+  districts: string[]
+  variant?: "hero" | "inline"
+}) {
   const router = useRouter()
   const [kind, setKind] = useState("")
   const [district, setDistrict] = useState("")
@@ -55,7 +61,7 @@ export function PropertySearch({ variant = "hero" }: { variant?: "hero" | "inlin
       <Field label="Bairro">
         <select value={district} onChange={(e) => setDistrict(e.target.value)} className={fieldClass}>
           <option value="">Todos os bairros</option>
-          {districts().map((d) => (
+          {districts.map((d) => (
             <option key={d} value={d}>
               {d}
             </option>

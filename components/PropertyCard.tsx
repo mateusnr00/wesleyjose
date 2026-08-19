@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { formatPrice, kindLabels, statusLabels, type Property } from "@/lib/properties"
+import { formatPrice, kindLabels, placeholderImage, statusLabels, type Property } from "@/lib/properties"
 
 export function PropertyCard({ property, priority = false }: { property: Property; priority?: boolean }) {
   return (
@@ -8,7 +8,8 @@ export function PropertyCard({ property, priority = false }: { property: Propert
       <Link href={`/imoveis/${property.slug}`} className="block">
         <div className="relative aspect-[4/3] w-full overflow-hidden bg-cream-deep">
           <Image
-            src={property.image}
+            src={property.image || placeholderImage}
+            unoptimized={!property.image}
             alt={`${property.name}, ${property.district}`}
             fill
             priority={priority}

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { districts, kindLabels, type PropertyKind } from "@/lib/properties"
+import { kindLabels, type PropertyKind } from "@/lib/properties"
 import { site, whatsappLink } from "@/lib/site"
 
 type Data = {
@@ -32,7 +32,7 @@ const timings = [
  * o proprietário só chega no campo de telefone depois de já ter investido
  * algum esforço no preenchimento.
  */
-export function ValuationForm() {
+export function ValuationForm({ districts }: { districts: string[] }) {
   const [step, setStep] = useState(0)
   const [data, setData] = useState<Data>({
     kind: "",
@@ -132,7 +132,7 @@ export function ValuationForm() {
                 className={inputClass}
               />
               <datalist id="bairros-goiania">
-                {districts().map((d) => (
+                {districts.map((d) => (
                   <option key={d} value={d} />
                 ))}
               </datalist>

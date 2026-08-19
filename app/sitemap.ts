@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next"
-import { properties } from "@/lib/properties"
+import { getProperties } from "@/lib/queries"
 import { baseUrl } from "@/lib/url"
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = baseUrl()
 
   const pages: MetadataRoute.Sitemap = [
@@ -11,7 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/vender`, changeFrequency: "monthly", priority: 0.9 },
   ]
 
-  const listings: MetadataRoute.Sitemap = properties.map((property) => ({
+  const listings: MetadataRoute.Sitemap = (await getProperties()).map((property) => ({
     url: `${base}/imoveis/${property.slug}`,
     changeFrequency: "weekly",
     priority: 0.7,

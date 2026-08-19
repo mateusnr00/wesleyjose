@@ -6,10 +6,14 @@ import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 import { PropertyCard } from "@/components/PropertyCard"
 import { WhatsAppFloat } from "@/components/WhatsAppFloat"
-import { formatPrice, getProperty, kindLabels, properties, statusLabels } from "@/lib/properties"
+import { formatPrice, kindLabels, placeholderImage, statusLabels } from "@/lib/properties"
+import { getProperties, getProperty } from "@/lib/queries"
 import { site, whatsappLink } from "@/lib/site"
 
-export function generateStaticParams() {
+export const revalidate = 3600
+
+export async function generateStaticParams() {
+  const properties = await getProperties()
   return properties.map((property) => ({ slug: property.slug }))
 }
 
@@ -19,22 +23,22 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>
 }): Promise<Metadata> {
   const { slug } = await params
-  const property = getProperty(slug)
+  const property = await getProperty(slug)
   if (!property) return { title: "Imóvel não encontrado" }
 
   return {
     title: `${property.name}, ${property.district}`,
     description: property.headline,
-    openGraph: { images: [property.image] },
+    openGraph: { images: property.image ? [property.image] : [] },
   }
 }
 
 export default async function PropertyPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const property = getProperty(slug)
+  const property = await getProperty(slug)
   if (!property) notFound()
 
-  const others = properties.filter((p) => p.slug !== property.slug).slice(0, 3)
+  const others = (await getProperties()).filter((p) => p.slug !== property.slug).slice(0, 3)
 
   const specs = [
     { label: "Área", value: `${property.area} m²` },
@@ -91,7 +95,8 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
           <div className="grid gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
             <div className="relative aspect-[4/3] w-full overflow-hidden bg-cream-deep lg:aspect-[3/2]">
               <Image
-                src={property.image}
+                src={property.image || placeholderImage}
+                unoptimized={!property.image}
                 alt={`${property.name} — fachada`}
                 fill
                 priority
