@@ -35,7 +35,8 @@ export default async function EditPropertyPage({ params }: { params: Promise<{ i
 
       <h1 className="display mt-6 text-3xl">{property.name}</h1>
       <p className="mt-2 text-[13px] text-muted">
-        {property.published ? "Publicado no site." : "Rascunho — não aparece no site."}
+        Ref. <span className="text-graphite">{property.reference}</span> ·{" "}
+        {property.published ? "publicado no site" : "rascunho — não aparece no site"}
       </p>
 
       <PropertyForm action={action} property={property} submitLabel="Salvar alterações" />

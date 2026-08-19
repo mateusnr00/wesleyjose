@@ -21,7 +21,7 @@ export function SellCta() {
       </div>
 
       <div className="relative mx-auto max-w-[1360px] px-6 py-28 lg:px-12 lg:py-36">
-        <Reveal>
+        <Reveal variant="left">
           <div className="max-w-xl text-cream">
             <p className="eyebrow text-cream/60">Para proprietários</p>
 

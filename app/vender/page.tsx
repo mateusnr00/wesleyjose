@@ -3,6 +3,7 @@ import Image from "next/image"
 import { Faq } from "@/components/Faq"
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
+import { ScrollProgress } from "@/components/Reveal"
 import { Reveal } from "@/components/Reveal"
 import { ValuationForm } from "@/components/ValuationForm"
 import { WhatsAppFloat } from "@/components/WhatsAppFloat"
@@ -88,6 +89,7 @@ export default async function SellPage() {
 
   return (
     <>
+      <ScrollProgress />
       <Header />
 
       <main id="conteudo">

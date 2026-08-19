@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Suspense } from "react"
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
+import { ScrollProgress } from "@/components/Reveal"
 import { PropertyCatalog } from "@/components/PropertyCatalog"
 import { WhatsAppFloat } from "@/components/WhatsAppFloat"
 import { getProperties } from "@/lib/queries"
@@ -20,6 +21,7 @@ export default async function PropertiesPage() {
 
   return (
     <>
+      <ScrollProgress />
       <Header />
 
       <main id="conteudo" className="pt-36 lg:pt-44">

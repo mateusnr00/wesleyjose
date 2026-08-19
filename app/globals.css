@@ -36,6 +36,12 @@
   }
 
   body {
+    /* Os reveals laterais deslocam o elemento para fora da viewport antes de
+       aparecer, o que criava barra de rolagem horizontal no mobile. `clip`
+       resolve sem quebrar `position: sticky`, coisa que `hidden` faria.
+       Fica no body, não no html: no html ele altera o cálculo do
+       IntersectionObserver e os reveals param de disparar. */
+    overflow-x: clip;
     background-color: var(--color-cream);
     color: var(--color-graphite);
     font-family: var(--font-sans);
@@ -89,16 +95,74 @@
   }
 }
 
-/* Revelação suave ao entrar na viewport */
+/* Revelação ao entrar na viewport.
+   Tudo vive dentro da media query de movimento: sem ela, ou com o usuário
+   pedindo menos animação, o conteúdo simplesmente já está visível. */
 @media (prefers-reduced-motion: no-preference) {
   .reveal {
     opacity: 0;
-    transform: translateY(1.5rem);
-    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-property: opacity, transform, clip-path;
+    transition-duration: 900ms;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal[data-reveal="up"] {
+    transform: translateY(2rem);
+  }
+
+  .reveal[data-reveal="down"] {
+    transform: translateY(-2rem);
+  }
+
+  /* Em telas estreitas a coluna ocupa a largura toda: deslocar na horizontal
+     não sobra espaço e ainda atrasa o disparo do observer. Sobe na vertical. */
+  .reveal[data-reveal="left"],
+  .reveal[data-reveal="right"] {
+    transform: translateY(2rem);
+  }
+
+  @media (width >= 48rem) {
+    .reveal[data-reveal="left"] {
+      transform: translateX(-2.5rem);
+    }
+
+    .reveal[data-reveal="right"] {
+      transform: translateX(2.5rem);
+    }
+  }
+
+  .reveal[data-reveal="scale"] {
+    transform: scale(0.94);
+  }
+
+  /* Para imagens: a moldura abre como uma cortina em vez de o bloco deslizar. */
+  .reveal[data-reveal="clip"] {
+    opacity: 1;
+    clip-path: inset(0 0 100% 0);
   }
 
   .reveal[data-visible="true"] {
     opacity: 1;
     transform: none;
+    clip-path: inset(0 0 0 0);
   }
+
+  /* Depois de revelado, liberar a dica ao compositor evita segurar camadas. */
+  .reveal[data-visible="true"] {
+    will-change: auto;
+  }
+}
+
+/* Sublinhado que cresce do canto esquerdo no hover. */
+.underline-grow {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.underline-grow:hover {
+  background-size: 100% 1px;
 }

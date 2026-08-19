@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { Reveal } from "./Reveal"
 import { site } from "@/lib/site"
 
 export function Newsletter() {
@@ -20,7 +21,7 @@ export function Newsletter() {
 
   return (
     <section className="border-y border-line py-24">
-      <div className="mx-auto max-w-2xl px-6 text-center">
+      <Reveal className="mx-auto max-w-2xl px-6 text-center">
         <p className="eyebrow justify-center before:hidden">Boletim mensal</p>
 
         <h2 className="display mt-5 text-[2rem] lg:text-[2.5rem]">Receba a curadoria do mês.</h2>
@@ -66,7 +67,7 @@ export function Newsletter() {
             </button>
           </form>
         )}
-      </div>
+      </Reveal>
     </section>
   )
 }

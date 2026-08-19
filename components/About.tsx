@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { Reveal } from "./Reveal"
+import { Reveal, RevealGroup } from "./Reveal"
 import { site } from "@/lib/site"
 
 const pillars = [
@@ -22,7 +22,7 @@ export function About() {
     <section id="sobre" className="py-section">
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
         <div className="grid items-start gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-24">
-          <Reveal>
+          <Reveal variant="clip" duration={1200}>
             <figure>
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream-deep">
                 {/* TODO(cliente): substituir pela foto oficial do consultor. */}
@@ -42,7 +42,7 @@ export function About() {
             </figure>
           </Reveal>
 
-          <Reveal delay={120}>
+          <Reveal variant="right" delay={120}>
             <p className="eyebrow">A Premium</p>
 
             <h2 className="display mt-7 max-w-lg text-[2.25rem] lg:text-[3rem]">
@@ -63,12 +63,14 @@ export function About() {
             </div>
 
             <dl className="mt-14 grid gap-10 border-t border-line pt-10 sm:grid-cols-3">
-              {pillars.map((pillar) => (
-                <div key={pillar.title}>
-                  <dt className="display text-lg">{pillar.title}</dt>
-                  <dd className="mt-3 text-[13px] leading-relaxed text-muted">{pillar.text}</dd>
-                </div>
-              ))}
+              <RevealGroup variant="up" step={110} initialDelay={100}>
+                {pillars.map((pillar) => (
+                  <div key={pillar.title}>
+                    <dt className="display text-lg">{pillar.title}</dt>
+                    <dd className="mt-3 text-[13px] leading-relaxed text-muted">{pillar.text}</dd>
+                  </div>
+                ))}
+              </RevealGroup>
             </dl>
           </Reveal>
         </div>

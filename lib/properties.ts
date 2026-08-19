@@ -13,6 +13,8 @@ export type PropertyStatus = "disponivel" | "exclusivo" | "vendido" | "lancament
 export interface Property {
   id: string
   slug: string
+  /** Código curto ditável por telefone, ex. "PR0142". */
+  reference: string
   name: string
   district: string
   city: string

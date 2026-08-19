@@ -5,7 +5,7 @@ import type { Property } from "./properties"
 
 /** Colunas lidas pelo site público. Explícito para não vazar coluna nova sem querer. */
 const COLUMNS =
-  "id, slug, name, district, city, purpose, kind, status, price, area, bedrooms, suites, parking, headline, description, features, image, gallery, featured, published"
+  "id, slug, reference, name, district, city, purpose, kind, status, price, area, bedrooms, suites, parking, headline, description, features, image, gallery, featured, published"
 
 type Row = Record<string, unknown>
 
@@ -26,6 +26,7 @@ function toProperty(row: Row): Property {
   return {
     id: String(row.id),
     slug: String(row.slug),
+    reference: String(row.reference ?? ""),
     name: String(row.name),
     district: String(row.district),
     city: String(row.city),

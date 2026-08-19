@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { Reveal } from "./Reveal"
 import { site, whatsappLink } from "@/lib/site"
 
 const interests = [
@@ -45,7 +46,7 @@ export function Contact() {
     <section id="contato" className="py-section">
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
         <div className="grid gap-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-24">
-          <div>
+          <Reveal variant="left">
             <p className="eyebrow">Contato direto</p>
 
             <h2 className="display mt-7 max-w-xs text-[2.25rem] lg:text-[3rem]">
@@ -88,8 +89,9 @@ export function Contact() {
                 </dd>
               </div>
             </dl>
-          </div>
+          </Reveal>
 
+          <Reveal variant="right" delay={120}>
           <form onSubmit={handleSubmit} className="grid gap-9 sm:grid-cols-2">
             <label className="block">
               <span className="mb-3 block text-[9px] uppercase tracking-[0.22em] text-muted">Nome</span>
@@ -152,6 +154,7 @@ export function Contact() {
               </p>
             </div>
           </form>
+          </Reveal>
         </div>
       </div>
     </section>

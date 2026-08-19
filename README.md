@@ -16,8 +16,8 @@ npm run build   # build de produção
 
 | Rota | O que é |
 | --- | --- |
-| `/` | Home: hero com busca, sobre, portfólio, consultoria, captação de vendedores, depoimentos, newsletter, contato |
-| `/imoveis` | Catálogo com filtros por tipo, bairro, faixa de valor e quartos, mais ordenação. Os filtros vivem na URL, então cada combinação é um link compartilhável |
+| `/` | Home: hero com busca, bifurcação comprar/vender, sobre, portfólio, atalhos por bairro, consultoria, captação de vendedores, depoimentos, newsletter, contato |
+| `/imoveis` | Catálogo com filtros por tipo, bairro, faixa de valor e quartos, ordenação e paginação (9 por página). Os filtros vivem na URL, então cada combinação é um link compartilhável |
 | `/imoveis/[slug]` | Página do imóvel: galeria, ficha técnica, diferenciais e painel de contato fixo |
 | `/vender` | Funil de proprietários: avaliação gratuita em formulário de 3 etapas, argumentos, processo em 4 passos e FAQ |
 
@@ -38,6 +38,21 @@ A partir daí, todo push no branch padrão vira deploy de produção, e todo bra
 - **Branch de produção**: hoje o branch padrão do repositório é `claude/website-inspiration-improvements-ge6ecl`, porque foi o primeiro a existir. A Vercel usa o branch padrão como produção. Se preferir um nome convencional, crie um `main` a partir dele e troque o padrão em Settings → Branches no GitHub **antes** de importar.
 - **URL do site**: enquanto não houver domínio próprio, as tags de Open Graph e o `sitemap.xml` usam automaticamente a URL da Vercel (via `VERCEL_PROJECT_PRODUCTION_URL`). Quando apontar o domínio, defina `NEXT_PUBLIC_SITE_URL=https://seudominio.com.br` nas variáveis de ambiente do projeto e tudo passa a apontar para ele.
 - **Imagens**: `images.unsplash.com` está liberado no `next.config.mjs`. Ao trocar pelas fotos reais, ajuste `remotePatterns` para o domínio de onde elas vierem — ou coloque os arquivos em `public/` e use caminhos locais.
+
+## Animação de entrada
+
+`components/Reveal.tsx` concentra a revelação ao rolar. Três peças:
+
+- **`<Reveal variant="up|down|left|right|scale|clip">`** — um elemento.
+- **`<RevealGroup step={90}>`** — escalona o atraso entre os filhos, que é o que faz uma grade parecer intencional em vez de piscar inteira.
+- **`<ScrollProgress />`** — barra fina de progresso no topo.
+
+Duas decisões que evitam as armadilhas conhecidas de bibliotecas como a AOS:
+
+1. **O CSS que esconde vive dentro de `@media (prefers-reduced-motion: no-preference)`.** Se o JS não carregar, ou o usuário pedir menos movimento, o conteúdo já nasce visível — a página nunca fica em branco.
+2. **`overflow-x: clip` fica no `body`, não no `html`.** As variantes laterais deslocam o elemento para fora da viewport e criavam barra de rolagem horizontal no mobile. No `html`, porém, a contenção altera o cálculo do IntersectionObserver e os reveals param de disparar. Em telas estreitas as variantes laterais viram deslocamento vertical.
+
+Os números do hero usam `<CountUp />`, que renderiza o valor final no servidor e só então anima — sem JS, o número correto já está lá.
 
 ## Painel de administração
 
@@ -80,6 +95,7 @@ Ambas são públicas por natureza — quem protege os dados é a RLS, não o seg
 ## Onde mexer
 
 - **`lib/site.ts`** — marca, contato, WhatsApp, CRECI, redes e números de prova social. Alterar aqui reflete em todo o site (header, footer, metadata, mensagens de WhatsApp).
+- **`components/Reveal.tsx`** — animação de entrada; `components/PropertySpecs.tsx` — linha de ícones dos cards.
 - **`lib/properties.ts`** — tipos, rótulos e formatadores do domínio. Os imóveis em si ficam no banco, editados pelo painel.
 - **`lib/queries.ts`** — leitura dos imóveis; `app/admin/actions.ts` concentra a escrita.
 - **`app/globals.css`** — tokens de cor, tipografia e espaçamento.

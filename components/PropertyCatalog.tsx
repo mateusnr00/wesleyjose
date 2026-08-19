@@ -1,8 +1,9 @@
 "use client"
 
 import { useRouter, useSearchParams } from "next/navigation"
-import { useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { PropertyCard } from "./PropertyCard"
+import { RevealGroup } from "./Reveal"
 import {
   districtsOf,
   kindLabels,
@@ -51,6 +52,9 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
     router.replace(`/imoveis${next.size ? `?${next}` : ""}`, { scroll: false })
   }
 
+  const PER_PAGE = 9
+  const [page, setPage] = useState(1)
+
   const results = useMemo(() => {
     const [min, max] = parseBand(band)
 
@@ -84,6 +88,20 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
 
     return ordered
   }, [properties, kind, district, band, bedrooms, sort])
+
+  // Trocar de filtro deve voltar para a primeira página; ficar na página 3 de
+  // um resultado que agora tem 4 itens mostraria uma lista vazia.
+  useEffect(() => {
+    setPage(1)
+  }, [kind, district, band, bedrooms, sort])
+
+  const totalPages = Math.max(1, Math.ceil(results.length / PER_PAGE))
+  const visible = results.slice((page - 1) * PER_PAGE, page * PER_PAGE)
+
+  function goTo(next: number) {
+    setPage(next)
+    document.getElementById("resultados")?.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
 
   const selectClass =
     "w-full appearance-none border border-line bg-transparent px-4 py-3 text-[12px] outline-none transition-colors focus:border-gold"
@@ -146,7 +164,7 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
         </Filter>
       </div>
 
-      <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+      <div id="resultados" className="mt-8 flex flex-wrap items-center justify-between gap-4 scroll-mt-32">
         <p className="text-[11px] uppercase tracking-[0.18em] text-muted" role="status" aria-live="polite">
           {results.length} {results.length === 1 ? "imóvel encontrado" : "imóveis encontrados"}
         </p>
@@ -163,11 +181,45 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
       </div>
 
       {results.length > 0 ? (
-        <div className="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-          {results.map((property, index) => (
-            <PropertyCard key={property.slug} property={property} priority={index < 3} />
-          ))}
-        </div>
+        <>
+          <div className="mt-12 grid items-stretch gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+            {/* `key` na página força o reveal a rodar de novo a cada troca. */}
+            <RevealGroup key={`${page}-${kind}-${district}-${band}-${bedrooms}-${sort}`} variant="up" step={70}>
+              {visible.map((property, index) => (
+                <PropertyCard key={property.slug} property={property} priority={page === 1 && index < 3} />
+              ))}
+            </RevealGroup>
+          </div>
+
+          {totalPages > 1 && (
+            <nav
+              aria-label="Paginação dos resultados"
+              className="mt-16 flex items-center justify-between border-t border-line pt-8"
+            >
+              <button
+                type="button"
+                onClick={() => goTo(page - 1)}
+                disabled={page === 1}
+                className="text-[10px] uppercase tracking-[0.2em] text-muted transition-colors enabled:hover:text-graphite disabled:opacity-30"
+              >
+                ← Anterior
+              </button>
+
+              <span className="text-[10px] uppercase tracking-[0.2em] text-muted">
+                Página {page} de {totalPages}
+              </span>
+
+              <button
+                type="button"
+                onClick={() => goTo(page + 1)}
+                disabled={page === totalPages}
+                className="text-[10px] uppercase tracking-[0.2em] text-muted transition-colors enabled:hover:text-graphite disabled:opacity-30"
+              >
+                Próxima →
+              </button>
+            </nav>
+          )}
+        </>
       ) : (
         <div className="mt-16 border border-line px-8 py-20 text-center">
           <p className="display text-2xl">Nenhum imóvel com esses critérios.</p>

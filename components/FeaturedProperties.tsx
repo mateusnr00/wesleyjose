@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { PropertyCard } from "./PropertyCard"
-import { Reveal } from "./Reveal"
+import { Reveal, RevealGroup } from "./Reveal"
 import type { Property } from "@/lib/properties"
 
 export function FeaturedProperties({ properties }: { properties: Property[] }) {
@@ -23,12 +23,12 @@ export function FeaturedProperties({ properties }: { properties: Property[] }) {
           </div>
         </Reveal>
 
-        <div className="mt-16 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-          {properties.map((property, index) => (
-            <Reveal key={property.slug} delay={(index % 3) * 100}>
-              <PropertyCard property={property} priority={index < 3} />
-            </Reveal>
-          ))}
+        <div className="mt-16 grid items-stretch gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          <RevealGroup variant="up" step={90}>
+            {properties.map((property, index) => (
+              <PropertyCard key={property.slug} property={property} priority={index < 3} />
+            ))}
+          </RevealGroup>
         </div>
 
         <Reveal>

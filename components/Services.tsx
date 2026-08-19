@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useState } from "react"
+import { Reveal, RevealGroup } from "./Reveal"
 
 const services = [
   {
@@ -40,12 +41,15 @@ export function Services() {
   return (
     <section id="consultoria" className="py-section">
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
-        <p className="eyebrow">Consultoria</p>
-        <h2 className="display mt-7 max-w-md text-[2.25rem] lg:text-[3rem]">
-          Quatro frentes, <em>uma só</em> consultoria.
-        </h2>
+        <Reveal variant="left">
+          <p className="eyebrow">Consultoria</p>
+          <h2 className="display mt-7 max-w-md text-[2.25rem] lg:text-[3rem]">
+            Quatro frentes, <em>uma só</em> consultoria.
+          </h2>
+        </Reveal>
 
         <div className="mt-16 border-t border-line">
+          <RevealGroup variant="up" step={80}>
           {services.map((service, index) => {
             const isOpen = active === index
 
@@ -95,6 +99,7 @@ export function Services() {
               </div>
             )
           })}
+          </RevealGroup>
         </div>
       </div>
     </section>

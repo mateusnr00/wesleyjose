@@ -8,6 +8,7 @@ As migrações abaixo já estão aplicadas no projeto **Premium Imoveis** (`anwz
 | `20260819212950_create_imoveis_storage_bucket` | Bucket `imoveis` no Storage e suas policies |
 | `20260819213112_restrict_writes_to_admin_allowlist` | Tabela `admins` e `is_admin()`; escrita passa a exigir allowlist |
 | `20260819214012_tighten_function_grants` | Revoga `EXECUTE` das funções `SECURITY DEFINER` de quem não precisa |
+| `20260819221500_add_property_reference_code` | Coluna `reference` com código curto (`PR0101`) gerado por sequência |
 
 ## Dar acesso a mais alguém
 

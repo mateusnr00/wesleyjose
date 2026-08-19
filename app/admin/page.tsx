@@ -102,7 +102,8 @@ export default async function AdminHome({
                 </div>
 
                 <p className="mt-1 truncate text-[11px] uppercase tracking-[0.14em] text-muted">
-                  {kindLabels[property.kind]} · {property.district} · {statusLabels[property.status]}
+                  <span className="text-muted-light">{property.reference}</span> · {kindLabels[property.kind]} ·{" "}
+                  {property.district} · {statusLabels[property.status]}
                 </p>
                 <p className="mt-1 text-[13px]">
                   {formatPrice(property.price)} · {property.area} m²

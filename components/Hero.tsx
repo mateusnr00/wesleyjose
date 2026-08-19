@@ -1,6 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
+import { CountUp } from "./CountUp"
 import { PropertySearch } from "./PropertySearch"
+import { Reveal } from "./Reveal"
 import { placeholderImage, type Property } from "@/lib/properties"
 import { site, whatsappLink } from "@/lib/site"
 
@@ -11,7 +13,7 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
         <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-20">
           {/* Coluna editorial */}
-          <div className="max-w-xl">
+          <Reveal variant="left" className="max-w-xl">
             <p className="eyebrow">Consultoria imobiliária · Goiânia</p>
 
             <h1 className="display mt-8 text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem]">
@@ -47,7 +49,9 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
                 <div key={stat.label}>
                   <dt className="sr-only">{stat.label}</dt>
                   <dd>
-                    <span className="display block text-2xl lg:text-[1.75rem]">{stat.value}</span>
+                    <span className="display block text-2xl lg:text-[1.75rem]">
+                      <CountUp value={stat.value} />
+                    </span>
                     <span className="mt-2 block text-[10px] uppercase tracking-[0.16em] text-muted">
                       {stat.label}
                     </span>
@@ -55,11 +59,11 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
                 </div>
               ))}
             </dl>
-          </div>
+          </Reveal>
 
           {/* Imagem de destaque com etiqueta do imóvel */}
           {spotlight && (
-            <div className="relative">
+            <Reveal variant="clip" delay={150} duration={1200} className="relative">
               <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[5/4] lg:aspect-[4/5]">
                 <Image
                   src={spotlight.image || placeholderImage}
@@ -88,14 +92,14 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
                   </span>
                 </span>
               </Link>
-            </div>
+            </Reveal>
           )}
         </div>
 
         {/* Busca com filtros — atalho para o catálogo */}
-        <div className="relative z-10 mt-16 lg:-mt-4 lg:mb-4">
+        <Reveal variant="up" delay={250} className="relative z-10 mt-16 lg:-mt-4 lg:mb-4">
           <PropertySearch districts={districts} />
-        </div>
+        </Reveal>
       </div>
     </section>
   )

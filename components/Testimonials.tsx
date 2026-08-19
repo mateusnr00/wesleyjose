@@ -28,7 +28,7 @@ export function Testimonials() {
     <section className="bg-navy py-section text-cream">
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-24">
-          <Reveal>
+          <Reveal variant="left">
             <p className="eyebrow text-cream/60">Clientes</p>
             <h2 className="display mt-7 max-w-sm text-[2.25rem] text-cream lg:text-[3rem]">
               Relações que <em>permanecem</em> depois das chaves.
@@ -41,7 +41,7 @@ export function Testimonials() {
 
           <div className="space-y-5">
             {testimonials.map((item, index) => (
-              <Reveal key={item.author} delay={index * 110}>
+              <Reveal key={item.author} variant="right" delay={index * 120}>
                 <figure className="bg-navy-soft p-8 lg:p-10">
                   <div className="flex gap-1 text-gold-soft" aria-label="Avaliação: 5 de 5">
                     {Array.from({ length: 5 }).map((_, i) => (

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
 import { PropertyCard } from "@/components/PropertyCard"
+import { Reveal, RevealGroup, ScrollProgress } from "@/components/Reveal"
 import { WhatsAppFloat } from "@/components/WhatsAppFloat"
 import { formatPrice, kindLabels, placeholderImage, statusLabels } from "@/lib/properties"
 import { getProperties, getProperty } from "@/lib/queries"
@@ -49,6 +50,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
 
   return (
     <>
+      <ScrollProgress />
       <Header />
 
       <main id="conteudo" className="pt-32 lg:pt-40">
@@ -78,6 +80,9 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
                 <span className="border border-line px-3 py-1.5 text-[9px] uppercase tracking-[0.18em] text-muted">
                   {statusLabels[property.status]}
                 </span>
+                <span className="ml-auto text-[10px] tracking-[0.18em] text-muted-light">
+                  Ref. {property.reference}
+                </span>
               </div>
 
               <h1 className="display mt-6 text-[2.5rem] lg:text-[3.5rem]">{property.name}</h1>
@@ -93,7 +98,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
         {/* Galeria: destaque grande + secundárias */}
         <div className="mx-auto mt-12 max-w-[1360px] px-6 lg:px-12">
           <div className="grid gap-3 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-            <div className="relative aspect-[4/3] w-full overflow-hidden bg-cream-deep lg:aspect-[3/2]">
+            <Reveal variant="clip" duration={1200} className="relative aspect-[4/3] w-full overflow-hidden bg-cream-deep lg:aspect-[3/2]">
               <Image
                 src={property.image || placeholderImage}
                 unoptimized={!property.image}
@@ -103,11 +108,17 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
                 sizes="(max-width: 1024px) 100vw, 66vw"
                 className="object-cover"
               />
-            </div>
+            </Reveal>
 
             <div className="grid gap-3">
               {property.gallery.slice(0, 2).map((src, index) => (
-                <div key={src} className="relative aspect-[4/3] w-full overflow-hidden bg-cream-deep">
+                <Reveal
+                  key={src}
+                  variant="clip"
+                  duration={1200}
+                  delay={150 + index * 150}
+                  className="relative aspect-[4/3] w-full overflow-hidden bg-cream-deep"
+                >
                   <Image
                     src={src}
                     alt={`${property.name} — ambiente ${index + 1}`}
@@ -115,7 +126,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
                     sizes="(max-width: 1024px) 100vw, 33vw"
                     className="object-cover"
                   />
-                </div>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -202,10 +213,12 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
               </Link>
             </div>
 
-            <div className="mt-14 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
-              {others.map((item) => (
-                <PropertyCard key={item.slug} property={item} />
-              ))}
+            <div className="mt-14 grid items-stretch gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+              <RevealGroup variant="up" step={100}>
+                {others.map((item) => (
+                  <PropertyCard key={item.slug} property={item} />
+                ))}
+              </RevealGroup>
             </div>
           </div>
         </section>
