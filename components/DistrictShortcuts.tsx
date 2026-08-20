@@ -11,7 +11,7 @@ import { placeholderImage, type Property } from "@/lib/properties"
  * geram URLs indexáveis por bairro.
  */
 export function DistrictShortcuts({ properties }: { properties: Property[] }) {
-  // Um card por bairro, ilustrado pelo imóvel mais caro dali — é o que melhor
+  // Um card por bairro, ilustrado pelo imóvel mais caro dali, que é o que melhor
   // representa o endereço.
   const byDistrict = new Map<string, { image: string | null; count: number }>()
 

@@ -31,7 +31,7 @@ export function SellCta() {
 
             <p className="mt-7 max-w-md text-cream/75">
               Preparamos uma avaliação gratuita com base nas transações reais do seu bairro nos últimos
-              24 meses — não em anúncios. Você recebe a faixa de valor, o tempo médio de venda e a
+              24 meses, não em anúncios. Você recebe a faixa de valor, o tempo médio de venda e a
               estratégia que recomendamos. Sem compromisso e sem placa na fachada.
             </p>
 

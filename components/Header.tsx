@@ -147,7 +147,7 @@ export function Header() {
 
       {/*
         Painel em tela cheia, revelado por clip-path a partir da direita.
-        O fundo é opaco desde o primeiro quadro — animar a opacidade do painel
+        O fundo é opaco desde o primeiro quadro; animar a opacidade do painel
         inteiro deixava a página aparecendo por trás durante a transição.
       */}
       <div

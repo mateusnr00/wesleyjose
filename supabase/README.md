@@ -20,7 +20,7 @@ insert into public.admins (user_id, email)
 select id, email from auth.users where email = 'pessoa@exemplo.com';
 ```
 
-Sem o passo 2 a pessoa consegue logar, mas não escreve nada — nem no banco, nem no Storage.
+Sem o passo 2 a pessoa consegue logar, mas não escreve nada, nem no banco, nem no Storage.
 
 ## Verificando a RLS
 

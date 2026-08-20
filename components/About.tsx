@@ -53,7 +53,7 @@ export function About() {
               <p>
                 A {site.name} nasceu de uma inconformidade simples: imóvel de alto padrão continua sendo
                 vendido como commodity, empilhado em portal, com foto ruim e informação incompleta. Quem
-                compra nessa faixa não precisa de mais opções — precisa das opções certas.
+                compra nessa faixa não precisa de mais opções, precisa das opções certas.
               </p>
               <p>
                 Trabalhamos com um número deliberadamente pequeno de imóveis por vez. Isso permite conhecer

@@ -5,7 +5,7 @@ import { cookies } from "next/headers"
  * Cliente Supabase para Server Components, Server Actions e Route Handlers.
  *
  * A sessão vive em cookie. Em Server Components o Next não permite escrever
- * cookies, então `setAll` falha silenciosamente ali — o middleware é quem
+ * cookies, então `setAll` falha silenciosamente ali. O middleware é quem
  * renova a sessão, e é por isso que ele precisa existir.
  */
 export async function createClient() {

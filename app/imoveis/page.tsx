@@ -32,7 +32,7 @@ export default async function PropertiesPage() {
           </h1>
 
           <p className="mt-7 max-w-lg text-muted">
-            O que está aqui já passou pela nossa verificação. O que não está — e é boa parte —
+            O que está aqui já passou pela nossa verificação. O que não está (e é boa parte)
             está em negociação reservada: fale com a {site.name} para saber.
           </p>
 

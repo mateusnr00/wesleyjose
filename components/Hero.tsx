@@ -95,7 +95,7 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
           )}
         </div>
 
-        {/* Busca com filtros — atalho para o catálogo */}
+        {/* Busca com filtros, atalho para o catálogo */}
         <div className="enter-up enter-delay-2 relative z-10 mt-16 lg:-mt-4 lg:mb-4">
           <PropertySearch districts={districts} />
         </div>

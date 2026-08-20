@@ -5,7 +5,7 @@ import { baseUrl } from "@/lib/url"
 import "./globals.css"
 
 /**
- * Uma família só, servida pelo próprio domínio, na versão variável — um
+ * Uma família só, servida pelo próprio domínio, na versão variável: um
  * arquivo cobre todos os pesos, o que sai menor que vários estáticos.
  *
  * Antes as fontes vinham por <link> para o Google Fonts, o que custava uma
@@ -15,7 +15,7 @@ import "./globals.css"
  *
  * A Cormorant Garamond, que fazia os títulos, saiu por um defeito concreto:
  * ela desenha o circunflexo de "ê" e "â" solto e alto demais, então
- * "Residência" e "Goiânia" — que aparecem em quase todo título deste site —
+ * "Residência" e "Goiânia", que aparecem em quase todo título deste site,
  * saíam com o acento descolado da letra. Não é o subconjunto de caracteres:
  * testei com latin-ext e o desenho é o mesmo. A hierarquia que a serifa fazia
  * passou a ser peso e tamanho.
@@ -29,8 +29,8 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl()),
   title: {
-    default: `${site.name} — ${site.tagline}`,
-    template: `%s — ${site.name}`,
+    default: `${site.name} · ${site.tagline}`,
+    template: `%s · ${site.name}`,
   },
   description: site.description,
   openGraph: {
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     url: baseUrl(),
     siteName: site.name,
-    title: `${site.name} — ${site.tagline}`,
+    title: `${site.name} · ${site.tagline}`,
     description: site.description,
   },
   robots: { index: true, follow: true },

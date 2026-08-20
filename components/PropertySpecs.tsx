@@ -64,7 +64,7 @@ export function PropertySpecs({
           </span>
           {/* Com unidade, o rótulo existe só para leitor de tela ("620 m²" já se
               explica visualmente). Sem unidade, o próprio rótulo é o texto
-              visível — renderizar os dois faria o leitor dizer "4 quartos quartos". */}
+              visível, e renderizar os dois faria o leitor dizer "4 quartos quartos". */}
           {spec.unit ? <span className="sr-only">{spec.label}</span> : <span>{spec.label}</span>}
         </li>
       ))}

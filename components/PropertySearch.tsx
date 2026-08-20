@@ -13,7 +13,7 @@ const priceBands = [
 ]
 
 /**
- * Busca rápida do hero. Não filtra localmente — monta a query e delega
+ * Busca rápida do hero. Não filtra localmente: monta a query e delega
  * para /imoveis, que é a página que sabe filtrar (e é linkável/compartilhável).
  */
 export function PropertySearch({

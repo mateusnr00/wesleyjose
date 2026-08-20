@@ -102,7 +102,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
               <Image
                 src={property.image || placeholderImage}
                 unoptimized={!property.image}
-                alt={`${property.name} — fachada`}
+                alt={`${property.name}, fachada`}
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 66vw"
@@ -121,7 +121,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
                 >
                   <Image
                     src={src}
-                    alt={`${property.name} — ambiente ${index + 1}`}
+                    alt={`${property.name}, ambiente ${index + 1}`}
                     fill
                     sizes="(max-width: 1024px) 100vw, 33vw"
                     className="object-cover"

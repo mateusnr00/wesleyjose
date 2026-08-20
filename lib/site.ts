@@ -21,7 +21,7 @@ export const site = {
   },
 
   contact: {
-    // Formato E.164, sem máscara — usado nos links de WhatsApp e tel:
+    // Formato E.164, sem máscara, usado nos links de WhatsApp e tel:
     whatsapp: "5562000000000", // TODO(cliente): número real
     whatsappDisplay: "(62) 0000-0000",
     email: "contato@premiumimoveis.com.br",

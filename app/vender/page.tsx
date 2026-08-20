@@ -21,7 +21,7 @@ const reasons = [
   {
     value: "24 meses",
     label: "de transações reais analisadas",
-    text: "A faixa de valor vem do que de fato foi negociado no seu bairro — não do preço pedido em anúncio, que costuma estar 15% acima do fechamento.",
+    text: "A faixa de valor vem do que de fato foi negociado no seu bairro, não do preço pedido em anúncio, que costuma estar 15% acima do fechamento.",
   },
   {
     value: "68 dias",
@@ -58,7 +58,7 @@ const faq = [
   {
     question: "A avaliação tem algum custo?",
     answer:
-      "Não. O estudo é gratuito e não gera obrigação de vender conosco. Muitos proprietários pedem a avaliação apenas para entender o próprio patrimônio — e isso é legítimo.",
+      "Não. O estudo é gratuito e não gera obrigação de vender conosco. Muitos proprietários pedem a avaliação apenas para entender o próprio patrimônio, e isso é legítimo.",
   },
   {
     question: "Preciso assinar exclusividade?",
@@ -68,7 +68,7 @@ const faq = [
   {
     question: "Qual é a comissão?",
     answer:
-      "Seguimos a tabela do CRECI-GO para imóveis urbanos. O percentual exato é definido no contrato, junto com o que está incluso — e nada é cobrado antes do fechamento.",
+      "Seguimos a tabela do CRECI-GO para imóveis urbanos. O percentual exato é definido no contrato, junto com o que está incluso, e nada é cobrado antes do fechamento.",
   },
   {
     question: "Meu imóvel vai aparecer em portal?",
@@ -93,7 +93,7 @@ export default async function SellPage() {
       <Header />
 
       <main id="conteudo">
-        {/* Topo com formulário logo de cara — o objetivo da página é uma conversão só */}
+        {/* Topo com formulário logo de cara: o objetivo da página é uma conversão só */}
         <section className="pt-36 lg:pt-44">
           <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
             <div className="grid items-start gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:gap-20">

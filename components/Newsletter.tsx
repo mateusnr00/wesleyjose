@@ -12,7 +12,7 @@ export function Newsletter() {
   /**
    * Sem backend: o cadastro só ecoa na interface.
    * TODO(cliente): plugar num provedor real (Resend, Brevo, RD Station) via
-   * server action antes de publicar — hoje o e-mail digitado não é persistido.
+   * server action antes de publicar. Hoje o e-mail digitado não é persistido.
    */
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault()

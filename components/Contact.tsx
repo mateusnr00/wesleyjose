@@ -55,7 +55,7 @@ export function Contact() {
 
             <p className="mt-8 max-w-sm text-muted">
               Responder uma mensagem leva menos tempo do que percorrer trinta anúncios. Conte o que você
-              precisa e a gente volta com uma lista curta — ou com a informação de que ainda não é hora
+              precisa e a gente volta com uma lista curta, ou com a informação de que ainda não é hora
               de comprar.
             </p>
 

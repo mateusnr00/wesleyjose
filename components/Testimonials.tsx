@@ -11,7 +11,7 @@ const testimonials = [
   },
   {
     quote:
-      "É raro encontrar corretor que entenda patrimônio. Aqui pensam como sócio do cliente — inclusive quando a recomendação é não comprar.",
+      "É raro encontrar corretor que entenda patrimônio. Aqui pensam como sócio do cliente, inclusive quando a recomendação é não comprar.",
     author: "Amauri Antunes",
     role: "Investidor · Jardim Goiás",
   },
