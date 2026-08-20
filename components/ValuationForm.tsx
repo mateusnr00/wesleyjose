@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import { kindLabels, type PropertyKind } from "@/lib/properties"
-import { site, whatsappLink } from "@/lib/site"
+import { useSite } from "./SiteContext"
+import { waLink } from "@/lib/whatsapp"
 
 type Data = {
   kind: string
@@ -20,26 +21,28 @@ const steps = [
   { title: "Seu contato", hint: "Para onde enviamos" },
 ]
 
-const timings = [
-  "O quanto antes",
-  "Nos próximos 3 meses",
-  "Ainda este ano",
-  "Só quero saber o valor",
-]
 
 /**
  * Formulário de avaliação em três passos. Passos curtos reduzem o abandono:
  * o proprietário só chega no campo de telefone depois de já ter investido
  * algum esforço no preenchimento.
  */
-export function ValuationForm({ districts }: { districts: string[] }) {
+export function ValuationForm({
+  districts,
+  prazos,
+}: {
+  districts: string[]
+  prazos: { id: string; label?: string }[]
+}) {
+  const site = useSite()
+  const timings = prazos.map((p) => p.label ?? "").filter(Boolean)
   const [step, setStep] = useState(0)
   const [data, setData] = useState<Data>({
     kind: "",
     district: "",
     area: "",
     bedrooms: "",
-    timing: timings[0],
+    timing: timings[0] ?? "",
     name: "",
     phone: "",
   })
@@ -74,7 +77,7 @@ export function ValuationForm({ districts }: { districts: string[] }) {
       .filter(Boolean)
       .join("\n")
 
-    window.open(whatsappLink(text), "_blank", "noopener,noreferrer")
+    window.open(waLink(site.whatsapp, text), "_blank", "noopener,noreferrer")
   }
 
   const inputClass =

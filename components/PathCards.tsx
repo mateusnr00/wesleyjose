@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { Destaque } from "./Destaque"
 import { Reveal, RevealGroup } from "./Reveal"
 
 /**
@@ -8,33 +9,18 @@ import { Reveal, RevealGroup } from "./Reveal"
  * O site inteiro conversa com o comprador; sem esta divisão, o proprietário
  * que chegou pelo Instagram tem de deduzir sozinho que também é atendido.
  */
-const paths = [
-  {
-    label: "Quero comprar",
-    title: "Encontrar o imóvel certo",
-    text: "Portfólio verificado, mais o estoque off-market que não vai a portal nenhum.",
-    href: "/imoveis",
-    cta: "Ver imóveis",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    label: "Quero vender",
-    title: "Saber quanto vale o meu",
-    text: "Avaliação gratuita em 48h, com base em transações fechadas do seu bairro.",
-    href: "/vender",
-    cta: "Avaliar meu imóvel",
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
-  },
-]
+type Caminho = { id: string; label?: string; title?: string; text?: string; href?: string; cta?: string; image?: string }
 
-export function PathCards() {
+export function PathCards({ block, paths }: { block: Record<string, string>; paths: Caminho[] }) {
+  if (paths.length === 0) return null
+
   return (
     <section className="py-section">
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
         <Reveal>
-          <p className="eyebrow">Por onde começar</p>
+          <p className="eyebrow">{block.eyebrow}</p>
           <h2 className="display mt-6 max-w-lg text-[2rem] lg:text-[2.75rem]">
-            Dois caminhos, a <em>mesma</em> consultoria.
+            <Destaque>{block.title}</Destaque>
           </h2>
         </Reveal>
 
@@ -42,12 +28,12 @@ export function PathCards() {
           <RevealGroup variant="up" step={130}>
             {paths.map((path) => (
               <Link
-                key={path.href}
-                href={path.href}
+                key={path.id}
+                href={path.href ?? "/"}
                 className="group relative flex min-h-[22rem] flex-col justify-end overflow-hidden bg-graphite p-8 lg:min-h-[26rem] lg:p-10"
               >
                 <Image
-                  src={path.image}
+                  src={path.image ?? ""}
                   alt=""
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"

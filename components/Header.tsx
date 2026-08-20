@@ -4,12 +4,15 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { Logo } from "./Logo"
-import { nav, site, whatsappLink } from "@/lib/site"
+import { useSite } from "./SiteContext"
+import { waLink } from "@/lib/whatsapp"
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
+  const site = useSite()
+  const nav = site.nav
   const panelRef = useRef<HTMLDivElement>(null)
   const toggleRef = useRef<HTMLButtonElement>(null)
 
@@ -104,7 +107,7 @@ export function Header() {
 
           <div className="flex items-center gap-4">
             <a
-              href={whatsappLink(`Olá! Vim pelo site da ${site.name} e gostaria de falar com um consultor.`)}
+              href={waLink(site.whatsapp, `Olá! Vim pelo site da ${site.name} e gostaria de falar com um consultor.`)}
               target="_blank"
               rel="noopener noreferrer"
               className={`hidden border border-graphite/25 px-6 py-3 text-[10px] uppercase tracking-[0.2em] transition-all hover:border-graphite hover:bg-graphite hover:text-cream lg:inline-block ${
@@ -203,7 +206,7 @@ export function Header() {
             }}
           >
             <a
-              href={whatsappLink(`Olá! Vim pelo site da ${site.name}.`)}
+              href={waLink(site.whatsapp, `Olá! Vim pelo site da ${site.name}.`)}
               target="_blank"
               rel="noopener noreferrer"
               className="block bg-graphite px-6 py-4 text-center text-[10px] uppercase tracking-[0.2em] text-cream"
@@ -212,16 +215,16 @@ export function Header() {
             </a>
 
             <div className="mt-7 flex flex-wrap items-center justify-between gap-3 text-[11px] text-muted">
-              <a href={`mailto:${site.contact.email}`} className="tap hover:text-graphite">
-                {site.contact.email}
+              <a href={`mailto:${site.email}`} className="tap hover:text-graphite">
+                {site.email}
               </a>
               <a
-                href={site.social.instagram}
+                href={site.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="tap hover:text-graphite"
               >
-                {site.social.instagramHandle}
+                {site.instagramHandle}
               </a>
             </div>
           </div>

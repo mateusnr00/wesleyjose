@@ -1,8 +1,11 @@
 import Link from "next/link"
 import { Footer } from "@/components/Footer"
 import { Header } from "@/components/Header"
+import { getSiteContent, t } from "@/lib/content"
 
-export default function NotFound() {
+export default async function NotFound() {
+  const c = await getSiteContent()
+
   return (
     <>
       <Header />
@@ -30,7 +33,7 @@ export default function NotFound() {
           </div>
         </div>
       </main>
-      <Footer />
+      <Footer text={t(c, "rodape", "text")} legal={t(c, "rodape", "legal")} />
     </>
   )
 }

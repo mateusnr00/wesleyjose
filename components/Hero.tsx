@@ -1,11 +1,27 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
 import { CountUp } from "./CountUp"
+import { Destaque } from "./Destaque"
 import { PropertySearch } from "./PropertySearch"
+import { useSite } from "./SiteContext"
+import { waLink } from "@/lib/whatsapp"
 import { placeholderImage, type Property } from "@/lib/properties"
-import { site, whatsappLink } from "@/lib/site"
 
-export function Hero({ spotlight, districts }: { spotlight?: Property; districts: string[] }) {
+export function Hero({
+  block,
+  stats,
+  spotlight,
+  districts,
+}: {
+  block: Record<string, string>
+  stats: { id: string; value?: string; label?: string }[]
+  spotlight?: Property
+  districts: string[]
+}) {
+  const site = useSite()
+
 
   return (
     <section className="relative overflow-hidden pt-32 lg:pt-40">
@@ -13,16 +29,14 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
         <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-20">
           {/* Coluna editorial */}
           <div className="enter-up max-w-xl">
-            <p className="eyebrow">Consultoria imobiliária · Goiânia</p>
+            <p className="eyebrow">{block.eyebrow}</p>
 
             <h1 className="display mt-8 text-[2.75rem] sm:text-[3.5rem] lg:text-[4rem]">
-              Imóveis que representam o seu <em>próximo nível</em>.
+              <Destaque>{block.title}</Destaque>
             </h1>
 
             <p className="mt-8 max-w-md text-muted">
-              Curadoria de residências, coberturas e lançamentos que não chegam aos portais.
-              Cada indicação passa por análise de projeto, documentação e potencial de valorização
-              antes de virar uma visita.
+{block.text}
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -30,26 +44,26 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
                 href="/imoveis"
                 className="bg-graphite px-8 py-4 text-[10px] uppercase tracking-[0.2em] text-cream transition-colors hover:bg-gold"
               >
-                Ver imóveis
+                {block.ctaPrimary}
               </Link>
               <a
-                href={whatsappLink(`Olá! Vim pelo site da ${site.name} e quero conversar sobre um imóvel.`)}
+                href={waLink(site.whatsapp, `Olá! Vim pelo site da ${site.name} e quero conversar sobre um imóvel.`)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border border-graphite/25 px-8 py-4 text-[10px] uppercase tracking-[0.2em] transition-colors hover:border-graphite"
               >
-                Falar no WhatsApp
+                {block.ctaSecondary}
               </a>
             </div>
 
             {/* Prova social numérica */}
             <dl className="mt-14 grid grid-cols-3 gap-6 border-t border-line pt-8">
-              {site.stats.map((stat) => (
-                <div key={stat.label}>
+              {stats.map((stat) => (
+                <div key={stat.id}>
                   <dt className="sr-only">{stat.label}</dt>
                   <dd>
                     <span className="display block text-2xl lg:text-[1.75rem]">
-                      <CountUp value={stat.value} />
+                      <CountUp value={stat.value ?? ""} />
                     </span>
                     <span className="mt-2 block text-[10px] uppercase tracking-[0.16em] text-muted">
                       {stat.label}
@@ -79,7 +93,7 @@ export function Hero({ spotlight, districts }: { spotlight?: Property; districts
                 href={`/imoveis/${spotlight.slug}`}
                 className="group absolute bottom-6 left-6 max-w-[15rem] bg-cream/95 p-6 backdrop-blur-sm transition-transform duration-500 hover:-translate-y-1"
               >
-                <span className="text-[9px] uppercase tracking-[0.22em] text-gold-deep">Em destaque</span>
+                <span className="text-[9px] uppercase tracking-[0.22em] text-gold-deep">{block.spotlightLabel}</span>
                 <span className="display mt-2 block text-xl">{spotlight.name}</span>
                 <span className="mt-1 block text-[11px] text-muted">
                   {spotlight.district} · {spotlight.area} m²

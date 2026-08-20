@@ -14,7 +14,8 @@ import { Reveal, RevealGroup, ScrollProgress } from "@/components/Reveal"
 import { WhatsAppFloat } from "@/components/WhatsAppFloat"
 import { formatPrice, kindLabels, placeholderImage, statusLabels } from "@/lib/properties"
 import { getProperties, getProperty } from "@/lib/queries"
-import { site, whatsappLink } from "@/lib/site"
+import { getSiteContent, siteData, t } from "@/lib/content"
+import { waLink } from "@/lib/whatsapp"
 
 export const revalidate = 3600
 
@@ -44,7 +45,9 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
   const property = await getProperty(slug)
   if (!property) notFound()
 
-  const others = (await getProperties()).filter((p) => p.slug !== property.slug).slice(0, 3)
+  const [outros, c] = await Promise.all([getProperties(), getSiteContent()])
+  const site = siteData(c)
+  const others = outros.filter((p) => p.slug !== property.slug).slice(0, 3)
   const fotos = [property.image, ...property.gallery].filter((src): src is string => Boolean(src))
 
   const numeros = [
@@ -112,14 +115,14 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
                   <path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z" />
                   <circle cx="12" cy="10" r="2.6" />
                 </svg>
-                {property.district} · {property.city}/{site.contact.address.state}
+                {property.district} · {property.city}/{site.state}
               </p>
 
               <div className="mt-9 flex flex-wrap items-end gap-x-10 gap-y-6">
                 <p className="display text-[2rem] text-cream lg:text-[2.75rem]">{formatPrice(property.price)}</p>
 
                 <a
-                  href={whatsappLink(mensagem)}
+                  href={waLink(site.whatsapp, mensagem)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-cream px-8 py-4 text-[10px] uppercase tracking-[0.2em] text-graphite transition-colors hover:bg-gold hover:text-cream"
@@ -209,7 +212,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
                   </p>
 
                   <a
-                    href={whatsappLink(mensagem)}
+                    href={waLink(site.whatsapp, mensagem)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-8 block bg-graphite px-6 py-4 text-center text-[10px] uppercase tracking-[0.2em] text-cream transition-colors hover:bg-gold"
@@ -218,14 +221,14 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
                   </a>
 
                   <a
-                    href={`mailto:${site.contact.email}?subject=${encodeURIComponent(`Interesse: ${property.name} (${property.reference})`)}`}
+                    href={`mailto:${site.email}?subject=${encodeURIComponent(`Interesse: ${property.name} (${property.reference})`)}`}
                     className="mt-3 block border border-graphite/25 px-6 py-4 text-center text-[10px] uppercase tracking-[0.2em] transition-colors hover:border-graphite"
                   >
                     Enviar e-mail
                   </a>
 
                   <p className="mt-8 border-t border-line pt-6 text-[11px] text-muted">
-                    {site.founder.name} · {site.founder.creci}
+                    {site.founderName} · {site.creci}
                   </p>
                 </div>
               </aside>
@@ -276,7 +279,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
               <PropertyMap
                 district={property.district}
                 city={property.city}
-                state={site.contact.address.state}
+                state={site.state}
               />
             </Reveal>
           </section>
@@ -313,7 +316,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
         <div aria-hidden="true" className="h-20 lg:hidden" />
       </main>
 
-      <Footer />
+      <Footer text={t(c, "rodape", "text")} legal={t(c, "rodape", "legal")} />
       <WhatsAppFloat hideOnMobile />
       <PropertyActionBar property={property} />
     </>

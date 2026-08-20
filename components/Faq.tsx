@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 
-export function Faq({ items }: { items: { question: string; answer: string }[] }) {
+export function Faq({ items }: { items: { id: string; question?: string; answer?: string }[] }) {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
@@ -11,7 +11,7 @@ export function Faq({ items }: { items: { question: string; answer: string }[] }
         const isOpen = open === index
 
         return (
-          <div key={item.question} className="border-b border-line">
+          <div key={item.id} className="border-b border-line">
             <h3>
               <button
                 type="button"

@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { Destaque } from "./Destaque"
 import { Reveal, RevealGroup } from "./Reveal"
 import { placeholderImage, type Property } from "@/lib/properties"
 
@@ -10,7 +11,7 @@ import { placeholderImage, type Property } from "@/lib/properties"
  * "Marista" ou "Jardim Goiás". Estes atalhos entram nesse vocabulário e ainda
  * geram URLs indexáveis por bairro.
  */
-export function DistrictShortcuts({ properties }: { properties: Property[] }) {
+export function DistrictShortcuts({ block, properties }: { block: Record<string, string>; properties: Property[] }) {
   // Um card por bairro, ilustrado pelo imóvel mais caro dali, que é o que melhor
   // representa o endereço.
   const byDistrict = new Map<string, { image: string | null; count: number }>()
@@ -37,16 +38,16 @@ export function DistrictShortcuts({ properties }: { properties: Property[] }) {
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="eyebrow">Por endereço</p>
+              <p className="eyebrow">{block.eyebrow}</p>
               <h2 className="display mt-6 max-w-md text-[1.75rem] lg:text-[2.25rem]">
-                Onde você quer <em>morar</em>?
+                <Destaque>{block.title}</Destaque>
               </h2>
             </div>
             <Link
               href="/imoveis"
               className="tap underline-grow text-[11px] uppercase tracking-[0.2em] text-muted transition-colors hover:text-graphite"
             >
-              Ver todos os bairros
+              {block.linkLabel}
             </Link>
           </div>
         </Reveal>

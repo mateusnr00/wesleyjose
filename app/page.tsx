@@ -12,6 +12,7 @@ import { SellCta } from "@/components/SellCta"
 import { Services } from "@/components/Services"
 import { Testimonials } from "@/components/Testimonials"
 import { WhatsAppFloat } from "@/components/WhatsAppFloat"
+import { getSiteContent, list, t } from "@/lib/content"
 import { districtsOf } from "@/lib/properties"
 import { getFeaturedProperties, getProperties } from "@/lib/queries"
 
@@ -22,26 +23,31 @@ import { getFeaturedProperties, getProperties } from "@/lib/queries"
 export const revalidate = 3600
 
 export default async function HomePage() {
-  const [all, featured] = await Promise.all([getProperties(), getFeaturedProperties()])
+  const [all, featured, c] = await Promise.all([getProperties(), getFeaturedProperties(), getSiteContent()])
 
   return (
     <>
       <ScrollProgress />
       <Header />
       <main id="conteudo">
-        <Hero spotlight={featured[0]} districts={districtsOf(all)} />
+        <Hero
+          block={c.blocks.home_hero}
+          stats={list(c, "estatisticas")}
+          spotlight={featured[0]}
+          districts={districtsOf(all)}
+        />
         {/* A bifurcação vem cedo: quem quer vender não precisa deduzir que é atendido. */}
-        <PathCards />
-        <About />
-        {featured.length > 0 && <FeaturedProperties properties={featured} />}
-        <DistrictShortcuts properties={all} />
-        <Services />
-        <SellCta />
-        <Testimonials />
-        <Newsletter />
-        <Contact />
+        <PathCards block={c.blocks.home_caminhos} paths={list(c, "caminhos")} />
+        <About block={c.blocks.home_sobre} pillars={list(c, "pilares")} />
+        {featured.length > 0 && <FeaturedProperties block={c.blocks.home_portfolio} properties={featured} />}
+        <DistrictShortcuts block={c.blocks.home_bairros} properties={all} />
+        <Services block={c.blocks.home_consultoria} services={list(c, "consultoria")} />
+        <SellCta block={c.blocks.home_vendedores} />
+        <Testimonials block={c.blocks.home_depoimentos} items={list(c, "depoimentos")} />
+        <Newsletter block={c.blocks.home_boletim} />
+        <Contact block={c.blocks.home_contato} interests={list(c, "contato_interesses")} />
       </main>
-      <Footer />
+      <Footer text={t(c, "rodape", "text")} legal={t(c, "rodape", "legal")} />
       <WhatsAppFloat />
     </>
   )

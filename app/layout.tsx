@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { Plus_Jakarta_Sans } from "next/font/google"
-import { site } from "@/lib/site"
+import { SiteProvider } from "@/components/SiteContext"
+import { getSiteContent, siteData } from "@/lib/content"
 import { baseUrl } from "@/lib/url"
 import "./globals.css"
 
@@ -26,22 +27,27 @@ const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans-loaded",
 })
 
-export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl()),
-  title: {
-    default: `${site.name} · ${site.tagline}`,
-    template: `%s · ${site.name}`,
-  },
-  description: site.description,
-  openGraph: {
-    type: "website",
-    locale: "pt_BR",
-    url: baseUrl(),
-    siteName: site.name,
-    title: `${site.name} · ${site.tagline}`,
-    description: site.description,
-  },
-  robots: { index: true, follow: true },
+/** Título e descrição também são editáveis, então a metadata é gerada. */
+export async function generateMetadata(): Promise<Metadata> {
+  const s = siteData(await getSiteContent())
+
+  return {
+    metadataBase: new URL(baseUrl()),
+    title: {
+      default: `${s.name} · ${s.tagline}`,
+      template: `%s · ${s.name}`,
+    },
+    description: s.description,
+    openGraph: {
+      type: "website",
+      locale: "pt_BR",
+      url: baseUrl(),
+      siteName: s.name,
+      title: `${s.name} · ${s.tagline}`,
+      description: s.description,
+    },
+    robots: { index: true, follow: true },
+  }
 }
 
 export const viewport = {
@@ -49,7 +55,9 @@ export const viewport = {
   colorScheme: "light",
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const s = siteData(await getSiteContent())
+
   return (
     <html lang="pt-BR" className={jakarta.variable}>
       <body>
@@ -59,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Pular para o conteúdo
         </a>
-        {children}
+        <SiteProvider value={s}>{children}</SiteProvider>
       </body>
     </html>
   )

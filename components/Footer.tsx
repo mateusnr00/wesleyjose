@@ -1,8 +1,13 @@
+"use client"
+
 import Link from "next/link"
 import { Logo } from "./Logo"
-import { nav, site, whatsappLink } from "@/lib/site"
+import { useSite } from "./SiteContext"
+import { waLink } from "@/lib/whatsapp"
 
-export function Footer() {
+export function Footer({ text, legal }: { text: string; legal: string }) {
+  const site = useSite()
+  const nav = site.nav
   const year = new Date().getFullYear()
 
   return (
@@ -11,12 +16,9 @@ export function Footer() {
         <div className="grid gap-14 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)]">
           <div>
             <Logo tone="light" />
-            <p className="mt-7 max-w-xs text-[13px] leading-relaxed">
-              Consultoria imobiliária de alto padrão em Goiânia. Curadoria, discrição e estratégia em
-              cada negociação.
-            </p>
+            <p className="mt-7 max-w-xs text-[13px] leading-relaxed">{text}</p>
             <p className="mt-6 text-[11px] uppercase tracking-[0.18em] text-cream/55">
-              {site.founder.creci}
+              {site.creci}
             </p>
           </div>
 
@@ -37,27 +39,27 @@ export function Footer() {
             <h2 className="text-[9px] uppercase tracking-[0.22em] text-cream/55">Contato</h2>
             <ul className="mt-6 space-y-3 text-[13px]">
               <li>
-                <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="tap transition-colors hover:text-gold-soft">
-                  {site.contact.whatsappDisplay}
+                <a href={waLink(site.whatsapp)} target="_blank" rel="noopener noreferrer" className="tap transition-colors hover:text-gold-soft">
+                  {site.whatsappDisplay}
                 </a>
               </li>
               <li>
-                <a href={`mailto:${site.contact.email}`} className="tap transition-colors hover:text-gold-soft">
-                  {site.contact.email}
+                <a href={`mailto:${site.email}`} className="tap transition-colors hover:text-gold-soft">
+                  {site.email}
                 </a>
               </li>
               <li>
                 <a
-                  href={site.social.instagram}
+                  href={site.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="tap transition-colors hover:text-gold-soft"
                 >
-                  {site.social.instagramHandle}
+                  {site.instagramHandle}
                 </a>
               </li>
               <li className="pt-2 text-cream/55">
-                {site.contact.address.district} · {site.contact.address.city}/{site.contact.address.state}
+                {site.district} · {site.city}/{site.state}
               </li>
             </ul>
           </div>
@@ -67,7 +69,7 @@ export function Footer() {
           <p>
             © {year} {site.name}. Todos os direitos reservados.
           </p>
-          <p>As imagens e valores exibidos podem sofrer alteração sem aviso prévio.</p>
+          <p>{legal}</p>
         </div>
       </div>
     </footer>

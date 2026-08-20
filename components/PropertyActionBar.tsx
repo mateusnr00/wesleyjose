@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { formatPrice, type Property } from "@/lib/properties"
-import { site, whatsappLink } from "@/lib/site"
+import { useSite } from "./SiteContext"
+import { waLink } from "@/lib/whatsapp"
 
 /**
  * Barra fixa no rodapé, só no mobile.
@@ -12,6 +13,7 @@ import { site, whatsappLink } from "@/lib/site"
  * que é onde a conversão acontece.
  */
 export function PropertyActionBar({ property }: { property: Property }) {
+  const site = useSite()
   const [visivel, setVisivel] = useState(false)
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export function PropertyActionBar({ property }: { property: Property }) {
         </div>
 
         <a
-          href={whatsappLink(
+          href={waLink(site.whatsapp, 
             `Olá! Tenho interesse no imóvel "${property.name}" (${property.reference}) que vi no site da ${site.name}.`,
           )}
           target="_blank"

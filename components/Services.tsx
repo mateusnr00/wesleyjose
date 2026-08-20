@@ -2,49 +2,21 @@
 
 import Image from "next/image"
 import { useState } from "react"
+import { Destaque } from "./Destaque"
 import { Reveal, RevealGroup } from "./Reveal"
 
-const services = [
-  {
-    title: "Residências",
-    summary: "Casas de alto padrão em condomínio fechado e em bairros consolidados de Goiânia.",
-    detail:
-      "Avaliamos implantação no lote, orientação solar, qualidade construtiva e o histórico de valorização do endereço. Você recebe um comparativo com as transações reais dos últimos 24 meses no mesmo raio.",
-    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    title: "Coberturas",
-    summary: "Unidades de topo com vista permanente, terraço privativo e planta diferenciada.",
-    detail:
-      "Cobertura boa é escassa e some rápido. Mantemos relação direta com síndicos e proprietários das torres mais procuradas para saber da unidade antes de ela virar anúncio.",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    title: "Lançamentos",
-    summary: "Acesso a tabelas de pré-lançamento e às melhores posições de cada torre.",
-    detail:
-      "Negociamos direto com o incorporador, o que costuma significar condição de pagamento mais longa e escolha de unidade antes da abertura pública de vendas. Sem custo adicional para o comprador.",
-    image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    title: "Off-market",
-    summary: "Imóveis em negociação reservada, sem anúncio e sem exposição do proprietário.",
-    detail:
-      "Para quem vende, é discrição total: nenhuma placa, nenhum portal, nenhuma visita sem qualificação prévia. Para quem compra, é acesso a um estoque que simplesmente não existe publicamente.",
-    image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80",
-  },
-]
+type Frente = { id: string; title?: string; summary?: string; detail?: string; image?: string }
 
-export function Services() {
+export function Services({ block, services }: { block: Record<string, string>; services: Frente[] }) {
   const [active, setActive] = useState(0)
 
   return (
     <section id="consultoria" className="py-section">
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
         <Reveal variant="left">
-          <p className="eyebrow">Consultoria</p>
+          <p className="eyebrow">{block.eyebrow}</p>
           <h2 className="display mt-7 max-w-md text-[2.25rem] lg:text-[3rem]">
-            Quatro frentes, <em>uma só</em> consultoria.
+            <Destaque>{block.title}</Destaque>
           </h2>
         </Reveal>
 
@@ -54,7 +26,7 @@ export function Services() {
             const isOpen = active === index
 
             return (
-              <div key={service.title} className="border-b border-line">
+              <div key={service.id} className="border-b border-line">
                 <h3>
                   <button
                     type="button"
@@ -88,7 +60,7 @@ export function Services() {
                   </p>
                   <div className="relative aspect-[3/2] w-full overflow-hidden bg-cream-deep">
                     <Image
-                      src={service.image}
+                      src={service.image ?? ""}
                       alt=""
                       fill
                       sizes="(max-width: 640px) 100vw, 30vw"

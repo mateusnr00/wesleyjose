@@ -2,9 +2,8 @@
 
 import { useState } from "react"
 import { Reveal } from "./Reveal"
-import { site } from "@/lib/site"
 
-export function Newsletter() {
+export function Newsletter({ block }: { block: Record<string, string> }) {
   const [email, setEmail] = useState("")
   const [name, setName] = useState("")
   const [sent, setSent] = useState(false)
@@ -22,13 +21,12 @@ export function Newsletter() {
   return (
     <section className="border-y border-line py-24">
       <Reveal className="mx-auto max-w-2xl px-6 text-center">
-        <p className="eyebrow justify-center before:hidden">Boletim mensal</p>
+        <p className="eyebrow justify-center before:hidden">{block.eyebrow}</p>
 
-        <h2 className="display mt-5 text-[2rem] lg:text-[2.5rem]">Receba a curadoria do mês.</h2>
+        <h2 className="display mt-5 text-[2rem] lg:text-[2.5rem]">{block.title}</h2>
 
         <p className="mx-auto mt-5 max-w-md text-[13px] text-muted">
-          Uma vez por mês, os imóveis que entraram no portfólio da {site.name} e uma leitura curta do
-          mercado de alto padrão em Goiânia. Sem spam, cancelamento em um clique.
+{block.text}
         </p>
 
         {sent ? (
@@ -63,7 +61,7 @@ export function Newsletter() {
               type="submit"
               className="shrink-0 bg-graphite px-8 py-3.5 text-[10px] uppercase tracking-[0.2em] text-cream transition-colors hover:bg-gold"
             >
-              Cadastrar
+              {block.button}
             </button>
           </form>
         )}

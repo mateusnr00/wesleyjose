@@ -1,14 +1,16 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
 import { LoginForm } from "@/components/admin/LoginForm"
-import { site } from "@/lib/site"
+import { getSiteContent, siteData } from "@/lib/content"
 
 export const metadata: Metadata = {
   title: "Entrar no painel",
   robots: { index: false, follow: false },
 }
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const site = siteData(await getSiteContent())
+
   return (
     <main className="grid min-h-screen place-items-center px-6 py-16">
       <div className="w-full max-w-sm">

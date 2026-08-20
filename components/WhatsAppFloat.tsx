@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { site, whatsappLink } from "@/lib/site"
+import { useSite } from "./SiteContext"
+import { waLink } from "@/lib/whatsapp"
 
 /**
  * Botão flutuante de WhatsApp, exibido só depois que o usuário rola um pouco.
@@ -10,6 +11,7 @@ import { site, whatsappLink } from "@/lib/site"
  * traz um botão de contato: dois no mesmo canto ficariam sobrepostos.
  */
 export function WhatsAppFloat({ hideOnMobile = false }: { hideOnMobile?: boolean }) {
+  const site = useSite()
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -21,7 +23,7 @@ export function WhatsAppFloat({ hideOnMobile = false }: { hideOnMobile?: boolean
 
   return (
     <a
-      href={whatsappLink(`Olá! Vim pelo site da ${site.name}.`)}
+      href={waLink(site.whatsapp, `Olá! Vim pelo site da ${site.name}.`)}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar no WhatsApp"

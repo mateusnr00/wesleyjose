@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { PropertyCard } from "./PropertyCard"
+import { Destaque } from "./Destaque"
 import { Reveal, RevealGroup } from "./Reveal"
 import type { Property } from "@/lib/properties"
 
-export function FeaturedProperties({ properties }: { properties: Property[] }) {
+export function FeaturedProperties({ block, properties }: { block: Record<string, string>; properties: Property[] }) {
 
   return (
     <section id="imoveis" className="bg-cream-deep/60 py-section">
@@ -11,14 +12,13 @@ export function FeaturedProperties({ properties }: { properties: Property[] }) {
         <Reveal>
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:items-end">
             <div>
-              <p className="eyebrow">Portfólio atual</p>
+              <p className="eyebrow">{block.eyebrow}</p>
               <h2 className="display mt-7 max-w-md text-[2.25rem] lg:text-[3rem]">
-                Seleção de imóveis com <em>história</em> e proporção.
+                <Destaque>{block.title}</Destaque>
               </h2>
             </div>
             <p className="text-muted lg:pb-3">
-              Cada imóvel abaixo passou por uma verificação de matrícula, projeto aprovado e histórico de
-              valorização do endereço. O que não passa, não entra.
+{block.text}
             </p>
           </div>
         </Reveal>
@@ -34,13 +34,13 @@ export function FeaturedProperties({ properties }: { properties: Property[] }) {
         <Reveal>
           <div className="mt-16 flex flex-col gap-6 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between">
             <p className="max-w-md text-[13px] text-muted">
-              Procura algo que não está listado? Boa parte do nosso estoque é off-market e não aparece aqui.
+{block.footnote}
             </p>
             <Link
               href="/imoveis"
               className="group inline-flex shrink-0 items-center gap-3 border-b border-graphite/25 pb-2 text-[10px] uppercase tracking-[0.2em] transition-colors hover:border-gold hover:text-gold-deep"
             >
-              Ver o catálogo completo
+              {block.linkLabel}
               <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
                 →
               </span>

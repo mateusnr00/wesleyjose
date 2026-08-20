@@ -1,8 +1,11 @@
+"use client"
+
 import Link from "next/link"
-import { site } from "@/lib/site"
+import { useSite } from "./SiteContext"
 
 /** Monograma + assinatura. `tone` acompanha o fundo da seção. */
 export function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
+  const site = useSite()
   const text = tone === "light" ? "text-white" : "text-graphite"
 
   return (
@@ -16,7 +19,9 @@ export function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
       </span>
       <span className="flex flex-col leading-none">
         <span className="font-[family-name:var(--font-display)] text-lg font-light tracking-wide">{site.name}</span>
-        <span className="mt-1 text-[9px] uppercase tracking-[0.3em] opacity-80">Goiânia · GO</span>
+        <span className="mt-1 text-[9px] uppercase tracking-[0.3em] opacity-80">
+          {site.city} · {site.state}
+        </span>
       </span>
     </Link>
   )

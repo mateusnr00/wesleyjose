@@ -1,47 +1,28 @@
+import { Destaque } from "./Destaque"
 import { Reveal } from "./Reveal"
-import { site } from "@/lib/site"
 
-/** TODO(cliente): substituir por depoimentos reais, com autorização de uso do nome. */
-const testimonials = [
-  {
-    quote:
-      "A Premium conduziu cada etapa com a paciência e o cuidado que eu esperava. Encontramos a casa certa e chegamos ao fim sem desgaste nenhum.",
-    author: "Mariana Felippe Ribeiro",
-    role: "Compradora · Setor Marista",
-  },
-  {
-    quote:
-      "É raro encontrar corretor que entenda patrimônio. Aqui pensam como sócio do cliente, inclusive quando a recomendação é não comprar.",
-    author: "Amauri Antunes",
-    role: "Investidor · Jardim Goiás",
-  },
-  {
-    quote:
-      "Vendi pelo valor pretendido em menos de 60 dias. Discrição absoluta, comunicação impecável e uma rede de compradores realmente qualificados.",
-    author: "Larissa Sousa",
-    role: "Vendedora · Alphaville Flamboyant",
-  },
-]
+type Depoimento = { id: string; quote?: string; author?: string; role?: string }
 
-export function Testimonials() {
+export function Testimonials({ block, items }: { block: Record<string, string>; items: Depoimento[] }) {
+  if (items.length === 0) return null
+
   return (
     <section className="bg-navy py-section text-cream">
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-24">
           <Reveal variant="left">
-            <p className="eyebrow text-cream/60">Clientes</p>
+            <p className="eyebrow text-cream/60">{block.eyebrow}</p>
             <h2 className="display mt-7 max-w-sm text-[2.25rem] text-cream lg:text-[3rem]">
-              Relações que <em>permanecem</em> depois das chaves.
+              <Destaque>{block.title}</Destaque>
             </h2>
             <p className="mt-8 max-w-sm text-sm text-cream/60">
-              A maior parte dos negócios da {site.name} chega por indicação de quem já comprou ou vendeu
-              com a gente. É o indicador que levamos mais a sério.
+{block.text}
             </p>
           </Reveal>
 
           <div className="space-y-5">
-            {testimonials.map((item, index) => (
-              <Reveal key={item.author} variant="right" delay={index * 120}>
+            {items.map((item, index) => (
+              <Reveal key={item.id} variant="right" delay={index * 120}>
                 <figure className="bg-navy-soft p-8 lg:p-10">
                   <div className="flex gap-1 text-gold-soft" role="img" aria-label="Avaliação: 5 de 5">
                     {Array.from({ length: 5 }).map((_, i) => (

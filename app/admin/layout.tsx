@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { signOut } from "./actions"
 import { createClient } from "@/lib/supabase/server"
-import { site } from "@/lib/site"
+import { getSiteContent, siteData } from "@/lib/content"
 
 export const metadata = {
   robots: { index: false, follow: false },
@@ -9,6 +9,7 @@ export const metadata = {
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
+  const site = siteData(await getSiteContent())
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -21,11 +22,19 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <div className="min-h-screen bg-cream">
       <header className="border-b border-line bg-paper">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
-          <div className="flex items-baseline gap-4">
+          <div className="flex flex-wrap items-baseline gap-x-8 gap-y-3">
             <Link href="/admin" className="display text-lg">
               {site.name}
             </Link>
-            <span className="text-[9px] uppercase tracking-[0.22em] text-muted">Painel</span>
+
+            <nav aria-label="Seções do painel" className="flex gap-6">
+              <Link href="/admin" className="tap text-[11px] uppercase tracking-[0.18em] text-muted transition-colors hover:text-graphite">
+                Imóveis
+              </Link>
+              <Link href="/admin/conteudo" className="tap text-[11px] uppercase tracking-[0.18em] text-muted transition-colors hover:text-graphite">
+                Conteúdo
+              </Link>
+            </nav>
           </div>
 
           <div className="flex items-center gap-6">

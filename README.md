@@ -97,6 +97,37 @@ Duas decisões que evitam as armadilhas conhecidas de bibliotecas como a AOS:
 
 Os números do hero usam `<CountUp />`, que renderiza o valor final no servidor e só então anima. Sem JS, o número correto já está lá.
 
+## Conteúdo editável
+
+Todo texto do site sai do painel, em **`/admin/conteudo`**. São 19 blocos de copy e 12 listas.
+
+A forma dos campos vive em **`lib/content-schema.ts`**, que também guarda o texto padrão. O banco grava só o que foi alterado, e a leitura mescla os dois. Três consequências práticas:
+
+- O site **nunca fica sem texto**: um campo que ninguém tocou continua vindo do código.
+- Acrescentar um campo é editar o schema. Ele aparece no painel com rótulo e ajuda, sem migração de dados e sem tocar no formulário.
+- Uma **lista vazia no banco usa os padrões do código**. Na primeira vez que a lista é aberta no painel, esses padrões são copiados para o banco, senão editar um deles seria impossível. A partir daí o banco manda sozinho, para que apagar um item não traga o padrão de volta.
+
+### Blocos e listas
+
+| Grupo | Blocos | Listas |
+| --- | --- | --- |
+| Geral | Marca, Contato, Rodapé | Menu de navegação |
+| Início | Topo, Comprar ou vender, Sobre, Portfólio, Bairros, Consultoria, Faixa para proprietários, Depoimentos, Boletim, Contato | Números do topo, Cartões comprar/vender, Pilares, Frentes de consultoria, Depoimentos, Opções de interesse |
+| Imóveis | Topo do catálogo | |
+| Vender | Topo, Por que conosco, Processo, Depoimento em destaque, Dúvidas | Benefícios, Argumentos com número, Etapas, Prazos, Perguntas frequentes |
+
+Nas listas dá para acrescentar, editar, reordenar e remover itens. A ordem do painel é a ordem no site.
+
+### Itálico dourado
+
+Nos campos de título, um trecho entre asteriscos vira o itálico dourado: `Imóveis que representam o seu *próximo nível*`.
+
+O texto vem do banco, então nada de HTML: `parseDestaque` quebra a frase em pedaços e só o trecho marcado recebe `<em>`. Marcação inventada sai como texto puro, o que fecha a porta para injeção de script pelo painel.
+
+### Dados da marca
+
+Nome, contato, CRECI e redes são lidos por quase todo componente de cliente. Em vez de encadear props por várias camadas até chegar numa folha, eles são servidos por contexto (`components/SiteContext.tsx`), preenchido no layout raiz.
+
 ## Painel de administração
 
 O painel fica em **`/admin`** e permite cadastrar, editar, publicar/despublicar e excluir imóveis, com upload de fotos direto do navegador.
@@ -104,6 +135,8 @@ O painel fica em **`/admin`** e permite cadastrar, editar, publicar/despublicar 
 | Rota | O que faz |
 | --- | --- |
 | `/admin/login` | Entrada por e-mail e senha |
+| `/admin/conteudo` | Todos os textos do site, por bloco |
+| `/admin/listas/[lista]` | Listas com acrescentar, reordenar e remover |
 | `/admin` | Lista tudo, inclusive rascunhos, com publicar/despublicar em um clique |
 | `/admin/imoveis/novo` | Cadastro de imóvel |
 | `/admin/imoveis/[id]` | Edição |

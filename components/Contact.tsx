@@ -1,19 +1,20 @@
 "use client"
 
 import { useState } from "react"
+import { Destaque } from "./Destaque"
 import { Reveal } from "./Reveal"
-import { site, whatsappLink } from "@/lib/site"
+import { useSite } from "./SiteContext"
+import { waLink } from "@/lib/whatsapp"
 
-const interests = [
-  "Comprar um imóvel",
-  "Vender meu imóvel",
-  "Avaliar meu imóvel",
-  "Investimento / lançamento",
-  "Outro assunto",
-]
-
-export function Contact() {
-  const [form, setForm] = useState({ name: "", phone: "", interest: interests[0], message: "" })
+export function Contact({
+  block,
+  interests,
+}: {
+  block: Record<string, string>
+  interests: { id: string; label?: string }[]
+}) {
+  const site = useSite()
+  const [form, setForm] = useState({ name: "", phone: "", interest: interests[0]?.label ?? "", message: "" })
 
   /**
    * Sem servidor de e-mail, o formulário monta uma mensagem estruturada e abre
@@ -36,7 +37,7 @@ export function Contact() {
       .filter(Boolean)
       .join("\n")
 
-    window.open(whatsappLink(text), "_blank", "noopener,noreferrer")
+    window.open(waLink(site.whatsapp, text), "_blank", "noopener,noreferrer")
   }
 
   const inputClass =
@@ -47,24 +48,22 @@ export function Contact() {
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
         <div className="grid gap-16 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-24">
           <Reveal variant="left">
-            <p className="eyebrow">Contato direto</p>
+            <p className="eyebrow">{block.eyebrow}</p>
 
             <h2 className="display mt-7 max-w-xs text-[2.25rem] lg:text-[3rem]">
-              Vamos conversar sobre o que você <em>procura</em>.
+              <Destaque>{block.title}</Destaque>
             </h2>
 
             <p className="mt-8 max-w-sm text-muted">
-              Responder uma mensagem leva menos tempo do que percorrer trinta anúncios. Conte o que você
-              precisa e a gente volta com uma lista curta, ou com a informação de que ainda não é hora
-              de comprar.
+{block.text}
             </p>
 
             <dl className="mt-14 space-y-7 border-t border-line pt-10">
               <div>
                 <dt className="text-[9px] uppercase tracking-[0.22em] text-muted">WhatsApp</dt>
                 <dd className="mt-2">
-                  <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="tap text-sm hover:text-gold-deep">
-                    {site.contact.whatsappDisplay}
+                  <a href={waLink(site.whatsapp)} target="_blank" rel="noopener noreferrer" className="tap text-sm hover:text-gold-deep">
+                    {site.whatsappDisplay}
                   </a>
                 </dd>
               </div>
@@ -72,8 +71,8 @@ export function Contact() {
               <div>
                 <dt className="text-[9px] uppercase tracking-[0.22em] text-muted">E-mail</dt>
                 <dd className="mt-2">
-                  <a href={`mailto:${site.contact.email}`} className="tap text-sm hover:text-gold-deep">
-                    {site.contact.email}
+                  <a href={`mailto:${site.email}`} className="tap text-sm hover:text-gold-deep">
+                    {site.email}
                   </a>
                 </dd>
               </div>
@@ -81,11 +80,11 @@ export function Contact() {
               <div>
                 <dt className="text-[9px] uppercase tracking-[0.22em] text-muted">Atendimento</dt>
                 <dd className="mt-2 text-sm">
-                  {site.contact.address.street}, {site.contact.address.district}
+                  {site.street}, {site.district}
                   <br />
-                  {site.contact.address.city} · {site.contact.address.state}
+                  {site.city} · {site.state}
                   <br />
-                  <span className="text-muted">{site.contact.hours}</span>
+                  <span className="text-muted">{site.hours}</span>
                 </dd>
               </div>
             </dl>
@@ -123,8 +122,8 @@ export function Contact() {
                 className={`${inputClass} appearance-none`}
               >
                 {interests.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
+                  <option key={option.id} value={option.label}>
+                    {option.label}
                   </option>
                 ))}
               </select>
@@ -147,7 +146,7 @@ export function Contact() {
                 type="submit"
                 className="w-full bg-graphite px-8 py-4 text-[10px] uppercase tracking-[0.2em] text-cream transition-colors hover:bg-gold sm:w-auto"
               >
-                Enviar pelo WhatsApp →
+                {block.button} →
               </button>
               <p className="mt-4 text-[12px] text-muted">
                 Ao enviar, abrimos o WhatsApp com sua mensagem já preenchida.
