@@ -10,7 +10,7 @@
  * itálico dourado: "Imóveis que representam o seu *próximo nível*".
  */
 
-export type FieldType = "text" | "textarea" | "longtext" | "url" | "image"
+export type FieldType = "text" | "textarea" | "longtext" | "url" | "image" | "video"
 
 export interface Field {
   name: string
@@ -108,6 +108,14 @@ export const blocks = {
       { name: "ctaPrimary", label: "Botão principal", type: "text", default: "Ver imóveis" },
       { name: "ctaSecondary", label: "Botão secundário", type: "text", default: "Falar no WhatsApp" },
       { name: "spotlightLabel", label: "Etiqueta do imóvel em destaque", type: "text", default: "Em destaque" },
+      {
+        name: "video",
+        label: "Vídeo em laço (opcional)",
+        type: "video",
+        help:
+          "MP4 sem som, curto (8 a 15 s) e leve, até 60 MB. Entra por cima da foto do imóvel em destaque quando termina de carregar. Sem vídeo, fica só a foto.",
+        default: "",
+      },
     ],
   },
 

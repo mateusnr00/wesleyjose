@@ -23,15 +23,17 @@ export function ContentFields({
     <div className="grid gap-8 sm:grid-cols-2">
       {fields.map((field) => {
         const largo = field.type !== "text" && field.type !== "url"
+        const midia = field.type === "image" || field.type === "video"
         const valor = values[field.name] ?? field.default
 
         return (
           <div key={field.name} className={largo ? "sm:col-span-2" : ""}>
-            {field.type === "image" ? (
+            {midia ? (
               <ImageUploader
                 label={field.label}
                 hint={field.help}
                 name={field.name}
+                kind={field.type === "video" ? "video" : "image"}
                 initial={valor ? [valor] : []}
               />
             ) : (

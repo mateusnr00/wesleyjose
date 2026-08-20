@@ -1,8 +1,8 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
 import { CountUp } from "./CountUp"
+import { HeroMedia } from "./HeroMedia"
 import { Destaque } from "./Destaque"
 import { PropertySearch } from "./PropertySearch"
 import { useSite } from "./SiteContext"
@@ -78,14 +78,12 @@ export function Hero({
           {spotlight && (
             <div className="enter-up enter-delay-1 relative">
               <div className="relative aspect-[4/5] w-full overflow-hidden sm:aspect-[5/4] lg:aspect-[4/5]">
-                <Image
-                  src={spotlight.image || placeholderImage}
+                <HeroMedia
+                  image={spotlight.image || placeholderImage}
+                  video={block.video || undefined}
                   alt={`${spotlight.name}, ${spotlight.district}`}
-                  fill
-                  priority
                   unoptimized={!spotlight.image}
-                  sizes="(max-width: 1024px) 100vw, 55vw"
-                  className="enter-zoom object-cover"
+                  className="enter-zoom"
                 />
               </div>
 

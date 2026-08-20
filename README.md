@@ -137,6 +137,20 @@ As fotos dos imóveis ficam no cadastro do imóvel, não aqui: são dado do imó
 
 O upload vai do navegador direto para o Storage e o arquivo recebe um nome único, para dois envios com o mesmo nome de origem não se sobrescreverem.
 
+### Vídeo no topo
+
+O campo **Vídeo em laço** em `Conteúdo → Topo` aceita MP4 ou WebM até 60 MB. Sem vídeo, fica só a foto do imóvel em destaque.
+
+A ordem em que as coisas entram na tela é o que preserva o desempenho:
+
+1. A **foto é renderizada sempre**, com `priority`, e continua sendo o elemento de LCP. O vídeo nunca atrasa a primeira pintura.
+2. O download do vídeo só começa **600 ms depois**, para não disputar banda com o que precisa aparecer primeiro.
+3. O vídeo aparece por transição só quando dispara `canplay`. Se falhar, demorar, ou o navegador recusar o autoplay, o que fica na tela é a foto.
+4. **Pausa quando o topo sai da tela.** Sem isso o laço roda enquanto o visitante lê o resto da página: no mobile isso levava o TBT de 100 ms para 370 ms, além do gasto de bateria.
+5. Não carrega quando o sistema pede menos movimento (`prefers-reduced-motion`) ou a economia de dados está ligada.
+
+Recomendação de arquivo: 8 a 15 segundos, sem áudio, cortado para emendar no laço. A moldura é vertical (4:5), então vídeo deitado é cortado nas laterais.
+
 ### Itálico dourado
 
 Nos campos de título, um trecho entre asteriscos vira o itálico dourado: `Imóveis que representam o seu *próximo nível*`.

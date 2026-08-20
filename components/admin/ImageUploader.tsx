@@ -4,7 +4,10 @@ import Image from "next/image"
 import { useRef, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 
-const MAX_BYTES = 10 * 1024 * 1024
+const LIMITES = {
+  image: { bytes: 10 * 1024 * 1024, accept: "image/jpeg,image/png,image/webp,image/avif", rotulo: "10 MB" },
+  video: { bytes: 60 * 1024 * 1024, accept: "video/mp4,video/webm", rotulo: "60 MB" },
+} as const
 
 /**
  * Envia as fotos direto do navegador para o Storage do Supabase e devolve as
@@ -15,15 +18,19 @@ export function ImageUploader({
   label,
   hint,
   name,
+  kind = "image",
   multiple = false,
   initial = [],
 }: {
   label: string
   hint?: string
   name: string
+  /** `video` troca os formatos aceitos, o limite de tamanho e a pré-visualização. */
+  kind?: "image" | "video"
   multiple?: boolean
   initial?: string[]
 }) {
+  const limite = LIMITES[kind]
   const [urls, setUrls] = useState<string[]>(initial.filter(Boolean))
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -38,8 +45,8 @@ export function ImageUploader({
     const uploaded: string[] = []
 
     for (const file of Array.from(files)) {
-      if (file.size > MAX_BYTES) {
-        setError(`"${file.name}" passa de 10 MB. Reduza a imagem e tente de novo.`)
+      if (file.size > limite.bytes) {
+        setError(`"${file.name}" passa de ${limite.rotulo}. Reduza o arquivo e tente de novo.`)
         continue
       }
 
@@ -87,12 +94,16 @@ export function ImageUploader({
           {urls.map((url) => (
             <li key={url} className="relative">
               <div className="relative size-24 overflow-hidden bg-cream-deep">
-                <Image src={url} alt="" fill sizes="96px" className="object-cover" />
+                {kind === "video" ? (
+                  <video src={url} muted loop playsInline autoPlay className="size-full object-cover" />
+                ) : (
+                  <Image src={url} alt="" fill sizes="96px" className="object-cover" />
+                )}
               </div>
               <button
                 type="button"
                 onClick={() => remove(url)}
-                aria-label="Remover imagem"
+                aria-label={kind === "video" ? "Remover vídeo" : "Remover imagem"}
                 className="absolute -right-2 -top-2 grid size-6 place-items-center rounded-full bg-graphite text-xs text-cream transition-colors hover:bg-red-700"
               >
                 ×
@@ -105,7 +116,7 @@ export function ImageUploader({
       <input
         ref={inputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/avif"
+        accept={limite.accept}
         multiple={multiple}
         disabled={busy}
         onChange={(e) => handleFiles(e.target.files)}
