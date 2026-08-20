@@ -119,6 +119,24 @@ A forma dos campos vive em **`lib/content-schema.ts`**, que também guarda o tex
 
 Nas listas dá para acrescentar, editar, reordenar e remover itens. A ordem do painel é a ordem no site.
 
+### Fotos
+
+Cinco pontos do site têm foto trocável pelo painel, marcados com um ícone de câmera no hub:
+
+| Onde | Seção no painel | Proporção |
+| --- | --- | --- |
+| Foto do consultor | Conteúdo → Sobre | 4:5, em pé |
+| Faixa para proprietários | Conteúdo → Faixa para proprietários | deitada, 2000 px+ |
+| Depoimento da página de venda | Conteúdo → Depoimento em destaque | deitada, 2000 px+ |
+| Cartões comprar / vender | Listas → Cartões comprar / vender | 3:4, em pé |
+| Frentes de consultoria | Listas → Frentes de consultoria | 3:2, deitada |
+
+Cada campo traz a proporção esperada, porque o recorte é diferente em cada lugar: uma paisagem no lugar do retrato sai cortada nas laterais.
+
+As fotos dos imóveis ficam no cadastro do imóvel, não aqui: são dado do imóvel, não conteúdo do site.
+
+O upload vai do navegador direto para o Storage e o arquivo recebe um nome único, para dois envios com o mesmo nome de origem não se sobrescreverem.
+
 ### Itálico dourado
 
 Nos campos de título, um trecho entre asteriscos vira o itálico dourado: `Imóveis que representam o seu *próximo nível*`.

@@ -144,6 +144,7 @@ export const blocks = {
         name: "photo",
         label: "Foto do consultor",
         type: "image",
+        help: "Retrato em pé, proporção 4:5 (ex.: 1200 × 1500). Foto deitada é cortada nas laterais.",
         default: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1200&q=80",
       },
     ],
@@ -216,6 +217,7 @@ export const blocks = {
         name: "image",
         label: "Foto de fundo",
         type: "image",
+        help: "Deitada e larga, ao menos 2000 px. Fica sob um véu escuro com texto por cima, então evite fotos muito claras ou cheias de detalhe.",
         default: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=2000&q=80",
       },
     ],
@@ -349,6 +351,7 @@ export const blocks = {
         name: "image",
         label: "Foto de fundo",
         type: "image",
+        help: "Deitada e larga, ao menos 2000 px. O texto do depoimento fica centralizado por cima.",
         default: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=80",
       },
     ],
@@ -434,7 +437,13 @@ export const collections = {
       { name: "text", label: "Texto", type: "textarea", default: "" },
       { name: "href", label: "Endereço do link", type: "text", default: "" },
       { name: "cta", label: "Chamada do link", type: "text", default: "" },
-      { name: "image", label: "Foto", type: "image", default: "" },
+      {
+        name: "image",
+        label: "Foto",
+        type: "image",
+        help: "Em pé, proporção próxima de 3:4. O texto fica no rodapé do cartão, sobre um degradê escuro.",
+        default: "",
+      },
     ],
     defaults: [
       {
@@ -481,7 +490,13 @@ export const collections = {
       { name: "title", label: "Título", type: "text", default: "" },
       { name: "summary", label: "Resumo", type: "textarea", help: "Aparece na linha fechada, ao lado do título.", default: "" },
       { name: "detail", label: "Texto ao abrir", type: "longtext", default: "" },
-      { name: "image", label: "Foto", type: "image", default: "" },
+      {
+        name: "image",
+        label: "Foto",
+        type: "image",
+        help: "Deitada, proporção 3:2 (ex.: 900 × 600). Aparece ao abrir a frente na lista.",
+        default: "",
+      },
     ],
     defaults: [
       {
