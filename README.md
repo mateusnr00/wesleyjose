@@ -36,7 +36,8 @@ A partir daí, todo push no branch padrão vira deploy de produção, e todo bra
 ### Detalhes que importam
 
 - **Branch de produção**: hoje o branch padrão do repositório é `claude/website-inspiration-improvements-ge6ecl`, porque foi o primeiro a existir. A Vercel usa o branch padrão como produção. Se preferir um nome convencional, crie um `main` a partir dele e troque o padrão em Settings → Branches no GitHub **antes** de importar.
-- **URL do site**: enquanto não houver domínio próprio, as tags de Open Graph e o `sitemap.xml` usam automaticamente a URL da Vercel (via `VERCEL_PROJECT_PRODUCTION_URL`). Quando apontar o domínio, defina `NEXT_PUBLIC_SITE_URL=https://seudominio.com.br` nas variáveis de ambiente do projeto e tudo passa a apontar para ele.
+- **Trocar de domínio não exige mexer no código.** As tags de Open Graph, o `sitemap.xml` e o `robots.txt` leem o domínio de produção que a Vercel injeta no build (`VERCEL_PROJECT_PRODUCTION_URL`). Vincule o domínio novo em Settings → Domains, refaça o deploy e pronto. Não existe domínio fixo no código de propósito: seria um endereço envelhecendo em silêncio dentro do sitemap.
+- **`NEXT_PUBLIC_SITE_URL`** só é necessária quando **mais de um domínio** aponta para o projeto, para escolher qual é o canônico. Ela tem prioridade sobre o que a Vercel injeta.
 - **Imagens**: `images.unsplash.com` está liberado no `next.config.mjs`. Ao trocar pelas fotos reais, ajuste `remotePatterns` para o domínio de onde elas vierem, ou coloque os arquivos em `public/` e use caminhos locais.
 
 ## Desempenho e acessibilidade
@@ -161,16 +162,16 @@ Vão para o bucket `imoveis` do Supabase Storage: leitura pública, escrita rest
 
 Copie `.env.example` para `.env.local` no desenvolvimento. **Na Vercel, adicione as duas em Settings → Environment Variables:**
 
-| Variável | Valor |
-| --- | --- |
-| `NEXT_PUBLIC_SUPABASE_URL` | URL do projeto Supabase |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Chave publicável (`sb_publishable_...`) |
+| Variável | Obrigatória | Valor |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL` | sim | URL do projeto Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | sim | Chave publicável (`sb_publishable_...`) |
+| `NEXT_PUBLIC_SITE_URL` | não | Só com vários domínios no mesmo projeto, para fixar o canônico |
 
 Ambas são públicas por natureza, e quem protege os dados é a RLS, não o segredo da chave. **Nunca coloque a `service_role` key no projeto**: ela ignora RLS por completo.
 
 ## Onde mexer
 
-- **`lib/site.ts`**: marca, contato, WhatsApp, CRECI, redes e números de prova social. Alterar aqui reflete em todo o site (header, footer, metadata, mensagens de WhatsApp).
 - **`components/Reveal.tsx`**: animação de entrada. **`components/PropertySpecs.tsx`**: linha de ícones dos cards.
 - **`lib/properties.ts`**: tipos, rótulos e formatadores do domínio. Os imóveis em si ficam no banco, editados pelo painel.
 - **`lib/queries.ts`**: leitura dos imóveis; `app/admin/actions.ts` concentra a escrita.
@@ -180,7 +181,7 @@ Ambas são públicas por natureza, e quem protege os dados é a RLS, não o segr
 
 Os pontos abaixo estão marcados com `TODO(cliente)` no código:
 
-- [ ] **Contato real** em `lib/site.ts`: WhatsApp, e-mail, endereço e número do CRECI (hoje são placeholders).
+- [ ] **Contato real** no painel, em Conteúdo → Contato e Conteúdo → Marca: WhatsApp, e-mail, endereço e número do CRECI (hoje são placeholders).
 - [ ] **Imóveis reais** com fotografia própria. Cadastre pelo painel em `/admin`. Os 6 imóveis atuais são de marcação, com fotos de banco público.
 - [ ] **Foto do consultor** em `components/About.tsx`.
 - [ ] **Depoimentos reais**, com autorização de uso do nome, em `components/Testimonials.tsx`.
