@@ -18,7 +18,7 @@ npm run build   # build de produção
 | --- | --- |
 | `/` | Home: hero com busca, bifurcação comprar/vender, sobre, portfólio, atalhos por bairro, consultoria, captação de vendedores, depoimentos, newsletter, contato |
 | `/imoveis` | Catálogo com filtros por tipo, bairro, faixa de valor e quartos, ordenação e paginação (9 por página). Os filtros vivem na URL, então cada combinação é um link compartilhável |
-| `/imoveis/[slug]` | Página do imóvel: galeria, ficha técnica, diferenciais e painel de contato fixo |
+| `/imoveis/[slug]` | Página do imóvel: topo com foto em tela cheia, faixa de números, índice fixo com marcação da seção, galeria com visor em tela cheia, mapa sob demanda, similares e barra fixa de contato no mobile |
 | `/vender` | Funil de proprietários: avaliação gratuita em formulário de 3 etapas, argumentos, processo em 4 passos e FAQ |
 
 ## Deploy na Vercel
@@ -60,6 +60,16 @@ Decisões que sustentam esses números. Mexer nelas sem medir tende a derrubá-l
 - **Deslocamento lateral dos reveals só a partir de 1024 px**, e menor que a folga do container. Abaixo disso a coluna ocupa a largura toda e empurrar na horizontal corta o texto na borda.
 
 Verificado também numa matriz de 12 larguras (320 px a 1920 px) × 4 páginas: zero rolagem horizontal e zero elementos vazando da viewport.
+
+## Página do imóvel
+
+Alguns comportamentos dela não são óbvios pelo código:
+
+- **O topo não depende de JavaScript.** A foto usa `animation-timeline: view()`, que liga a animação à rolagem no próprio CSS, sem listener de scroll e sem custo de main thread. Onde o navegador não suporta, a foto fica parada. O parallax exige a imagem maior que a moldura, então ela extrapola de propósito e o pai recorta.
+- **O índice fixo** marca a seção atual com um `IntersectionObserver` de faixa estreita no meio da tela, para a marcação não piscar entre duas seções.
+- **O visor da galeria** anda por seta, por arrasto e circula do fim para o começo; trava a rolagem do fundo, prende o Tab dentro dele e devolve o foco à miniatura de origem ao fechar.
+- **O mapa só carrega quando o visitante clica.** Um iframe de mapa traz centenas de KB de terceiro; carregar sempre custaria o desempenho da página inteira por um recurso que a maioria não abre.
+- **A barra fixa do rodapé** existe só no mobile, onde o preço e o botão de contato saem da tela nas primeiras rolagens e não voltam. Onde ela aparece, o botão flutuante de WhatsApp é escondido, senão ficariam dois no mesmo canto.
 
 ## Tipografia
 

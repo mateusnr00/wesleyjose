@@ -3,8 +3,13 @@
 import { useEffect, useState } from "react"
 import { site, whatsappLink } from "@/lib/site"
 
-/** Botão flutuante de WhatsApp, exibido só depois que o usuário rola um pouco. */
-export function WhatsAppFloat() {
+/**
+ * Botão flutuante de WhatsApp, exibido só depois que o usuário rola um pouco.
+ *
+ * `hideOnMobile` é usado na página do imóvel, onde a barra fixa do rodapé já
+ * traz um botão de contato: dois no mesmo canto ficariam sobrepostos.
+ */
+export function WhatsAppFloat({ hideOnMobile = false }: { hideOnMobile?: boolean }) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -20,7 +25,7 @@ export function WhatsAppFloat() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar no WhatsApp"
-      className={`fixed bottom-6 right-6 z-40 grid size-14 place-items-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-500 hover:scale-105 ${
+      className={`fixed bottom-6 right-6 z-40 grid size-14 place-items-center rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-500 hover:scale-105 ${hideOnMobile ? "hidden lg:grid" : ""} ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
       }`}
     >

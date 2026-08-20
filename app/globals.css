@@ -233,3 +233,37 @@
 .underline-grow:hover {
   background-size: 100% 1px;
 }
+
+/* Entrada da foto no visor em tela cheia. */
+@keyframes visor {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Parallax do topo da página do imóvel, ligado à rolagem pelo próprio CSS.
+   Sem JavaScript: nada de listener de scroll, nada de custo de main thread.
+   Onde animation-timeline não existe, a imagem simplesmente fica parada. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .parallax {
+      animation: parallax linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+@keyframes parallax {
+  from {
+    transform: scale(1.12) translateY(-3%);
+  }
+  to {
+    transform: scale(1.12) translateY(3%);
+  }
+}
