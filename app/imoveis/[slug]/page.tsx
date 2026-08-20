@@ -62,7 +62,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
   return (
     <>
       <ScrollProgress />
-      <Header />
+      <Header overHero />
 
       <main id="conteudo">
         {/* Topo: a foto ocupa a tela e o texto vive sobre ela. */}

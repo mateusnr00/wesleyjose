@@ -7,7 +7,7 @@ import { Logo } from "./Logo"
 import { useSite } from "./SiteContext"
 import { waLink } from "@/lib/whatsapp"
 
-export function Header() {
+export function Header({ overHero = false }: { overHero?: boolean }) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
@@ -76,6 +76,10 @@ export function Header() {
     toggleRef.current?.focus()
   }
 
+  // Sobre um topo escuro e antes de rolar, o cabeçalho precisa ser claro:
+  // logo e menu em grafite sobre foto escura simplesmente somem.
+  const claro = overHero && !scrolled && !open
+
   return (
     <>
       <header
@@ -90,7 +94,7 @@ export function Header() {
           {/* Escondido enquanto o painel está aberto: o painel tem a sua própria
               marca no topo, e duas logos sobrepostas ficavam confusas. */}
           <div className={`transition-opacity duration-200 ${open ? "pointer-events-none opacity-0" : "opacity-100"}`}>
-            <Logo />
+            <Logo tone={claro ? "light" : "dark"} />
           </div>
 
           <nav className="hidden items-center gap-9 lg:flex" aria-label="Navegação principal">
@@ -98,7 +102,9 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="relative py-1.5 text-[11px] uppercase tracking-[0.18em] text-graphite/75 transition-colors after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-300 hover:text-graphite hover:after:w-full"
+                className={`relative py-1.5 text-[11px] uppercase tracking-[0.18em] transition-colors after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-gold after:transition-all after:duration-300 hover:after:w-full ${
+                  claro ? "text-cream/80 hover:text-cream" : "text-graphite/75 hover:text-graphite"
+                }`}
               >
                 {item.label}
               </Link>
@@ -110,9 +116,11 @@ export function Header() {
               href={waLink(site.whatsapp, `Olá! Vim pelo site da ${site.name} e gostaria de falar com um consultor.`)}
               target="_blank"
               rel="noopener noreferrer"
-              className={`hidden border border-graphite/25 px-6 py-3 text-[10px] uppercase tracking-[0.2em] transition-all hover:border-graphite hover:bg-graphite hover:text-cream lg:inline-block ${
-                open ? "pointer-events-none opacity-0" : "opacity-100"
-              }`}
+              className={`hidden border px-6 py-3 text-[10px] uppercase tracking-[0.2em] transition-all lg:inline-block ${
+                claro
+                  ? "border-cream/40 text-cream hover:border-cream hover:bg-cream hover:text-graphite"
+                  : "border-graphite/25 hover:border-graphite hover:bg-graphite hover:text-cream"
+              } ${open ? "pointer-events-none opacity-0" : "opacity-100"}`}
             >
               Falar com consultor
             </a>
@@ -128,19 +136,19 @@ export function Header() {
             >
               <span className="relative block h-3.5 w-6">
                 <span
-                  className={`absolute left-0 block h-px w-full bg-graphite transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    open ? "top-1.5 rotate-45" : "top-0"
-                  }`}
+                  className={`absolute left-0 block h-px w-full transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    claro ? "bg-cream" : "bg-graphite"
+                  } ${open ? "top-1.5 rotate-45" : "top-0"}`}
                 />
                 <span
-                  className={`absolute left-0 top-1.5 block h-px w-full bg-graphite transition-opacity duration-200 ${
-                    open ? "opacity-0" : "opacity-100"
-                  }`}
+                  className={`absolute left-0 top-1.5 block h-px w-full transition-opacity duration-200 ${
+                    claro ? "bg-cream" : "bg-graphite"
+                  } ${open ? "opacity-0" : "opacity-100"}`}
                 />
                 <span
-                  className={`absolute left-0 block h-px w-full bg-graphite transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                    open ? "top-1.5 -rotate-45" : "top-3.5"
-                  }`}
+                  className={`absolute left-0 block h-px w-full transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    claro ? "bg-cream" : "bg-graphite"
+                  } ${open ? "top-1.5 -rotate-45" : "top-3.5"}`}
                 />
               </span>
             </button>

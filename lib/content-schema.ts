@@ -113,7 +113,7 @@ export const blocks = {
         label: "Foto de fundo",
         type: "image",
         help:
-          "Deitada, 1920 × 1080 ou maior. É ela que aparece primeiro e fica no lugar do vídeo enquanto ele carrega. Vazio: usa a foto do imóvel em destaque.",
+          "Deitada, 1920 × 1080 ou maior. É ela que aparece primeiro e fica no lugar do vídeo enquanto ele carrega. Vazio, o topo fica só com o fundo escuro da marca.",
         default: "",
       },
       {

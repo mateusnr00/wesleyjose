@@ -6,7 +6,7 @@ import { Destaque } from "./Destaque"
 import { HeroMedia } from "./HeroMedia"
 import { PropertySearch } from "./PropertySearch"
 import { useSite } from "./SiteContext"
-import { placeholderImage, type Property } from "@/lib/properties"
+import type { Property } from "@/lib/properties"
 import { waLink } from "@/lib/whatsapp"
 
 export function Hero({
@@ -22,20 +22,19 @@ export function Hero({
 }) {
   const site = useSite()
 
-  // A foto própria do topo tem prioridade; sem ela, vale a do imóvel em
-  // destaque, para o fundo nunca ficar vazio.
-  const fundo = block.image || spotlight?.image || placeholderImage
-  const semFoto = !block.image && !spotlight?.image
+  // O fundo do topo é escolha explícita. Antes, sem foto definida, ele pegava
+  // emprestada a do imóvel em destaque: a home passava a exibir uma casa
+  // qualquer como capa da marca, e trocava sozinha quando o destaque mudava.
+  const fundo = block.image || undefined
 
   return (
     <>
-      <section className="relative min-h-[88svh] overflow-hidden bg-graphite lg:min-h-[92svh]">
+      <section className="relative min-h-[88svh] overflow-hidden bg-gradient-to-b from-navy via-graphite to-graphite lg:min-h-[92svh]">
         <div className="absolute inset-0">
           <HeroMedia
             image={fundo}
             video={block.video || undefined}
             alt={block.eyebrow || site.tagline}
-            unoptimized={semFoto}
           />
         </div>
 
@@ -116,10 +115,14 @@ export function Hero({
         </div>
       </section>
 
-      {/* Busca logo abaixo, avançando sobre o topo no desktop. */}
-      <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
-        <div className="enter-up enter-delay-2 relative z-10 -mt-px lg:-mt-12">
-          <PropertySearch districts={districts} />
+      {/* No desktop a busca avança sobre a borda do topo. No celular isso
+          encostava o painel branco no topo escuro sem respiro nenhum, então
+          ali ela vira um bloco próprio, com o fundo da página em volta. */}
+      <div className="bg-cream">
+        <div className="mx-auto max-w-[1360px] px-6 py-10 lg:px-12 lg:py-0">
+          <div className="enter-up enter-delay-2 relative z-10 lg:-mt-12">
+            <PropertySearch districts={districts} />
+          </div>
         </div>
       </div>
     </>

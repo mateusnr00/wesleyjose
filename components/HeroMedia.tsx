@@ -22,7 +22,8 @@ export function HeroMedia({
   className = "",
   unoptimized = false,
 }: {
-  image: string
+  /** Sem foto, fica só o fundo sólido da seção até o vídeo entrar. */
+  image?: string
   video?: string
   alt: string
   className?: string
@@ -68,15 +69,17 @@ export function HeroMedia({
 
   return (
     <div ref={moldura} className="absolute inset-0">
-      <Image
-        src={image}
-        alt={alt}
-        fill
-        priority
-        unoptimized={unoptimized}
-        sizes="(max-width: 1024px) 100vw, 55vw"
-        className={`object-cover ${className}`}
-      />
+      {image && (
+        <Image
+          src={image}
+          alt={alt}
+          fill
+          priority
+          unoptimized={unoptimized}
+          sizes="100vw"
+          className={`object-cover ${className}`}
+        />
+      )}
 
       {video && permitido && (
         <video

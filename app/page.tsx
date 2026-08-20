@@ -28,7 +28,7 @@ export default async function HomePage() {
   return (
     <>
       <ScrollProgress />
-      <Header />
+      <Header overHero />
       <main id="conteudo">
         <Hero
           block={c.blocks.home_hero}

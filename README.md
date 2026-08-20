@@ -141,10 +141,12 @@ O upload vai do navegador direto para o Storage e o arquivo recebe um nome únic
 
 O topo da home ocupa a tela inteira, com o texto sobre a mídia. Dois campos em `Conteúdo → Topo` controlam o fundo:
 
-- **Foto de fundo**: deitada, 1920 × 1080 ou maior. É ela que aparece primeiro e fica no lugar do vídeo enquanto ele carrega. Vazio, usa a foto do imóvel em destaque.
+- **Foto de fundo**: deitada, 1920 × 1080 ou maior. É ela que aparece primeiro e fica no lugar do vídeo enquanto ele carrega. Vazia, o topo fica só com o fundo escuro da marca. Ele **não** empresta a foto de um imóvel: a capa da marca não pode mudar sozinha quando o destaque muda.
 - **Vídeo em laço**: MP4 ou WebM até 60 MB, opcional.
 
 **No celular a tela é em pé, e um vídeo 16:9 mostra só a faixa central**, medida em cerca de 31% da largura. O que importa precisa estar no meio do quadro. É limitação de proporção, não do código: encher uma tela em pé com material deitado exige cortar as laterais.
+
+O cabeçalho vira claro sobre topo escuro (home e página do imóvel) e volta ao grafite ao rolar. Sem isso, o logo em grafite sobre foto escura simplesmente sumia.
 
 O escurecimento são dois véus e não um só: o vertical firma a base, onde ficam os números e a busca; o horizontal escurece apenas a faixa da esquerda, onde vive o texto. Escurecer o quadro inteiro o bastante para garantir leitura apagaria o vídeo.
 
