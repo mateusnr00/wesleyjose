@@ -52,7 +52,7 @@ Medido com Lighthouse sobre o build de produção, nas quatro páginas públicas
 
 Decisões que sustentam esses números — mexer nelas sem medir tende a derrubá-los:
 
-- **Fontes servidas pelo próprio domínio** (`next/font`). Vindas por `<link>` do Google Fonts, custavam 780 ms de bloqueio de renderização e o texto ficava trocando de fonte, o que levava o Speed Index a 18,7 s. Só os pesos que o CSS usa são declarados: a família inteira gerava 17 arquivos e 500 KB no caminho crítico.
+- **Uma família só, servida pelo próprio domínio** (`next/font`), na versão variável: 4 arquivos e 68 KB. Vindas por `<link>` do Google Fonts, custavam 780 ms de bloqueio de renderização e o texto ficava trocando de fonte, o que levava o Speed Index a 18,7 s.
 - **Nada acima da dobra depende de JavaScript para aparecer.** O hero usa `.enter-up` / `.enter-zoom`, animações CSS que rodam no carregamento e **não animam opacidade**. Quando o título estava dentro de um `<Reveal>`, ele esperava a hidratação e o LCP subia 1,2 s.
 - **O catálogo renderiza no servidor.** `useSearchParams` obrigaria um `<Suspense>`, e o HTML estático entregaria só o "Carregando…", com a grade entrando depois (CLS 0,16 no desktop). O estado dos filtros vive no componente e a URL é um espelho dele.
 - **Contraste verificado por cálculo**, não a olho. `--color-gold` passa em 3:1 (texto grande) e `--color-gold-deep` em 4,5:1 (rótulos pequenos) sobre os dois tons de fundo.
@@ -60,6 +60,17 @@ Decisões que sustentam esses números — mexer nelas sem medir tende a derrub�
 - **Deslocamento lateral dos reveals só a partir de 1024 px**, e menor que a folga do container. Abaixo disso a coluna ocupa a largura toda e empurrar na horizontal corta o texto na borda.
 
 Verificado também numa matriz de 12 larguras (320 px a 1920 px) × 4 páginas: zero rolagem horizontal e zero elementos vazando da viewport.
+
+## Tipografia
+
+**Plus Jakarta Sans** em todo o site, na versão variável — geométrica como a Montserrat, mas com caixa-alta mais estreita, que é onde a Montserrat sofre: este site é cheio de rótulo pequeno em caixa-alta com tracking largo.
+
+A Cormorant Garamond fazia os títulos e **saiu por um defeito concreto**: desenha o circunflexo de `ê` e `â` solto e alto demais, então "Residência" e "Goiânia" — que aparecem em quase todo título — saíam com o acento descolado da letra. Não é o subconjunto de caracteres: testado com `latin-ext`, o desenho é o mesmo.
+
+Sem serifa, a hierarquia passou a ser peso e tamanho:
+
+- `.display` usa peso 300, entrelinha 1.06 e tracking `-0.022em`. O tracking negativo também encolhe o espaço entre palavras — a `-0.03em` chegava a colar "ResidênciaMarista" — então há um `word-spacing` compensando.
+- `.display em` (o destaque dos títulos) virou **cor e peso**, não itálico: itálico sintético em geométrica fica frouxo.
 
 ## Animação de entrada
 

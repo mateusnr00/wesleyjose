@@ -1,35 +1,27 @@
 import type { Metadata } from "next"
-import { Cormorant_Garamond, Inter } from "next/font/google"
+import { Plus_Jakarta_Sans } from "next/font/google"
 import { site } from "@/lib/site"
 import { baseUrl } from "@/lib/url"
 import "./globals.css"
 
 /**
- * Fontes servidas pelo próprio domínio.
+ * Uma família só, servida pelo próprio domínio, na versão variável — um
+ * arquivo cobre todos os pesos, o que sai menor que vários estáticos.
  *
- * Antes vinham por <link> para o Google Fonts, o que custava uma folha de
- * estilo render-blocking, um request a um terceiro e — pior — deixava o texto
- * trocando de fonte até a resposta chegar. next/font baixa os arquivos no
- * build, embute o @font-face e adiciona métricas de fallback, o que zera o
- * deslocamento de layout.
+ * Antes as fontes vinham por <link> para o Google Fonts, o que custava uma
+ * folha render-blocking e deixava o texto trocando de fonte até a resposta
+ * chegar. next/font baixa no build, embute o @font-face e ajusta as métricas
+ * de fallback, zerando o deslocamento de layout.
+ *
+ * A Cormorant Garamond, que fazia os títulos, saiu por um defeito concreto:
+ * ela desenha o circunflexo de "ê" e "â" solto e alto demais, então
+ * "Residência" e "Goiânia" — que aparecem em quase todo título deste site —
+ * saíam com o acento descolado da letra. Não é o subconjunto de caracteres:
+ * testei com latin-ext e o desenho é o mesmo. A hierarquia que a serifa fazia
+ * passou a ser peso e tamanho.
  */
-/*
- * Só os pesos que o CSS de fato usa. Declarar a família inteira gerava 17
- * arquivos (500 KB) no caminho crítico; hoje são quatro.
- * `latin` basta para o português — os acentos vivem nesse intervalo, e
- * `latin-ext` só acrescenta caracteres do leste europeu.
- */
-const display = Cormorant_Garamond({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["300"],
-  style: ["normal", "italic"],
-  display: "swap",
-  variable: "--font-display-loaded",
-})
-
-const sans = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500"],
   display: "swap",
   variable: "--font-sans-loaded",
 })
@@ -59,7 +51,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${display.variable} ${sans.variable}`}>
+    <html lang="pt-BR" className={jakarta.variable}>
       <body>
         <a
           href="#conteudo"

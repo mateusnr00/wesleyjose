@@ -194,7 +194,7 @@ export default async function SellPage() {
           </div>
 
           <div className="relative mx-auto max-w-3xl px-6 py-28 text-center text-cream lg:py-36">
-            <blockquote className="display text-2xl italic leading-relaxed lg:text-[2rem]">
+            <blockquote className="display text-2xl leading-snug lg:text-[2rem]">
               “Vendi pelo valor pretendido em menos de 60 dias. Discrição absoluta, comunicação
               impecável e uma rede de compradores realmente qualificados.”
             </blockquote>

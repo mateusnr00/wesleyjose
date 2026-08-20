@@ -10,10 +10,13 @@ import type { Property } from "@/lib/properties"
 export function PropertySpecs({
   property,
   size = "sm",
+  layout = "inline",
   className = "",
 }: {
   property: Pick<Property, "area" | "bedrooms" | "suites" | "parking">
   size?: "sm" | "md"
+  /** `cells` empilha ícone sobre valor em células com moldura, para os cards. */
+  layout?: "inline" | "cells"
   className?: string
 }) {
   const specs = [
@@ -25,6 +28,28 @@ export function PropertySpecs({
 
   const text = size === "md" ? "text-[12px]" : "text-[11px]"
   const box = size === "md" ? "size-4" : "size-3.5"
+
+  if (layout === "cells") {
+    return (
+      <ul className={`grid grid-cols-4 gap-1.5 ${className}`}>
+        {specs.map((spec) => (
+          <li
+            key={spec.label}
+            className="flex flex-col items-center gap-1.5 border border-line px-1 py-2.5"
+          >
+            <span className="size-[15px] shrink-0 text-gold" aria-hidden="true">
+              {spec.icon}
+            </span>
+            <span className="text-[12px] leading-none text-graphite">
+              {spec.value}
+              {spec.unit && <span className="text-muted"> {spec.unit}</span>}
+            </span>
+            <span className="sr-only">{spec.label}</span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 
   return (
     <ul className={`flex flex-wrap items-center gap-x-4 gap-y-2 ${text} text-muted ${className}`}>

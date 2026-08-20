@@ -49,7 +49,7 @@ export function Testimonials() {
                     ))}
                   </div>
 
-                  <blockquote className="display mt-6 text-lg italic leading-relaxed text-cream/90 lg:text-xl">
+                  <blockquote className="display mt-6 text-lg leading-snug text-cream/90 lg:text-xl">
                     “{item.quote}”
                   </blockquote>
 
