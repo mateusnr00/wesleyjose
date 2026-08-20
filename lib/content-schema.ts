@@ -109,11 +109,19 @@ export const blocks = {
       { name: "ctaSecondary", label: "Botão secundário", type: "text", default: "Falar no WhatsApp" },
       { name: "spotlightLabel", label: "Etiqueta do imóvel em destaque", type: "text", default: "Em destaque" },
       {
+        name: "image",
+        label: "Foto de fundo",
+        type: "image",
+        help:
+          "Deitada, 1920 × 1080 ou maior. É ela que aparece primeiro e fica no lugar do vídeo enquanto ele carrega. Vazio: usa a foto do imóvel em destaque.",
+        default: "",
+      },
+      {
         name: "video",
         label: "Vídeo em laço (opcional)",
         type: "video",
         help:
-          "MP4 sem som, curto (8 a 15 s) e leve, até 60 MB. Entra por cima da foto do imóvel em destaque quando termina de carregar. Sem vídeo, fica só a foto.",
+          "MP4 sem som, deitado (1920 × 1080), 8 a 15 s, até 60 MB. Ocupa a tela toda por cima da foto. No celular a tela é em pé, então só a faixa central aparece: mantenha o que importa no meio do quadro.",
         default: "",
       },
     ],
