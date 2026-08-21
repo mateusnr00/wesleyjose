@@ -275,6 +275,8 @@
    girando junto. */
 @media (prefers-reduced-motion: no-preference) {
   .esteira {
+    /* A duração real é calculada no componente, a partir da largura da
+       fileira. Este valor só vale no primeiro quadro, antes da medição. */
     animation: esteira 45s linear infinite;
   }
 

@@ -11,6 +11,17 @@ type Cliente = { id: string; nome?: string; descricao?: string; logo?: string }
 const REPETICOES = 4
 
 /**
+ * Velocidade da esteira, em pixels por segundo.
+ *
+ * É daqui que sai a duração da animação, e não o contrário. Uma duração fixa
+ * faria a velocidade depender de quantos clientes existem: cadastrar mais
+ * cinco dobraria a largura da fileira e a esteira aceleraria sozinha. Fixando
+ * px/s, o ritmo é o mesmo com três clientes ou com trinta, e igual no celular
+ * e no computador.
+ */
+const VELOCIDADE = 50
+
+/**
  * Prova social por nome, numa esteira que corre de lado.
  *
  * O tratamento é tipográfico quando não há logo: logotipo de terceiro vem cada
@@ -24,7 +35,9 @@ const REPETICOES = 4
 export function Clients({ block, items }: { block: Record<string, string>; items: Cliente[] }) {
   const [menosMovimento, setMenosMovimento] = useState(false)
   const [parada, setParada] = useState(false)
+  const [duracao, setDuracao] = useState<number | null>(null)
   const ref = useRef<HTMLDivElement>(null)
+  const fila = useRef<HTMLUListElement>(null)
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -42,6 +55,24 @@ export function Clients({ block, items }: { block: Record<string, string>; items
     observer.observe(alvo)
     return () => observer.disconnect()
   }, [menosMovimento])
+
+  // A animação percorre a largura de uma repetição, então a duração é essa
+  // largura dividida pela velocidade. Recalcula ao redimensionar, porque a
+  // largura do cartão muda entre celular e computador.
+  useEffect(() => {
+    const ul = fila.current
+    if (!ul || menosMovimento) return
+
+    const medir = () => {
+      const umaCopia = ul.scrollWidth / REPETICOES
+      if (umaCopia > 0) setDuracao(umaCopia / VELOCIDADE)
+    }
+
+    medir()
+    const observer = new ResizeObserver(medir)
+    observer.observe(ul)
+    return () => observer.disconnect()
+  }, [menosMovimento, items.length])
 
   if (items.length === 0) return null
 
@@ -75,7 +106,9 @@ export function Clients({ block, items }: { block: Record<string, string>; items
         }}
       >
         <ul
+          ref={fila}
           data-parada={parada ? "true" : undefined}
+          style={duracao ? { animationDuration: `${duracao}s` } : undefined}
           className={`flex w-max ${menosMovimento ? "overflow-x-auto" : "esteira"}`}
         >
           {Array.from({ length: copias }).flatMap((_, copia) =>
@@ -85,7 +118,7 @@ export function Clients({ block, items }: { block: Record<string, string>; items
                 // Só a primeira cópia é anunciada: as demais são visuais e
                 // repeti-las faria o leitor de tela ler a lista quatro vezes.
                 aria-hidden={copia > 0 ? true : undefined}
-                className="flex w-[16rem] shrink-0 flex-col justify-center gap-3 border-r border-line px-8 sm:w-[19rem]"
+                className="flex w-[13.5rem] shrink-0 flex-col justify-center gap-3 border-r border-line px-6 sm:w-[17rem] sm:px-8"
               >
                 {cliente.logo ? (
                   <span className="relative block h-10 w-full max-w-[11rem]">

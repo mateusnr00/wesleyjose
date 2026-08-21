@@ -198,6 +198,8 @@ A seção de clientes corre de lado, em CSS puro. Não há biblioteca de carross
 
 Como o laço fica sem emenda: a lista é repetida quatro vezes e o deslocamento vai até `-25%`, exatamente a largura de uma repetição. Ao terminar, o quadro é idêntico ao inicial. Repetir quatro vezes garante fileira mais larga que a tela mesmo com poucos clientes, senão sobraria um vão girando junto.
 
+**A velocidade é medida em pixels por segundo, não em duração.** `VELOCIDADE` em `components/Clients.tsx` vale 50 px/s, e a duração da animação é calculada da largura real da fileira. Uma duração fixa faria o ritmo depender de quantos clientes existem: cadastrar mais cinco dobraria a largura e a esteira aceleraria sozinha. Para mudar o ritmo, mexa em `VELOCIDADE`; para cima acelera, para baixo desacelera.
+
 Três cuidados que não aparecem no visual:
 
 - **Só a primeira cópia é anunciada.** As outras levam `aria-hidden`, senão o leitor de tela leria a lista quatro vezes.
