@@ -1,7 +1,8 @@
+import Image from "next/image"
 import { Destaque } from "./Destaque"
 import { Reveal } from "./Reveal"
 
-type Cliente = { id: string; nome?: string; descricao?: string }
+type Cliente = { id: string; nome?: string; descricao?: string; logo?: string }
 
 /**
  * Prova social por nome, em tratamento tipográfico.
@@ -40,7 +41,24 @@ export function Clients({ block, items }: { block: Record<string, string>; items
                 delay={Math.min(i * 80, 400)}
                 className="flex min-h-[8.5rem] flex-col justify-between gap-4 border-b border-r border-line p-7"
               >
-                <span className="display text-xl leading-tight">{cliente.nome}</span>
+                {/* Com logo, ele ocupa o lugar do nome, que segue no alt para
+                    leitor de tela. Sem logo, o nome é composto na tipografia
+                    do site. A descrição fica embaixo nos dois casos, para as
+                    células não ficarem com estruturas diferentes. */}
+                {cliente.logo ? (
+                  <span className="relative block h-10 w-full max-w-[11rem]">
+                    <Image
+                      src={cliente.logo}
+                      alt={cliente.nome ?? ""}
+                      fill
+                      sizes="176px"
+                      className="object-contain object-left"
+                    />
+                  </span>
+                ) : (
+                  <span className="display text-xl leading-tight">{cliente.nome}</span>
+                )}
+
                 <span className="text-[10px] uppercase tracking-[0.18em] text-muted">{cliente.descricao}</span>
               </Reveal>
             ))}

@@ -705,13 +705,21 @@ export const collections = {
     fields: [
       { name: "nome", label: "Nome", type: "text", default: "" },
       { name: "descricao", label: "Descrição", type: "text", help: "Ex.: Emissora de TV, Artista", default: "" },
+      {
+        name: "logo",
+        label: "Logo (opcional)",
+        type: "image",
+        help:
+          "PNG com fundo transparente, deitado, altura de 200 px ou mais. Sem logo, o nome é composto na tipografia do site. Logo com fundo branco vira um retângulo branco sobre o fundo claro.",
+        default: "",
+      },
     ],
     defaults: [
       { nome: "Igreja Universal do Reino de Deus", descricao: "Instituição religiosa" },
       { nome: "Rede Record Goiás", descricao: "Emissora de TV" },
       { nome: "Silvia Abravanel", descricao: "Apresentadora" },
       { nome: "Balada Music", descricao: "Casa de shows" },
-      { nome: "Junim Alto Som", descricao: "Produtora de eventos" },
+      { nome: "Junin Auto Som", descricao: "Rede de acessórios automotivos" },
     ],
   },
 } satisfies Record<string, CollectionSchema>

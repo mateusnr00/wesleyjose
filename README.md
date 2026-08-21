@@ -126,7 +126,7 @@ A forma dos campos vive em **`lib/content-schema.ts`**, que também guarda o tex
 
 | Grupo | Blocos | Listas |
 | --- | --- | --- |
-| Geral | Marca, Contato, Rodapé | Menu de navegação |
+| Geral | Marca, Contato, Rodapé | Menu de navegação, Estados de atuação |
 | Início | Topo, Comprar ou vender, Sobre, Portfólio, Bairros, Consultoria, Faixa para proprietários, Depoimentos, Boletim, Contato | Números do topo, Cartões comprar/vender, Pilares, Frentes de consultoria, Depoimentos, Opções de interesse |
 | Imóveis | Topo do catálogo | |
 | Vender | Topo, Por que conosco, Processo, Depoimento em destaque, Dúvidas | Benefícios, Argumentos com número, Etapas, Prazos, Perguntas frequentes |
@@ -190,6 +190,13 @@ A ordem em que as coisas entram na tela é o que preserva o desempenho:
 5. Não carrega quando o sistema pede menos movimento (`prefers-reduced-motion`) ou a economia de dados está ligada.
 
 Recomendação de arquivo: 8 a 15 segundos, sem áudio, cortado para emendar no laço. A moldura é vertical (4:5), então vídeo deitado é cortado nas laterais.
+
+
+### Uma lista já materializada ignora o padrão do código
+
+Vale repetir porque morde: assim que uma lista é aberta no painel pela primeira vez, os padrões do código são copiados para o banco e **o banco passa a mandar sozinho**. Mudar `defaults` em `lib/content-schema.ts` depois disso não muda o site.
+
+Aconteceu com o menu: os itens antigos tinham sido materializados, e a troca no código não chegava ao ar. A correção é editar pelo painel, ou por SQL quando são muitos itens.
 
 ### Itálico dourado
 
