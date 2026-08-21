@@ -33,17 +33,23 @@ export function CountUp({ value, duration = 1600 }: { value: string; duration?: 
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
 
+    const format = (n: number) =>
+      n.toLocaleString("pt-BR", {
+        minimumFractionDigits: parsed.decimals,
+        maximumFractionDigits: parsed.decimals,
+      })
+
+    // Zera assim que o componente monta, e não só quando o observer dispara.
+    // Sem isso o valor final aparecia por um instante e depois pulava para o
+    // começo, o que lia como falha em vez de contagem.
+    setDisplay(`${parsed.prefix}${format(0)}${parsed.suffix}`)
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return
         observer.disconnect()
 
         const start = performance.now()
-        const format = (n: number) =>
-          n.toLocaleString("pt-BR", {
-            minimumFractionDigits: parsed.decimals,
-            maximumFractionDigits: parsed.decimals,
-          })
 
         const tick = (now: number) => {
           const progress = Math.min((now - start) / duration, 1)
@@ -53,7 +59,6 @@ export function CountUp({ value, duration = 1600 }: { value: string; duration?: 
           if (progress < 1) requestAnimationFrame(tick)
         }
 
-        setDisplay(`${parsed.prefix}${format(0)}${parsed.suffix}`)
         requestAnimationFrame(tick)
       },
       { threshold: 0.5 },

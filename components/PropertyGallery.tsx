@@ -103,7 +103,7 @@ export function PropertyGallery({ images, name }: { images: string[]; name: stri
           role="dialog"
           aria-modal="true"
           aria-label={`${name}, foto ${aberta + 1} de ${images.length}`}
-          className="fixed inset-0 z-[90] flex flex-col bg-ink/97"
+          className="fixed inset-0 z-[90] flex flex-col bg-plum-deep/97"
           onTouchStart={(e) => {
             toqueX.current = e.touches[0].clientX
           }}

@@ -1,37 +1,36 @@
 @import "tailwindcss";
 
 @theme {
-  /* Superfícies */
-  --color-cream: #f7f4ee;
-  --color-cream-deep: #efe9de;
+  /* Superfícies. O claro leva um toque de violeta para não brigar com o roxo;
+     creme puro ao lado de roxo profundo puxa para o amarelado. */
+  --color-cream: #faf7fb;
+  --color-cream-deep: #f2ecf4;
   --color-paper: #ffffff;
-  --color-navy: #17203e;
-  --color-navy-soft: #1e2a4e;
-  --color-ink: #1a1d24;
+
+  /* Roxo da marca. `plum` é a cor das seções escuras e do topo, `plum-deep`
+     é o rodapé, e `plum-soft` separa blocos dentro do escuro. */
+  --color-plum: #3a1146;
+  --color-plum-soft: #4d2059;
+  --color-plum-deep: #24072c;
 
   /* Marca.
      `gold` só passa no contraste de texto grande (3:1), então serve para os
      itálicos dos títulos, ícones e traços. Rótulo pequeno usa `gold-deep`,
      que passa em 4.5:1 sobre os dois tons de fundo. */
-  --color-gold: #a57f49;
-  --color-gold-deep: #7d643e;
-  --color-gold-soft: #cbb083;
+  --color-gold: #a8813f;
+  --color-gold-deep: #7e6030;
+  --color-gold-soft: #d3b273;
 
-  /* Texto */
-  --color-graphite: #23262e;
+  /* Texto. O preto do texto é roxo-escuro, não neutro: preto puro sobre fundo
+     violáceo parece sujo. */
+  --color-graphite: #2a1030;
   /* Ambos verificados em 4.5:1 sobre cream e cream-deep. */
-  --color-muted: #5f626b;
-  --color-muted-light: #666973;
+  --color-muted: #5f5566;
+  --color-muted-light: #665c6d;
 
   /* Traços */
-  --color-line: #dcd6ca;
-  --color-line-dark: #2c3352;
-
-  /* Tipografia */
-  /* As variáveis *-loaded vêm do next/font, que já injeta a família com as
-     métricas de fallback ajustadas. */
-  --font-display: var(--font-sans-loaded), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-sans-loaded), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --color-line: #ddd3e0;
+  --color-line-dark: #4a2456;
 
   /* Ritmo */
   --spacing-section: 7.5rem;

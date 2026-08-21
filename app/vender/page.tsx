@@ -116,7 +116,7 @@ export default async function SellPage() {
         </section>
 
         {/* Depoimento de quem vendeu */}
-        <section className="relative overflow-hidden bg-navy">
+        <section className="relative overflow-hidden bg-plum">
           <div className="absolute inset-0">
             <Image
               src={t(c, "vender_depoimento", "image")}
@@ -125,7 +125,7 @@ export default async function SellPage() {
               sizes="100vw"
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-navy/85" />
+            <div className="absolute inset-0 bg-plum/85" />
           </div>
 
           <div className="relative mx-auto max-w-3xl px-6 py-28 text-center text-cream lg:py-36">

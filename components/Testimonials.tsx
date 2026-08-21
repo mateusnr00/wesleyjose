@@ -7,7 +7,7 @@ export function Testimonials({ block, items }: { block: Record<string, string>; 
   if (items.length === 0) return null
 
   return (
-    <section className="bg-navy py-section text-cream">
+    <section className="bg-plum py-section text-cream">
       <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-24">
           <Reveal variant="left">
@@ -23,7 +23,7 @@ export function Testimonials({ block, items }: { block: Record<string, string>; 
           <div className="space-y-5">
             {items.map((item, index) => (
               <Reveal key={item.id} variant="right" delay={index * 120}>
-                <figure className="bg-navy-soft p-8 lg:p-10">
+                <figure className="bg-plum-soft p-8 lg:p-10">
                   <div className="flex gap-1 text-gold-soft" role="img" aria-label="Avaliação: 5 de 5">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star key={i} />

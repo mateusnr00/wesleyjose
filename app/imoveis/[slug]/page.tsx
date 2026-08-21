@@ -135,7 +135,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
         </section>
 
         {/* Números do imóvel, no espírito da faixa de destaques. */}
-        <section className="bg-navy py-14 text-cream lg:py-16">
+        <section className="bg-plum py-14 text-cream lg:py-16">
           <div className="mx-auto max-w-[1360px] px-6 lg:px-12">
             <dl className="grid grid-cols-2 gap-y-10 lg:grid-cols-4">
               {numeros.map((n, i) => (

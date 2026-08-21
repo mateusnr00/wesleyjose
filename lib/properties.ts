@@ -62,7 +62,7 @@ export const purposeLabels: Record<Purpose, string> = {
 export const placeholderImage =
   "data:image/svg+xml;utf8," +
   encodeURIComponent(
-    '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900"><rect width="100%" height="100%" fill="#efe9de"/><text x="50%" y="50%" font-family="system-ui,sans-serif" font-size="42" fill="#b0a894" text-anchor="middle" dominant-baseline="middle">sem foto</text></svg>',
+    '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900"><rect width="100%" height="100%" fill="#f2ecf4"/><text x="50%" y="50%" font-family="system-ui,sans-serif" font-size="42" fill="#a898ae" text-anchor="middle" dominant-baseline="middle">sem foto</text></svg>',
   )
 
 /** Formata valores em reais; imóveis sem preço aparecem como "Sob consulta". */

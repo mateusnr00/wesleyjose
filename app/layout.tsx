@@ -51,7 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const viewport = {
-  themeColor: "#f7f4ee",
+  themeColor: "#faf7fb",
   colorScheme: "light",
 }
 
@@ -63,7 +63,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <a
           href="#conteudo"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-navy focus:px-4 focus:py-2 focus:text-xs focus:uppercase focus:tracking-[0.2em] focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-plum focus:px-4 focus:py-2 focus:text-xs focus:uppercase focus:tracking-[0.2em] focus:text-white"
         >
           Pular para o conteúdo
         </a>

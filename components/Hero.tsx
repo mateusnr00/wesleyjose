@@ -31,7 +31,7 @@ export function Hero({
 
   return (
     <>
-      <section className="relative min-h-[88svh] overflow-hidden bg-gradient-to-b from-navy via-graphite to-graphite lg:min-h-[92svh]">
+      <section className="relative min-h-[88svh] overflow-hidden bg-gradient-to-b from-plum-soft via-plum to-plum-deep lg:min-h-[92svh]">
         <div className="absolute inset-0">
           <HeroMedia
             image={fundo}

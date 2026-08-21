@@ -40,6 +40,20 @@ A partir daí, todo push no branch padrão vira deploy de produção, e todo bra
 - **`NEXT_PUBLIC_SITE_URL`** só é necessária quando **mais de um domínio** aponta para o projeto, para escolher qual é o canônico. Ela tem prioridade sobre o que a Vercel injeta.
 - **Imagens**: `images.unsplash.com` está liberado no `next.config.mjs`. Ao trocar pelas fotos reais, ajuste `remotePatterns` para o domínio de onde elas vierem, ou coloque os arquivos em `public/` e use caminhos locais.
 
+## Identidade visual
+
+Roxo profundo com dourado, definido em `app/globals.css`. Os tokens guardam papéis, não nomes de cor:
+
+| Token | Valor | Papel |
+| --- | --- | --- |
+| `cream` / `cream-deep` | `#faf7fb` / `#f2ecf4` | Superfícies claras. Levam um toque de violeta: creme puro ao lado de roxo profundo puxa para o amarelado |
+| `plum` / `plum-soft` / `plum-deep` | `#3a1146` / `#4d2059` / `#24072c` | Seções escuras, blocos dentro do escuro, rodapé |
+| `gold` / `gold-deep` / `gold-soft` | `#a8813f` / `#7e6030` / `#d3b273` | Acento. `gold` só passa em 3:1, então serve para itálico de título, ícone e traço; rótulo pequeno usa `gold-deep`, que passa em 4,5:1 |
+| `graphite` | `#2a1030` | Texto. É roxo-escuro, não neutro: preto puro sobre fundo violáceo parece sujo |
+| `muted` / `muted-light` | `#5f5566` / `#665c6d` | Texto secundário, ambos verificados em 4,5:1 |
+
+Toda combinação foi calculada antes de aplicar, e a acessibilidade seguiu em 100 no Lighthouse. Ao trocar qualquer valor, refaça a conta: o dourado é o mais frágil, porque passa raspando no limite de texto grande.
+
 ## Desempenho e acessibilidade
 
 Medido com Lighthouse sobre o build de produção, nas quatro páginas públicas:
