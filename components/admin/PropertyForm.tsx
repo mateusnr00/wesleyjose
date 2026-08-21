@@ -47,6 +47,15 @@ export function PropertyForm({
           <input name="city" defaultValue={property?.city ?? "Goiânia"} className={input} />
         </Field>
 
+        <Field label="Estado" hint="Sigla de duas letras, ex.: GO, SP, SC.">
+          <input
+            name="state"
+            maxLength={2}
+            defaultValue={property?.state ?? "GO"}
+            className={`${input} uppercase`}
+          />
+        </Field>
+
         <Field
           label="Endereço na URL (slug)"
           hint="Deixe em branco para gerar a partir do nome. Mudar isso quebra links já compartilhados."
@@ -140,8 +149,9 @@ export function PropertyForm({
         <div className="sm:col-span-2">
           <ImageUploader
             label="Foto de capa"
-            hint="É a imagem usada nos cards e no topo da página do imóvel."
+            hint="É a imagem usada nos cards e no topo da página do imóvel. A marca d'água é gravada no arquivo no envio."
             name="image"
+            watermark
             initial={property?.image ? [property.image] : []}
           />
         </div>
@@ -149,8 +159,9 @@ export function PropertyForm({
         <div className="sm:col-span-2">
           <ImageUploader
             label="Galeria"
-            hint="As duas primeiras aparecem ao lado da capa na página do imóvel."
+            hint="As duas primeiras aparecem ao lado da capa na página do imóvel. Todas saem com a marca d'água gravada."
             name="gallery"
+            watermark
             multiple
             initial={property?.gallery ?? []}
           />

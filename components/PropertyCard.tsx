@@ -44,7 +44,7 @@ export function PropertyCard({ property, priority = false }: { property: Propert
 
           <p className="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-muted">
             <PinIcon />
-            {property.district} · {property.city}
+            {property.district} · {property.city}/{property.state}
           </p>
 
           <PropertySpecs property={property} layout="cells" />

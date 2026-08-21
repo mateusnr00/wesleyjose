@@ -14,7 +14,7 @@ import { Reveal, RevealGroup, ScrollProgress } from "@/components/Reveal"
 import { WhatsAppFloat } from "@/components/WhatsAppFloat"
 import { formatPrice, kindLabels, placeholderImage, statusLabels } from "@/lib/properties"
 import { getProperties, getProperty } from "@/lib/queries"
-import { getSiteContent, siteData, t } from "@/lib/content"
+import { getSiteContent, list, siteData, t } from "@/lib/content"
 import { waLink } from "@/lib/whatsapp"
 
 export const revalidate = 3600
@@ -115,7 +115,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
                   <path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z" />
                   <circle cx="12" cy="10" r="2.6" />
                 </svg>
-                {property.district} · {property.city}/{site.state}
+                {property.district} · {property.city}/{property.state}
               </p>
 
               <div className="mt-9 flex flex-wrap items-end gap-x-10 gap-y-6">
@@ -279,7 +279,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
               <PropertyMap
                 district={property.district}
                 city={property.city}
-                state={site.state}
+                state={property.state}
               />
             </Reveal>
           </section>
@@ -316,7 +316,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ slug:
         <div aria-hidden="true" className="h-20 lg:hidden" />
       </main>
 
-      <Footer text={t(c, "rodape", "text")} legal={t(c, "rodape", "legal")} />
+      <Footer text={t(c, "rodape", "text")} legal={t(c, "rodape", "legal")} estados={list(c, "estados")} />
       <WhatsAppFloat hideOnMobile />
       <PropertyActionBar property={property} />
     </>

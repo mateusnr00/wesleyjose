@@ -113,7 +113,23 @@ export function Header({ overHero = false }: { overHero?: boolean }) {
 
           <div className="flex items-center gap-4">
             <a
-              href={waLink(site.whatsapp, `Olá! Vim pelo site da ${site.name} e gostaria de falar com um consultor.`)}
+              href={site.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Instagram da ${site.name}`}
+              className={`grid size-10 place-items-center transition-all ${
+                claro ? "text-cream hover:text-gold-soft" : "text-graphite/70 hover:text-graphite"
+              } ${open ? "pointer-events-none opacity-0" : "opacity-100"}`}
+            >
+              <svg viewBox="0 0 24 24" className="size-[18px]" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+              </svg>
+            </a>
+
+            <a
+              href={waLink(site.whatsapp, `Olá! Vim pelo site da ${site.name} e gostaria de falar com um corretor.`)}
               target="_blank"
               rel="noopener noreferrer"
               className={`hidden border px-6 py-3 text-[10px] uppercase tracking-[0.2em] transition-all lg:inline-block ${
@@ -122,7 +138,7 @@ export function Header({ overHero = false }: { overHero?: boolean }) {
                   : "border-graphite/25 hover:border-graphite hover:bg-graphite hover:text-cream"
               } ${open ? "pointer-events-none opacity-0" : "opacity-100"}`}
             >
-              Falar com consultor
+              {site.ctaCorretor}
             </a>
 
             <button
@@ -219,7 +235,7 @@ export function Header({ overHero = false }: { overHero?: boolean }) {
               rel="noopener noreferrer"
               className="block bg-graphite px-6 py-4 text-center text-[10px] uppercase tracking-[0.2em] text-cream"
             >
-              Falar no WhatsApp
+              {site.ctaCorretor}
             </a>
 
             <div className="mt-7 flex flex-wrap items-center justify-between gap-3 text-[11px] text-muted">

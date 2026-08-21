@@ -6,8 +6,12 @@ import { RevealGroup } from "./Reveal"
 import {
   districtsOf,
   kindLabels,
+  noSegmento,
+  segmentoLabels,
+  statesOf,
   type Property,
   type PropertyKind,
+  type Segmento,
 } from "@/lib/properties"
 
 const priceBands = [
@@ -31,7 +35,7 @@ function parseBand(band: string): [number, number] {
   return [Number(min) || 0, Number(max) || Number.POSITIVE_INFINITY]
 }
 
-const FILTROS_VAZIOS = { tipo: "", bairro: "", preco: "", quartos: "", ordem: "relevancia" }
+const FILTROS_VAZIOS = { segmento: "", estado: "", tipo: "", bairro: "", preco: "", quartos: "", ordem: "relevancia" }
 type Filtros = typeof FILTROS_VAZIOS
 
 export function PropertyCatalog({ properties }: { properties: Property[] }) {
@@ -49,6 +53,8 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
   useEffect(() => {
     const q = new URLSearchParams(window.location.search)
     const daUrl: Filtros = {
+      segmento: q.get("segmento") ?? "",
+      estado: q.get("estado") ?? "",
       tipo: q.get("tipo") ?? "",
       bairro: q.get("bairro") ?? "",
       preco: q.get("preco") ?? "",
@@ -61,8 +67,8 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
     }
   }, [])
 
-  const { tipo: kind, bairro: district, preco: band, quartos: bedrooms, ordem: sort } = filtros
-  const hasFilters = Boolean(kind || district || band || bedrooms)
+  const { segmento, estado, tipo: kind, bairro: district, preco: band, quartos: bedrooms, ordem: sort } = filtros
+  const hasFilters = Boolean(segmento || estado || kind || district || band || bedrooms)
 
   /** Atualiza o filtro e espelha na URL, que segue compartilhável. */
   function setParam(key: keyof Filtros, value: string) {
@@ -90,6 +96,8 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
     const [min, max] = parseBand(band)
 
     const filtered = properties.filter((property) => {
+      if (segmento && !noSegmento(property, segmento as Segmento)) return false
+      if (estado && property.state !== estado) return false
       if (kind && property.kind !== kind) return false
       if (district && property.district !== district) return false
       if (bedrooms && property.bedrooms < Number(bedrooms)) return false
@@ -118,13 +126,13 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
     }
 
     return ordered
-  }, [properties, kind, district, band, bedrooms, sort])
+  }, [properties, segmento, estado, kind, district, band, bedrooms, sort])
 
   // Trocar de filtro deve voltar para a primeira página; ficar na página 3 de
   // um resultado que agora tem 4 itens mostraria uma lista vazia.
   useEffect(() => {
     setPage(1)
-  }, [kind, district, band, bedrooms, sort])
+  }, [segmento, estado, kind, district, band, bedrooms, sort])
 
   const totalPages = Math.max(1, Math.ceil(results.length / PER_PAGE))
   const visible = results.slice((page - 1) * PER_PAGE, page * PER_PAGE)
@@ -140,7 +148,29 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
   return (
     <>
       {/* Barra de filtros */}
-      <div className="grid gap-4 border-y border-line py-6 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-4 border-y border-line py-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+        <Filter label="Segmento">
+          <select value={segmento} onChange={(e) => setParam("segmento", e.target.value)} className={selectClass}>
+            <option value="">Todos</option>
+            {(Object.keys(segmentoLabels) as Segmento[]).map((k) => (
+              <option key={k} value={k}>
+                {segmentoLabels[k]}
+              </option>
+            ))}
+          </select>
+        </Filter>
+
+        <Filter label="Estado">
+          <select value={estado} onChange={(e) => setParam("estado", e.target.value)} className={selectClass}>
+            <option value="">Todos</option>
+            {statesOf(properties).map((uf) => (
+              <option key={uf} value={uf}>
+                {uf}
+              </option>
+            ))}
+          </select>
+        </Filter>
+
         <Filter label="Tipo">
           <select value={kind} onChange={(e) => setParam("tipo", e.target.value)} className={selectClass}>
             <option value="">Todos</option>
@@ -219,7 +249,7 @@ export function PropertyCatalog({ properties }: { properties: Property[] }) {
 
           <div className="mt-12 grid items-stretch gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
             {/* `key` na página força o reveal a rodar de novo a cada troca. */}
-            <RevealGroup key={`${page}-${kind}-${district}-${band}-${bedrooms}-${sort}`} variant="up" step={70}>
+            <RevealGroup key={`${page}-${segmento}-${estado}-${kind}-${district}-${band}-${bedrooms}-${sort}`} variant="up" step={70}>
               {visible.map((property, index) => (
                 <PropertyCard key={property.slug} property={property} priority={page === 1 && index < 3} />
               ))}

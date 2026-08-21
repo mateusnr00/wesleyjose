@@ -2,7 +2,9 @@
 
 import Image from "next/image"
 import { useRef, useState } from "react"
+import { useSite } from "../SiteContext"
 import { createClient } from "@/lib/supabase/client"
+import { marcarDagua } from "@/lib/watermark"
 
 const LIMITES = {
   image: { bytes: 10 * 1024 * 1024, accept: "image/jpeg,image/png,image/webp,image/avif", rotulo: "10 MB" },
@@ -19,6 +21,7 @@ export function ImageUploader({
   hint,
   name,
   kind = "image",
+  watermark = false,
   multiple = false,
   initial = [],
 }: {
@@ -27,10 +30,13 @@ export function ImageUploader({
   name: string
   /** `video` troca os formatos aceitos, o limite de tamanho e a pré-visualização. */
   kind?: "image" | "video"
+  /** Grava a marca d'água no arquivo antes de enviar. Só para foto de imóvel. */
+  watermark?: boolean
   multiple?: boolean
   initial?: string[]
 }) {
   const limite = LIMITES[kind]
+  const site = useSite()
   const [urls, setUrls] = useState<string[]>(initial.filter(Boolean))
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -52,13 +58,22 @@ export function ImageUploader({
         continue
       }
 
+      let paraEnviar = file
+      if (watermark && kind === "image") {
+        try {
+          paraEnviar = await marcarDagua(file, site.name)
+        } catch {
+          // Falha ao marcar não pode impedir o cadastro; segue o arquivo original.
+        }
+      }
+
       // Nome único: manter o nome original causaria colisão entre imóveis.
-      const extension = file.name.split(".").pop()?.toLowerCase() || "jpg"
+      const extension = paraEnviar.name.split(".").pop()?.toLowerCase() || "jpg"
       const path = `${crypto.randomUUID()}.${extension}`
 
       const { error: uploadError } = await supabase.storage
         .from("imoveis")
-        .upload(path, file, { cacheControl: "31536000", upsert: false })
+        .upload(path, paraEnviar, { cacheControl: "31536000", upsert: false })
 
       if (uploadError) {
         setError(`Falha ao enviar "${file.name}": ${uploadError.message}`)

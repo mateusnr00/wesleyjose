@@ -18,6 +18,8 @@ export interface Property {
   name: string
   district: string
   city: string
+  /** Sigla, ex.: GO. */
+  state: string
   purpose: Purpose
   kind: PropertyKind
   status: PropertyStatus
@@ -71,6 +73,30 @@ export function formatPrice(price: number | null): string {
     currency: "BRL",
     maximumFractionDigits: 0,
   }).format(price)
+}
+
+export type Segmento = "revenda" | "lancamento" | "aluguel"
+
+export const segmentoLabels: Record<Segmento, string> = {
+  revenda: "Revenda",
+  lancamento: "Lançamentos",
+  aluguel: "Aluguel",
+}
+
+/**
+ * O menu fala em revenda, lançamento e aluguel, que é como o cliente pensa.
+ * No banco isso são dois eixos: `purpose` separa venda de locação, e `kind`
+ * marca o que é lançamento.
+ */
+export function noSegmento(p: Property, segmento: Segmento): boolean {
+  if (segmento === "aluguel") return p.purpose === "locacao"
+  if (segmento === "lancamento") return p.purpose === "venda" && p.kind === "lancamento"
+  return p.purpose === "venda" && p.kind !== "lancamento"
+}
+
+/** Estados distintos de uma lista, para alimentar filtros. */
+export function statesOf(list: Property[]): string[] {
+  return [...new Set(list.map((p) => p.state))].sort()
 }
 
 /** Bairros distintos de uma lista, em ordem alfabética, para alimentar filtros. */

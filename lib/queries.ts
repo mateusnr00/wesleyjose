@@ -5,7 +5,7 @@ import type { Property } from "./properties"
 
 /** Colunas lidas pelo site público. Explícito para não vazar coluna nova sem querer. */
 const COLUMNS =
-  "id, slug, reference, name, district, city, purpose, kind, status, price, area, bedrooms, suites, parking, headline, description, features, image, gallery, featured, published"
+  "id, slug, reference, name, district, city, state, purpose, kind, status, price, area, bedrooms, suites, parking, headline, description, features, image, gallery, featured, published"
 
 type Row = Record<string, unknown>
 
@@ -30,6 +30,7 @@ function toProperty(row: Row): Property {
     name: String(row.name),
     district: String(row.district),
     city: String(row.city),
+    state: String(row.state ?? "GO"),
     purpose: row.purpose as Property["purpose"],
     kind: row.kind as Property["kind"],
     status: row.status as Property["status"],

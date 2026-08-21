@@ -12,11 +12,13 @@ import { waLink } from "@/lib/whatsapp"
 export function Hero({
   block,
   stats,
+  estados,
   spotlight,
   districts,
 }: {
   block: Record<string, string>
   stats: { id: string; value?: string; label?: string }[]
+  estados: { id: string; nome?: string; sigla?: string }[]
   spotlight?: Property
   districts: string[]
 }) {
@@ -73,6 +75,18 @@ export function Hero({
                 {block.ctaSecondary}
               </a>
             </div>
+
+            {estados.length > 0 && (
+              <p className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] uppercase tracking-[0.18em] text-cream/60">
+                <span className="text-cream/45">Atuação</span>
+                {estados.map((uf, i) => (
+                  <span key={uf.id} className="flex items-center gap-3">
+                    {i > 0 && <span aria-hidden="true" className="text-cream/30">·</span>}
+                    {uf.nome}
+                  </span>
+                ))}
+              </p>
+            )}
           </div>
 
           {/* Rodapé do topo: números à esquerda, imóvel em destaque à direita. */}

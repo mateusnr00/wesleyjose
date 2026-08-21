@@ -124,6 +124,7 @@ export function siteData(content: SiteContent) {
     city: contato.city ?? "",
     state: contato.state ?? "",
     hours: contato.hours ?? "",
+    ctaCorretor: contato.ctaCorretor ?? "Fale com um corretor",
     instagram: contato.instagram ?? "",
     instagramHandle: contato.instagramHandle ?? "",
     nav: (content.items.navegacao ?? []).map((i) => ({ label: i.label ?? "", href: i.href ?? "" })),

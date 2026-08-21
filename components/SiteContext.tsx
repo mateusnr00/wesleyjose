@@ -17,6 +17,7 @@ export interface SiteData {
   city: string
   state: string
   hours: string
+  ctaCorretor: string
   instagram: string
   instagramHandle: string
   nav: { label: string; href: string }[]

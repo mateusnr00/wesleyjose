@@ -1,4 +1,5 @@
 import { About } from "@/components/About"
+import { Clients } from "@/components/Clients"
 import { Contact } from "@/components/Contact"
 import { DistrictShortcuts } from "@/components/DistrictShortcuts"
 import { FeaturedProperties } from "@/components/FeaturedProperties"
@@ -33,6 +34,7 @@ export default async function HomePage() {
         <Hero
           block={c.blocks.home_hero}
           stats={list(c, "estatisticas")}
+          estados={list(c, "estados")}
           spotlight={featured[0]}
           districts={districtsOf(all)}
         />
@@ -44,10 +46,11 @@ export default async function HomePage() {
         <Services block={c.blocks.home_consultoria} services={list(c, "consultoria")} />
         <SellCta block={c.blocks.home_vendedores} />
         <Testimonials block={c.blocks.home_depoimentos} items={list(c, "depoimentos")} />
+        <Clients block={c.blocks.home_clientes} items={list(c, "clientes")} />
         <Newsletter block={c.blocks.home_boletim} />
         <Contact block={c.blocks.home_contato} interests={list(c, "contato_interesses")} />
       </main>
-      <Footer text={t(c, "rodape", "text")} legal={t(c, "rodape", "legal")} />
+      <Footer text={t(c, "rodape", "text")} legal={t(c, "rodape", "legal")} estados={list(c, "estados")} />
       <WhatsAppFloat />
     </>
   )

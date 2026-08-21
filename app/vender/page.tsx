@@ -155,7 +155,7 @@ export default async function SellPage() {
         </section>
       </main>
 
-      <Footer text={t(c, "rodape", "text")} legal={t(c, "rodape", "legal")} />
+      <Footer text={t(c, "rodape", "text")} legal={t(c, "rodape", "legal")} estados={list(c, "estados")} />
       <WhatsAppFloat />
     </>
   )

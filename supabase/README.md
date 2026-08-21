@@ -11,6 +11,7 @@ As migrações abaixo já estão aplicadas no projeto **Premium Imoveis** (`anwz
 | `20260819221500_add_property_reference_code` | Coluna `reference` com código curto (`PR0101`) gerado por sequência |
 | `20260820160000_create_editable_content` | Tabelas `content_blocks` e `content_items`, que guardam a copy editável |
 | `20260820230000_allow_video_in_media_bucket` | Bucket passa a aceitar MP4 e WebM, com limite de 60 MB |
+| `20260821090000_add_property_state` | Coluna `state` nos imóveis, para atuação em GO, SP e SC |
 
 ## Dar acesso a mais alguém
 

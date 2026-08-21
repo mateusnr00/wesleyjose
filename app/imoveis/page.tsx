@@ -5,7 +5,7 @@ import { ScrollProgress } from "@/components/Reveal"
 import { PropertyCatalog } from "@/components/PropertyCatalog"
 import { WhatsAppFloat } from "@/components/WhatsAppFloat"
 import { Destaque } from "@/components/Destaque"
-import { getSiteContent, t } from "@/lib/content"
+import { getSiteContent, list, t } from "@/lib/content"
 import { getProperties } from "@/lib/queries"
 
 export const revalidate = 3600
@@ -44,7 +44,7 @@ export default async function PropertiesPage() {
         </div>
       </main>
 
-      <Footer text={t(c, "rodape", "text")} legal={t(c, "rodape", "legal")} />
+      <Footer text={t(c, "rodape", "text")} legal={t(c, "rodape", "legal")} estados={list(c, "estados")} />
       <WhatsAppFloat />
     </>
   )

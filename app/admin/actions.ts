@@ -37,6 +37,9 @@ function payloadFrom(formData: FormData) {
     slug: slugInput ? slugify(slugInput) : slugify(name),
     district: String(formData.get("district") ?? "").trim(),
     city: String(formData.get("city") ?? "Goiânia").trim() || "Goiânia",
+    // A restrição do banco exige duas maiúsculas; normalizar aqui evita que um
+    // "go" digitado em minúscula derrube o salvamento inteiro.
+    state: (String(formData.get("state") ?? "GO").trim().toUpperCase().slice(0, 2) || "GO").padEnd(2, "O"),
     purpose: String(formData.get("purpose") ?? "venda"),
     kind: String(formData.get("kind") ?? "residencia"),
     status: String(formData.get("status") ?? "disponivel"),

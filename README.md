@@ -137,6 +137,20 @@ As fotos dos imóveis ficam no cadastro do imóvel, não aqui: são dado do imó
 
 O upload vai do navegador direto para o Storage e o arquivo recebe um nome único, para dois envios com o mesmo nome de origem não se sobrescreverem.
 
+### Marca d'água nas fotos dos imóveis
+
+A marca é **gravada dentro do arquivo** no momento do envio, em `lib/watermark.ts`, e não sobreposta por CSS. Uma sobreposição não protege nada: basta abrir a URL da foto para baixar a versão limpa.
+
+O mesmo passo redimensiona para no máximo 2400 px de largura e converte para WebP. Foto de câmera costuma chegar com 6000 px e 12 MB, tamanho que nenhuma página precisa.
+
+Só as fotos de imóvel são marcadas (capa e galeria). Foto do consultor e fundos do topo passam sem marca.
+
+Se a marcação falhar por qualquer motivo, o arquivo original é enviado assim mesmo: perder a marca é ruim, impedir o cadastro é pior.
+
+### Segmentos do catálogo
+
+O menu fala em revenda, lançamento e aluguel, que é como o cliente pensa. No banco isso são dois eixos: `purpose` separa venda de locação e `kind` marca o que é lançamento. `noSegmento()` em `lib/properties.ts` faz a tradução, e o catálogo aceita `?segmento=` e `?estado=` na URL.
+
 ### Topo em tela cheia
 
 O topo da home ocupa a tela inteira, com o texto sobre a mídia. Dois campos em `Conteúdo → Topo` controlam o fundo:

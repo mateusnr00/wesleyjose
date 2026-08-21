@@ -5,7 +5,15 @@ import { Logo } from "./Logo"
 import { useSite } from "./SiteContext"
 import { waLink } from "@/lib/whatsapp"
 
-export function Footer({ text, legal }: { text: string; legal: string }) {
+export function Footer({
+  text,
+  legal,
+  estados,
+}: {
+  text: string
+  legal: string
+  estados: { id: string; nome?: string; sigla?: string }[]
+}) {
   const site = useSite()
   const nav = site.nav
   const year = new Date().getFullYear()

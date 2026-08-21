@@ -81,6 +81,7 @@ export const blocks = {
       { name: "city", label: "Cidade", type: "text", default: "Goiânia" },
       { name: "state", label: "Estado", type: "text", default: "GO" },
       { name: "hours", label: "Horário de atendimento", type: "text", default: "Seg a sex, 9h às 19h" },
+      { name: "ctaCorretor", label: "Botão do topo", type: "text", default: "Fale com um corretor" },
       { name: "instagram", label: "Link do Instagram", type: "url", default: "https://www.instagram.com/premiumimoveisgo/" },
       { name: "instagramHandle", label: "@ do Instagram", type: "text", default: "@premiumimoveisgo" },
     ],
@@ -90,20 +91,20 @@ export const blocks = {
     label: "Topo",
     group: "Início",
     fields: [
-      { name: "eyebrow", label: "Rótulo", type: "text", default: "Consultoria imobiliária · Goiânia" },
+      { name: "eyebrow", label: "Rótulo", type: "text", default: "Consultoria imobiliária de alto padrão" },
       {
         name: "title",
         label: "Título",
         type: "textarea",
         destaque: true,
-        default: "Imóveis que representam o seu *próximo nível*.",
+        default: "O investimento que você *mora* dentro.",
       },
       {
         name: "text",
         label: "Parágrafo",
         type: "textarea",
         default:
-          "Curadoria de residências, coberturas e lançamentos que não chegam aos portais. Cada indicação passa por análise de projeto, documentação e potencial de valorização antes de virar uma visita.",
+          "Há 18 anos selecionando imóveis de alto padrão em Goiás, São Paulo e Santa Catarina. Cada indicação passa por análise de projeto, documentação e potencial de valorização antes de virar uma visita, porque patrimônio não se compra no impulso.",
       },
       { name: "ctaPrimary", label: "Botão principal", type: "text", default: "Ver imóveis" },
       { name: "ctaSecondary", label: "Botão secundário", type: "text", default: "Falar no WhatsApp" },
@@ -390,6 +391,28 @@ export const blocks = {
     ],
   },
 
+  home_clientes: {
+    label: "Clientes atendidos",
+    group: "Início",
+    fields: [
+      { name: "eyebrow", label: "Rótulo", type: "text", default: "Quem já confiou" },
+      {
+        name: "title",
+        label: "Título",
+        type: "textarea",
+        destaque: true,
+        default: "Nomes que não escolhem *por acaso*.",
+      },
+      {
+        name: "text",
+        label: "Parágrafo",
+        type: "textarea",
+        default:
+          "Quem tem muito a perder em uma negociação mal conduzida costuma ser o cliente mais exigente. É com esse tipo de exigência que a gente trabalha há 18 anos.",
+      },
+    ],
+  },
+
   rodape: {
     label: "Rodapé",
     group: "Geral",
@@ -427,11 +450,11 @@ export const collections = {
       { name: "href", label: "Endereço", type: "text", help: "Ex.: /imoveis ou /#contato", default: "" },
     ],
     defaults: [
-      { label: "Imóveis", href: "/imoveis" },
-      { label: "Vender", href: "/vender" },
-      { label: "Consultoria", href: "/#consultoria" },
-      { label: "Sobre", href: "/#sobre" },
-      { label: "Contato", href: "/#contato" },
+      { label: "Revenda", href: "/imoveis?segmento=revenda" },
+      { label: "Lançamentos", href: "/imoveis?segmento=lancamento" },
+      { label: "Aluguel", href: "/imoveis?segmento=aluguel" },
+      { label: "Quem somos", href: "/#sobre" },
+      { label: "Avaliações", href: "/vender" },
     ],
   },
 
@@ -445,9 +468,9 @@ export const collections = {
       { name: "label", label: "Legenda", type: "text", default: "" },
     ],
     defaults: [
+      { value: "18 anos", label: "de mercado" },
       { value: "R$ 380M", label: "em imóveis negociados" },
-      { value: "12 anos", label: "de mercado em Goiânia" },
-      { value: "240+", label: "famílias atendidas" },
+      { value: "3 estados", label: "de atuação" },
     ],
   },
 
@@ -654,6 +677,41 @@ export const collections = {
       { question: "Qual é a comissão?", answer: "Seguimos a tabela do CRECI-GO para imóveis urbanos. O percentual exato é definido no contrato, junto com o que está incluso, e nada é cobrado antes do fechamento." },
       { question: "Meu imóvel vai aparecer em portal?", answer: "Só se você autorizar. Uma parte relevante do que vendemos nunca é anunciada: apresentamos direto à carteira de compradores qualificados, o que preserva sua privacidade e evita desgastar o imóvel no mercado." },
       { question: "Vocês atendem fora de Goiânia?", answer: "A Premium Imóveis atua em Goiânia e região metropolitana, incluindo Aparecida de Goiânia e Senador Canedo. Para imóveis fora dessa área, avaliamos caso a caso." },
+    ],
+  },
+
+  estados: {
+    label: "Estados de atuação",
+    group: "Geral",
+    help: "Aparecem no topo da home e no rodapé.",
+    titleField: "nome",
+    fields: [
+      { name: "nome", label: "Estado", type: "text", default: "" },
+      { name: "sigla", label: "Sigla", type: "text", help: "Duas letras, ex.: GO", default: "" },
+    ],
+    defaults: [
+      { nome: "Goiás", sigla: "GO" },
+      { nome: "São Paulo", sigla: "SP" },
+      { nome: "Santa Catarina", sigla: "SC" },
+    ],
+  },
+
+  clientes: {
+    label: "Clientes atendidos",
+    group: "Início",
+    help:
+      "Prova social por nome. Só inclua quem autorizou o uso do nome por escrito, e guarde o aceite: se alguém pedir remoção, basta excluir o item aqui.",
+    titleField: "nome",
+    fields: [
+      { name: "nome", label: "Nome", type: "text", default: "" },
+      { name: "descricao", label: "Descrição", type: "text", help: "Ex.: Emissora de TV, Artista", default: "" },
+    ],
+    defaults: [
+      { nome: "Igreja Universal do Reino de Deus", descricao: "Instituição religiosa" },
+      { nome: "Rede Record Goiás", descricao: "Emissora de TV" },
+      { nome: "Silvia Abravanel", descricao: "Apresentadora" },
+      { nome: "Balada Music", descricao: "Casa de shows" },
+      { nome: "Junim Alto Som", descricao: "Produtora de eventos" },
     ],
   },
 } satisfies Record<string, CollectionSchema>
