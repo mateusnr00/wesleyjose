@@ -192,6 +192,18 @@ A ordem em que as coisas entram na tela é o que preserva o desempenho:
 Recomendação de arquivo: 8 a 15 segundos, sem áudio, cortado para emendar no laço. A moldura é vertical (4:5), então vídeo deitado é cortado nas laterais.
 
 
+### Esteira dos clientes
+
+A seção de clientes corre de lado, em CSS puro. Não há biblioteca de carrossel: ela traria arrasto, paginação e gestos que aqui não servem, porque ninguém quer navegar entre clientes, só vê-los passar.
+
+Como o laço fica sem emenda: a lista é repetida quatro vezes e o deslocamento vai até `-25%`, exatamente a largura de uma repetição. Ao terminar, o quadro é idêntico ao inicial. Repetir quatro vezes garante fileira mais larga que a tela mesmo com poucos clientes, senão sobraria um vão girando junto.
+
+Três cuidados que não aparecem no visual:
+
+- **Só a primeira cópia é anunciada.** As outras levam `aria-hidden`, senão o leitor de tela leria a lista quatro vezes.
+- **Pausa ao passar o mouse e ao sair da tela.** Um laço rodando enquanto ninguém olha só gasta bateria.
+- **Com `prefers-reduced-motion`, não anima**: vira uma fileira única que o visitante rola com o dedo, e nenhum cliente fica inalcançável.
+
 ### Uma lista já materializada ignora o padrão do código
 
 Vale repetir porque morde: assim que uma lista é aberta no painel pela primeira vez, os padrões do código são copiados para o banco e **o banco passa a mandar sozinho**. Mudar `defaults` em `lib/content-schema.ts` depois disso não muda o site.

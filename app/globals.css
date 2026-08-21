@@ -266,3 +266,28 @@
     transform: scale(1.12) translateY(3%);
   }
 }
+
+/* Esteira dos clientes.
+   O conteúdo é repetido quatro vezes e o deslocamento vai até -25%, que é
+   exatamente a largura de uma repetição: ao terminar, o quadro é idêntico ao
+   inicial e o laço não tem emenda. Repetir quatro vezes garante que a fileira
+   seja mais larga que a tela mesmo com poucos clientes, senão sobraria um vão
+   girando junto. */
+@media (prefers-reduced-motion: no-preference) {
+  .esteira {
+    animation: esteira 45s linear infinite;
+  }
+
+  /* Pausa ao passar o mouse e quando a seção sai da tela: um laço rodando
+     enquanto ninguém olha só gasta bateria. */
+  .esteira:hover,
+  .esteira[data-parada="true"] {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes esteira {
+  to {
+    transform: translateX(-25%);
+  }
+}
