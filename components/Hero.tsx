@@ -34,6 +34,7 @@ export function Hero({
           <HeroMedia
             image={fundo}
             video={block.video || undefined}
+            videoVertical={block.videoVertical || undefined}
             alt={block.eyebrow || site.tagline}
           />
         </div>

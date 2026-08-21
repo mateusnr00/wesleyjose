@@ -142,9 +142,12 @@ O upload vai do navegador direto para o Storage e o arquivo recebe um nome únic
 O topo da home ocupa a tela inteira, com o texto sobre a mídia. Dois campos em `Conteúdo → Topo` controlam o fundo:
 
 - **Foto de fundo**: deitada, 1920 × 1080 ou maior. É ela que aparece primeiro e fica no lugar do vídeo enquanto ele carrega. Vazia, o topo fica só com o fundo escuro da marca. Ele **não** empresta a foto de um imóvel: a capa da marca não pode mudar sozinha quando o destaque muda.
-- **Vídeo em laço**: MP4 ou WebM até 60 MB, opcional.
+- **Vídeo horizontal 16:9** (1920 × 1080): usado a partir de 1024 px de largura.
+- **Vídeo vertical 9:16** (1080 × 1920): usado abaixo disso. Vazio, o celular cai no horizontal e mostra só a faixa central, cerca de 31% da largura.
 
-**No celular a tela é em pé, e um vídeo 16:9 mostra só a faixa central**, medida em cerca de 31% da largura. O que importa precisa estar no meio do quadro. É limitação de proporção, não do código: encher uma tela em pé com material deitado exige cortar as laterais.
+Preencher os dois é o ideal: encher uma tela em pé com material deitado (ou o contrário) obriga a cortar muito das bordas.
+
+**Codec importa.** Exporte em **H.264**, que toca em todo lugar. H.265 (HEVC) reproduz no iPhone e falha no Chrome e no Firefox do computador, o que produz exatamente o sintoma de "funciona no celular e some no desktop". A pré-visualização do painel é o teste: se o vídeo não roda ali, também não vai rodar no site, e o campo avisa.
 
 O cabeçalho vira claro sobre topo escuro (home e página do imóvel) e volta ao grafite ao rolar. Sem isso, o logo em grafite sobre foto escura simplesmente sumia.
 

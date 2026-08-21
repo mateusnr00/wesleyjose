@@ -8,44 +8,60 @@ import { useEffect, useRef, useState } from "react"
  *
  * A ordem importa para o desempenho: a imagem é renderizada sempre, com
  * `priority`, e continua sendo o elemento de LCP. O vídeo é uma camada
- * adicional que só aparece depois de `canplay`, então ele nunca atrasa a
- * primeira pintura, e se falhar, demorar ou o navegador recusar o autoplay,
- * o que fica na tela é a foto.
+ * adicional que só aparece depois de `canplay`, então nunca atrasa a primeira
+ * pintura, e se falhar, demorar ou o navegador recusar o autoplay, o que fica
+ * na tela é a foto.
  *
- * Não carrega vídeo quando o usuário pede menos movimento ou está com economia
- * de dados ligada: um laço decorativo não justifica o consumo nesses casos.
+ * Aceita duas versões do vídeo. Encher uma tela larga com material vertical, ou
+ * uma tela em pé com material deitado, obriga a cortar muito das bordas; com as
+ * duas, cada formato recebe o corte que foi pensado para ele.
  */
 export function HeroMedia({
   image,
   video,
+  videoVertical,
   alt,
   className = "",
   unoptimized = false,
 }: {
   /** Sem foto, fica só o fundo sólido da seção até o vídeo entrar. */
   image?: string
+  /** Versão 16:9. */
   video?: string
+  /** Versão 9:16. */
+  videoVertical?: string
   alt: string
   className?: string
   unoptimized?: boolean
 }) {
   const [tocando, setTocando] = useState(false)
+  const [permitido, setPermitido] = useState(false)
+  const [telaLarga, setTelaLarga] = useState<boolean | null>(null)
   const ref = useRef<HTMLVideoElement>(null)
   const moldura = useRef<HTMLDivElement>(null)
-  const [permitido, setPermitido] = useState(false)
+
+  const temAlgumVideo = Boolean(video || videoVertical)
 
   useEffect(() => {
-    if (!video) return
+    if (!temAlgumVideo) return
 
-    const menosMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     const conexao = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
-    if (menosMovimento || conexao?.saveData) return
+    if (conexao?.saveData) return
+
+    const larga = window.matchMedia("(min-width: 1024px)")
+    const aplicar = () => setTelaLarga(larga.matches)
+    aplicar()
+    larga.addEventListener("change", aplicar)
 
     // Só começa a baixar depois que a página assentou, para o vídeo não
     // disputar banda com o que precisa aparecer primeiro.
     const id = window.setTimeout(() => setPermitido(true), 600)
-    return () => window.clearTimeout(id)
-  }, [video])
+
+    return () => {
+      window.clearTimeout(id)
+      larga.removeEventListener("change", aplicar)
+    }
+  }, [temAlgumVideo])
 
   // Pausa quando o topo sai da tela. Um laço decorativo rodando enquanto o
   // visitante lê o resto da página só gasta bateria e processamento.
@@ -67,6 +83,9 @@ export function HeroMedia({
     return () => observer.disconnect()
   }, [permitido])
 
+  // Cada formato tem a sua versão; faltando uma, a outra serve às duas telas.
+  const escolhido = telaLarga === null ? undefined : telaLarga ? video || videoVertical : videoVertical || video
+
   return (
     <div ref={moldura} className="absolute inset-0">
       {image && (
@@ -81,10 +100,13 @@ export function HeroMedia({
         />
       )}
 
-      {video && permitido && (
+      {escolhido && permitido && (
         <video
+          // Trocar de formato recria o elemento, senão o navegador manteria o
+          // arquivo anterior em buffer.
+          key={escolhido}
           ref={ref}
-          src={video}
+          src={escolhido}
           autoPlay
           muted
           loop

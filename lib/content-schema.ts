@@ -118,10 +118,18 @@ export const blocks = {
       },
       {
         name: "video",
-        label: "Vídeo em laço (opcional)",
+        label: "Vídeo horizontal 16:9 (computador)",
         type: "video",
         help:
-          "MP4 sem som, deitado (1920 × 1080), 8 a 15 s, até 60 MB. Ocupa a tela toda por cima da foto. No celular a tela é em pé, então só a faixa central aparece: mantenha o que importa no meio do quadro.",
+          "MP4 sem som, 1920 × 1080, 8 a 15 s, até 60 MB. Usado em telas largas. Se o vertical estiver vazio, este também é usado no celular, e aí só a faixa central aparece.",
+        default: "",
+      },
+      {
+        name: "videoVertical",
+        label: "Vídeo vertical 9:16 (celular)",
+        type: "video",
+        help:
+          "MP4 sem som, 1080 × 1920, mesmas regras. Preencher os dois é o ideal: cada tela recebe o corte certo, sem perder as laterais. Vazio, o celular usa o horizontal.",
         default: "",
       },
     ],

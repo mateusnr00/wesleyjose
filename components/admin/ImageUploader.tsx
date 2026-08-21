@@ -34,6 +34,7 @@ export function ImageUploader({
   const [urls, setUrls] = useState<string[]>(initial.filter(Boolean))
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [naoReproduz, setNaoReproduz] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   async function handleFiles(files: FileList | null) {
@@ -41,6 +42,7 @@ export function ImageUploader({
 
     setBusy(true)
     setError(null)
+    setNaoReproduz(null)
     const supabase = createClient()
     const uploaded: string[] = []
 
@@ -95,7 +97,18 @@ export function ImageUploader({
             <li key={url} className="relative">
               <div className="relative size-24 overflow-hidden bg-cream-deep">
                 {kind === "video" ? (
-                  <video src={url} muted loop playsInline autoPlay className="size-full object-cover" />
+                  <video
+                    src={url}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                    // A pré-visualização é o teste: se este navegador não
+                    // reproduz o arquivo, o site também não vai.
+                    onCanPlay={() => setNaoReproduz(null)}
+                    onError={() => setNaoReproduz(url)}
+                    className="size-full object-cover"
+                  />
                 ) : (
                   <Image src={url} alt="" fill sizes="96px" className="object-cover" />
                 )}
@@ -124,6 +137,14 @@ export function ImageUploader({
       />
 
       {busy && <p className="mt-3 text-[11px] text-gold-deep">Enviando…</p>}
+
+      {naoReproduz && (
+        <p role="alert" className="mt-3 border-l-2 border-red-700 bg-red-50 px-4 py-3 text-[12px] leading-relaxed text-red-800">
+          Este navegador não conseguiu reproduzir o arquivo. O site vai se comportar do mesmo jeito para quem
+          usa este navegador. A causa quase sempre é o codec: exporte o MP4 em <strong>H.264</strong>, que toca
+          em tudo. H.265 (HEVC) funciona no iPhone e falha no Chrome e no Firefox do computador.
+        </p>
+      )}
       {error && (
         <p role="alert" className="mt-3 text-[11px] text-red-700">
           {error}
